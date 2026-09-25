@@ -280,9 +280,14 @@ discord-messages[data-theme='dark'] {
 	text-decoration: line-through;
 }
 
+/* Discord's "-# small print" (subtext). Discord renders it as <small> at
+   .875rem in the subtle text colour, on its own line; it is not a subscript.
+   Value from Discord's live CSS: docs/DESIGN-TOKENS.md, "Small / <small>". */
 :where(discord-subscript) {
-	font-size: 0.8125rem;
-	vertical-align: sub;
+	display: block;
+	color: var(--dt-text-subtle);
+	font-size: 0.875rem;
+	line-height: 1.20313rem;
 }
 
 /* Markdown headings */

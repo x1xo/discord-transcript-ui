@@ -10,7 +10,8 @@ across *all* transcripts, and both loadable from several CDNs with a fallback ch
 
 | Artifact | Raw | gzip | brotli |
 | --- | --- | --- | --- |
-| `discord-transcript.min.css` | 32.5 KB | **6.1 KB** | 5.4 KB |
+| `discord-transcript.min.css` (default tags) | 33.4 KB | **6.2 KB** | 5.5 KB |
+| `discord-transcript.short.min.css` (compact tags, opt-in) | 29.0 KB | **6.0 KB** | 5.3 KB |
 | `discord-transcript.min.js` (optional) | 14.9 KB | **4.8 KB** | 4.2 KB |
 
 A transcript HTML file then contains only its own text and markup.

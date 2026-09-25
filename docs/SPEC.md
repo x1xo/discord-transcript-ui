@@ -104,7 +104,8 @@ with the time shown in the gutter on hover. `message-body-only` forces it.
 | `<discord-custom-emoji>` | `name`, `url`, `jumbo` | `name` is the fallback text when no image is available. |
 | `<discord-time>` | `timestamp`, `format`, `twenty-four` | `format` is Discord's flag set: `t T d D f F R s S` (§7). Put a readable fallback in the text content — it is what a script-less viewer sees. |
 | `<discord-spoiler>` | (none needed) | Hidden by default; click/Enter/Space reveals. `activated` marks it pre-revealed. |
-| `<discord-bold>`, `<discord-italic>`, `<discord-underlined>`, `<discord-strikethrough>`, `<discord-subscript>` | — | Inline formatting. |
+| `<discord-bold>`, `<discord-italic>`, `<discord-underlined>`, `<discord-strikethrough>` | — | Inline formatting. |
+| `<discord-subscript>` | — | Discord's `-# small print` subtext: a block-level line in the subtle grey (`.875rem`, `--dt-text-subtle`), not a subscript. |
 | `<discord-link>` | `href`, `target`, `rel` | A plain `<a>` inside a message is styled too. |
 | `<discord-code>` | `multiline`, `embed` | Inline by default, block with `multiline`. |
 | `<discord-pre>` | `embed` | Block code container; wrap the code in `<discord-code>` or a plain `<code>`/`<pre>`. The script adds a copy button. |

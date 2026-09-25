@@ -49,6 +49,22 @@
 	var relativeTimers = [];
 	var relativeElements = [];
 
+	/* Tag names come in two vocabularies: the readable discord-* default, and the
+	   compact codes an opt-in renderer emits (see build/short-tags.mjs). Both are
+	   matched, so this script works with either stylesheet. */
+	var SHORT_TAGS = {
+		messages: 'dms', message: 'dm', reply: 'drp', time: 'dti', spoiler: 'dsp',
+		embed: 'de', 'embed-footer': 'defo', 'file-attachment': 'dfil',
+		'image-attachment': 'dimg', 'video-attachment': 'dvid', 'audio-attachment': 'daud',
+		reaction: 'dr', pre: 'dp', code: 'dc', 'custom-emoji': 'demo',
+		'attachments': 'dats', thread: 'dth', 'author-info': 'dai'
+	};
+
+	function tag(name) {
+		var short = SHORT_TAGS[name];
+		return short ? ':is(discord-' + name + ',' + short + ')' : 'discord-' + name;
+	}
+
 	/* ---------------------------------------------------------------- config */
 
 	function config() {
@@ -264,7 +280,7 @@
 		var replies = [];
 
 		/* Optional parser-supplied header escapes the generated one. */
-		var suppliedHeader = element.querySelector(':scope > discord-author-info, :scope > discord-message-header');
+		var suppliedHeader = element.querySelector(':scope > ' + tag('author-info') + ', :scope > discord-message-header');
 		if (suppliedHeader) suppliedHeader.remove();
 
 		/* Reply previews are lifted out of the body: Discord draws them above the
@@ -321,7 +337,7 @@
 	function isJumbo(body) {
 		var text = (body.textContent || '').replace(/\s+/g, '');
 		if (text.length > 0) return false;
-		var emoji = body.querySelectorAll('discord-custom-emoji, img.emoji');
+		var emoji = body.querySelectorAll(tag('custom-emoji') + ', img.emoji');
 		return emoji.length > 0 && emoji.length <= 6;
 	}
 
@@ -411,7 +427,7 @@
 	}
 
 	function upgradeSpoilers(root) {
-		var spoilers = root.querySelectorAll('discord-spoiler:not([data-dt-ready])');
+		var spoilers = root.querySelectorAll(tag('spoiler') + ':not([data-dt-ready])');
 		for (var i = 0; i < spoilers.length; i++) {
 			var spoiler = spoilers[i];
 			spoiler.setAttribute('data-dt-ready', '');
@@ -421,7 +437,7 @@
 		}
 
 		var media = root.querySelectorAll(
-			'discord-image-attachment[spoiler], discord-video-attachment[spoiler]'
+			tag('image-attachment') + '[spoiler], ' + tag('video-attachment') + '[spoiler]'
 		);
 		for (var j = 0; j < media.length; j++) {
 			if (media[j].querySelector(':scope > .dt-spoiler-overlay')) continue;
@@ -558,7 +574,7 @@
 				img.decoding = 'async';
 				media.appendChild(img);
 			}
-			var footer = content.querySelector(':scope > discord-embed-footer');
+			var footer = content.querySelector(':scope > ' + tag('embed-footer'));
 			content.insertBefore(media, footer || null);
 		}
 
@@ -638,7 +654,7 @@
 
 	function lazyImages(root) {
 		var images = root.querySelectorAll(
-			'discord-attachments img:not([loading]), discord-embed img:not([loading]), discord-embed video, discord-thread img'
+			tag('attachments') + ' img:not([loading]), ' + tag('embed') + ' img:not([loading]), ' + tag('embed') + ' video, ' + tag('thread') + ' img'
 		);
 		for (var i = 0; i < images.length; i++) images[i].setAttribute('loading', 'lazy');
 	}
@@ -648,40 +664,40 @@
 	function upgrade(root) {
 		if (!root || !root.querySelectorAll) return;
 
-		var messages = root.querySelectorAll('discord-message:not([data-dt-ready])');
+		var messages = root.querySelectorAll(tag('message') + ':not([data-dt-ready])');
 		for (var i = 0; i < messages.length; i++) upgradeMessage(messages[i]);
 
-		var lists = root.querySelectorAll('discord-messages');
+		var lists = root.querySelectorAll(tag('messages'));
 		for (var j = 0; j < lists.length; j++) {
-			var grouped = lists[j].querySelectorAll(':scope > discord-message');
+			var grouped = lists[j].querySelectorAll(':scope > ' + tag('message'));
 			if (grouped.length) applyGrouping(grouped);
 		}
 
-		var replies = root.querySelectorAll('discord-reply:not([data-dt-ready])');
+		var replies = root.querySelectorAll(tag('reply') + ':not([data-dt-ready])');
 		for (var k = 0; k < replies.length; k++) upgradeReply(replies[k]);
 
-		var times = root.querySelectorAll('discord-time:not([data-dt-ready])');
+		var times = root.querySelectorAll(tag('time') + ':not([data-dt-ready])');
 		for (var m = 0; m < times.length; m++) upgradeTime(times[m]);
 
-		var embeds = root.querySelectorAll('discord-embed:not([data-dt-ready])');
+		var embeds = root.querySelectorAll(tag('embed') + ':not([data-dt-ready])');
 		for (var n = 0; n < embeds.length; n++) upgradeEmbed(embeds[n]);
 
-		var files = root.querySelectorAll('discord-file-attachment:not([data-dt-ready])');
+		var files = root.querySelectorAll(tag('file-attachment') + ':not([data-dt-ready])');
 		for (var o = 0; o < files.length; o++) upgradeFile(files[o]);
 
-		var images = root.querySelectorAll('discord-image-attachment:not([data-dt-ready])');
+		var images = root.querySelectorAll(tag('image-attachment') + ':not([data-dt-ready])');
 		for (var p = 0; p < images.length; p++) upgradeImage(images[p]);
 
-		var videos = root.querySelectorAll('discord-video-attachment:not([data-dt-ready])');
+		var videos = root.querySelectorAll(tag('video-attachment') + ':not([data-dt-ready])');
 		for (var q = 0; q < videos.length; q++) upgradeMedia(videos[q], 'video');
 
-		var audios = root.querySelectorAll('discord-audio-attachment:not([data-dt-ready])');
+		var audios = root.querySelectorAll(tag('audio-attachment') + ':not([data-dt-ready])');
 		for (var r = 0; r < audios.length; r++) upgradeMedia(audios[r], 'audio');
 
-		var reactions = root.querySelectorAll('discord-reaction:not([data-dt-ready])');
+		var reactions = root.querySelectorAll(tag('reaction') + ':not([data-dt-ready])');
 		for (var s = 0; s < reactions.length; s++) upgradeReactions(reactions[s]);
 
-		var codes = root.querySelectorAll('discord-pre:not([data-dt-ready])');
+		var codes = root.querySelectorAll(tag('pre') + ':not([data-dt-ready])');
 		for (var t = 0; t < codes.length; t++) upgradeCode(codes[t]);
 
 		upgradeSpoilers(root);
@@ -691,7 +707,7 @@
 
 	/** `light-theme` on the container mirrors to data-theme for the CSS tokens. */
 	function applyThemeFallbacks(root) {
-		var lists = root.querySelectorAll('discord-messages');
+		var lists = root.querySelectorAll(tag('messages'));
 		for (var i = 0; i < lists.length; i++) {
 			if (lists[i].hasAttribute('light-theme') && !lists[i].hasAttribute('data-theme')) {
 				lists[i].setAttribute('data-theme', 'light');
@@ -733,7 +749,7 @@
 		var copy = target.closest('.dt-copy');
 		if (copy && copy.parentElement && navigator.clipboard) {
 			var pre = copy.parentElement;
-			var text = pre.querySelector('discord-code, pre, code');
+			var text = pre.querySelector(tag('code') + ', pre, code');
 			navigator.clipboard.writeText((text || pre).textContent).then(function () {
 				copy.textContent = 'Copied';
 				setTimeout(function () {

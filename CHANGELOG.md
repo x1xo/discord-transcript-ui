@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.1.0
+
+* **Compact tag vocabulary, opt-in.** A second stylesheet,
+  `dist/discord-transcript.short.min.css`, is the same rules with short element
+  names (`dm`, `dme`, `dsp`, …) for renderers that want the smallest possible
+  file. It is a straight rename, so it is the same size as the default one and
+  nobody pays for a vocabulary they do not use. The mapping lives in
+  `build/short-tags.mjs`, and the build fails if the short stylesheet would ship
+  a long tag name it cannot style.
+* **The enhancement script matches either vocabulary** (`:is(discord-message,dm)`
+  and friends), so it works with both stylesheets.
+* Measured on a text-heavy transcript: short names cut ~21% of the raw markup and
+  ~5% of the gzipped markup. Repeated long names compress well, so the win is
+  real only for uncompressed files.
+* **`<discord-subscript>` is now the small-print line it claims to be**: `-# text`
+  renders at `.875rem` in `var(--dt-text-subtle)` on its own line, matching
+  Discord's live CSS for `<small>`. It previously used the legacy 13px size with
+  `vertical-align: sub`, which both coloured it like body text and misaligned it.
+
+## 1.0.1
+
 ## 1.0.1
 
 First release: light-DOM `discord-*` custom elements, one stylesheet, one optional

@@ -1,7 +1,7 @@
 {
 	"$comment": "Single source of truth for the published artifact identity. Changing name/version after the first publish changes frozen CDN URLs, so decide before releasing.",
 	"name": "discord-transcript-ui",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"description": "Dependency-free, light-DOM custom elements and one stylesheet for rendering Discord chat transcripts in plain HTML.",
 	"repository": {
 		"host": "github",
@@ -11,7 +11,8 @@
 	},
 	"files": {
 		"css": "discord-transcript.css",
-		"js": "discord-transcript.js"
+		"js": "discord-transcript.js",
+		"cssShort": "discord-transcript.short.min.css"
 	},
 	"cdn": [
 		{

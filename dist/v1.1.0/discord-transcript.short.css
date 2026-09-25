@@ -13,7 +13,7 @@
  *   5  message        10  reply             15 a11y + print
  *
  * Everything is themed through --dt-* custom properties: override them on
- * :root, on discord-messages, or per element. Markup contract: docs/SPEC.md.
+ * :root, on dms, or per element. Markup contract: docs/SPEC.md.
  */
 
 /* ==========================================================================
@@ -21,7 +21,7 @@
    ========================================================================== */
 
 /* Tokens live on :root so every component inherits them, and on
-   discord-messages so a transcript can be re-themed without touching the page. */
+   dms so a transcript can be re-themed without touching the page. */
 :root {
 	--dt-font: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	--dt-font-mono:
@@ -101,9 +101,9 @@
 	--dt-transition: 120ms ease;
 }
 
-/* Light theme: set light-theme on discord-messages, data-theme, or the page root. */
-discord-messages[light-theme],
-discord-messages[data-theme='light'],
+/* Light theme: set light-theme on dms, data-theme, or the page root. */
+dms[light-theme],
+dms[data-theme='light'],
 :root[data-theme='light'] {
 	--dt-bg-primary: #ffffff;
 	--dt-bg-secondary: #ffffff;
@@ -149,7 +149,7 @@ discord-messages[data-theme='light'],
 }
 
 /* Explicit dark still wins inside a light scope. */
-discord-messages[data-theme='dark'] {
+dms[data-theme='dark'] {
 	--dt-bg-primary: #323339;
 	--dt-bg-secondary: #393a41;
 	--dt-bg-tertiary: #2c2d32;
@@ -193,61 +193,61 @@ discord-messages[data-theme='dark'] {
    ========================================================================== */
 
 :where(
-		discord-messages,
-		discord-message,
-		discord-author-info,
-		discord-reply,
-		discord-embed,
-		discord-embed-description,
-		discord-embed-fields,
-		discord-embed-field,
-		discord-embed-footer,
-		discord-attachments,
-		discord-image-attachment,
-		discord-file-attachment,
-		discord-audio-attachment,
-		discord-video-attachment,
-		discord-reactions,
-		discord-reaction,
-		discord-spoiler,
-		discord-time,
-		discord-mention,
-		discord-custom-emoji,
-		discord-code,
-		discord-pre,
-		discord-quote,
-		discord-list-item,
-		discord-unordered-list,
-		discord-ordered-list,
-		discord-header,
-		discord-command,
-		discord-system-message,
-		discord-thread,
-		discord-thread-message,
-		discord-action-row,
-		discord-button,
-		discord-verified-author-tag
+		dms,
+		dm,
+		dai,
+		drp,
+		de,
+		ded,
+		defs,
+		def,
+		defo,
+		dats,
+		dimg,
+		dfil,
+		daud,
+		dvid,
+		drs,
+		dr,
+		dsp,
+		dti,
+		dme,
+		demo,
+		dc,
+		dp,
+		dq,
+		dli,
+		dul,
+		dol,
+		dh,
+		dcmd,
+		dsy,
+		dth,
+		dthm,
+		dar,
+		dbtn,
+		dvat
 	) {
 	box-sizing: border-box;
 }
 
 :where(
-		discord-messages,
-		discord-message,
-		discord-embed,
-		discord-attachments,
-		discord-reactions,
-		discord-reply,
-		discord-system-message,
-		discord-command,
-		discord-thread,
-		discord-thread-message,
-		discord-action-row,
-		discord-pre,
-		discord-quote,
-		discord-unordered-list,
-		discord-ordered-list,
-		discord-header
+		dms,
+		dm,
+		de,
+		dats,
+		drs,
+		drp,
+		dsy,
+		dcmd,
+		dth,
+		dthm,
+		dar,
+		dp,
+		dq,
+		dul,
+		dol,
+		dh
 	) {
 	display: block;
 	font-family: var(--dt-font);
@@ -257,33 +257,33 @@ discord-messages[data-theme='dark'] {
 	text-align: left;
 }
 
-:where(discord-message, discord-reply, discord-embed, discord-attachments, discord-reactions) {
+:where(dm, drp, de, dats, drs) {
 	-webkit-text-size-adjust: 100%;
 	word-wrap: break-word;
 	overflow-wrap: anywhere;
 }
 
 /* Inline formatting */
-:where(discord-bold) {
+:where(db) {
 	font-weight: 700;
 }
 
-:where(discord-italic) {
+:where(di) {
 	font-style: italic;
 }
 
-:where(discord-underlined) {
+:where(dun) {
 	text-decoration: underline;
 }
 
-:where(discord-strikethrough) {
+:where(dst) {
 	text-decoration: line-through;
 }
 
 /* Discord's "-# small print" (subtext). Discord renders it as <small> at
    .875rem in the subtle text colour, on its own line; it is not a subscript.
    Value from Discord's live CSS: docs/DESIGN-TOKENS.md, "Small / <small>". */
-:where(discord-subscript) {
+:where(dsub) {
 	display: block;
 	color: var(--dt-text-subtle);
 	font-size: 0.875rem;
@@ -291,27 +291,27 @@ discord-messages[data-theme='dark'] {
 }
 
 /* Markdown headings */
-:where(discord-header) {
+:where(dh) {
 	display: block;
 	margin: 8px 0 0;
 	font-weight: 600;
 	line-height: 1.375em;
 }
 
-:where(discord-header[level='1']) {
+:where(dh[level='1']) {
 	font-size: 1.5rem;
 }
 
-:where(discord-header[level='2']) {
+:where(dh[level='2']) {
 	font-size: 1.25rem;
 }
 
-:where(discord-header[level='3']) {
+:where(dh[level='3']) {
 	font-size: 1rem;
 }
 
 /* Blockquote */
-:where(discord-quote) {
+:where(dq) {
 	display: block;
 	margin: 4px 0;
 	padding: 0 8px 0 12px;
@@ -321,42 +321,42 @@ discord-messages[data-theme='dark'] {
 }
 
 /* Lists */
-:where(discord-unordered-list, discord-ordered-list) {
+:where(dul, dol) {
 	margin: 0;
 	padding-left: 1.375em;
 }
 
-:where(discord-list-item) {
+:where(dli) {
 	display: list-item;
 	margin: 0 0 4px;
 	padding: 0;
 }
 
-:where(discord-unordered-list) > discord-list-item {
+:where(dul) > dli {
 	list-style: disc outside;
 }
 
-:where(discord-ordered-list) > discord-list-item {
+:where(dol) > dli {
 	list-style: decimal outside;
 }
 
 /* Links */
-:where(discord-link) {
+:where(dl) {
 	color: var(--dt-text-link);
 	text-decoration: none;
 }
 
-:where(discord-link):hover {
+:where(dl):hover {
 	text-decoration: underline;
 }
 
-:where(discord-message, discord-embed, discord-embed-description, discord-embed-field, discord-reply, discord-quote)
+:where(dm, de, ded, def, drp, dq)
 	a:not([class]) {
 	color: var(--dt-text-link);
 	text-decoration: none;
 }
 
-:where(discord-message, discord-embed, discord-embed-description, discord-embed-field, discord-reply, discord-quote)
+:where(dm, de, ded, def, drp, dq)
 	a:not([class]):hover {
 	text-decoration: underline;
 }
@@ -401,7 +401,7 @@ discord-messages[data-theme='dark'] {
    4. MESSAGE LIST
    ========================================================================== */
 
-:where(discord-messages) {
+:where(dms) {
 	display: block;
 	position: relative;
 	margin: 0 auto;
@@ -415,12 +415,12 @@ discord-messages[data-theme='dark'] {
 	scrollbar-color: var(--dt-bg-scrollbar-thumb) var(--dt-bg-scrollbar-track);
 }
 
-:where(discord-messages[no-background]) {
+:where(dms[no-background]) {
 	background: transparent;
 	padding: 0;
 }
 
-:where(discord-messages[channel-name])::before {
+:where(dms[channel-name])::before {
 	content: attr(channel-name);
 	display: block;
 	margin: 0 0 8px;
@@ -431,27 +431,27 @@ discord-messages[data-theme='dark'] {
 	color: var(--dt-text-strong);
 }
 
-discord-messages[channel-type='text'][channel-name]::before,
-discord-messages[channel-type='voice'][channel-name]::before,
-discord-messages[channel-type='thread'][channel-name]::before,
-discord-messages[channel-type='forum'][channel-name]::before,
-discord-messages[channel-type='locked'][channel-name]::before {
+dms[channel-type='text'][channel-name]::before,
+dms[channel-type='voice'][channel-name]::before,
+dms[channel-type='thread'][channel-name]::before,
+dms[channel-type='forum'][channel-name]::before,
+dms[channel-type='locked'][channel-name]::before {
 	content: '#\00a0' attr(channel-name);
 }
 
-discord-messages ::-webkit-scrollbar {
+dms ::-webkit-scrollbar {
 	width: 16px;
 	height: 16px;
 }
 
-discord-messages ::-webkit-scrollbar-thumb {
+dms ::-webkit-scrollbar-thumb {
 	background: var(--dt-bg-scrollbar-thumb);
 	border: 4px solid transparent;
 	background-clip: padding-box;
 	border-radius: 8px;
 }
 
-discord-messages ::-webkit-scrollbar-track {
+dms ::-webkit-scrollbar-track {
 	background: var(--dt-bg-scrollbar-track);
 }
 
@@ -459,7 +459,7 @@ discord-messages ::-webkit-scrollbar-track {
    5. MESSAGE
    ========================================================================== */
 
-:where(discord-message) {
+:where(dm) {
 	position: relative;
 	display: block;
 	margin: 0;
@@ -472,20 +472,20 @@ discord-messages ::-webkit-scrollbar-track {
 	user-select: text;
 }
 
-:where(discord-message:hover) {
+:where(dm:hover) {
 	background: var(--dt-bg-message-hover);
 }
 
 /* Pre-upgrade fallback: no avatar or header yet, but the author name and the
    message text are both visible, so a JS-less or CSS-only view stays readable. */
-discord-message:not([data-dt-ready])::before {
+dm:not([data-dt-ready])::before {
 	content: attr(author) '\00a0';
 	font-weight: 600;
 	color: var(--dt-role-default);
 }
 
-discord-message:not([data-dt-ready]):not([author])::before,
-discord-message:not([data-dt-ready])[author='']::before {
+dm:not([data-dt-ready]):not([author])::before,
+dm:not([data-dt-ready])[author='']::before {
 	content: '';
 }
 
@@ -617,22 +617,22 @@ discord-message:not([data-dt-ready])[author='']::before {
 	gap: 2px;
 }
 
-.dt-jumbo discord-custom-emoji img,
+.dt-jumbo demo img,
 .dt-jumbo > img.emoji {
 	width: 48px;
 	height: 48px;
 }
 
 /* States */
-discord-message[highlight],
-discord-message[ephemeral],
-discord-message[mentioned] {
+dm[highlight],
+dm[ephemeral],
+dm[mentioned] {
 	background: var(--dt-bg-mentioned);
 }
 
-discord-message[highlight]::after,
-discord-message[ephemeral]::after,
-discord-message[mentioned]::after {
+dm[highlight]::after,
+dm[ephemeral]::after,
+dm[mentioned]::after {
 	content: '';
 	position: absolute;
 	top: 0;
@@ -643,29 +643,29 @@ discord-message[mentioned]::after {
 	pointer-events: none;
 }
 
-discord-message[ephemeral] {
+dm[ephemeral] {
 	background: rgba(88, 101, 242, 0.08);
 }
 
-discord-message[highlight]:hover,
-discord-message[mentioned]:hover {
+dm[highlight]:hover,
+dm[mentioned]:hover {
 	background: var(--dt-bg-mentioned);
 }
 
 /* Continuation rows (same author as the previous message), detected by JS or
    forced by the parser with message-body-only. */
-discord-message[data-dt-continuation] .dt-avatar,
-discord-message[message-body-only] .dt-avatar {
+dm[data-dt-continuation] .dt-avatar,
+dm[message-body-only] .dt-avatar {
 	visibility: hidden;
 }
 
-discord-message[data-dt-continuation] .dt-header,
-discord-message[message-body-only] .dt-header {
+dm[data-dt-continuation] .dt-header,
+dm[message-body-only] .dt-header {
 	display: none;
 }
 
-discord-message[data-dt-continuation]:hover::before,
-discord-message[data-dt-continuation]:focus-within::before {
+dm[data-dt-continuation]:hover::before,
+dm[data-dt-continuation]:focus-within::before {
 	content: attr(data-dt-short-time);
 	position: absolute;
 	top: 3px;
@@ -679,46 +679,46 @@ discord-message[data-dt-continuation]:focus-within::before {
 	pointer-events: none;
 }
 
-discord-message[data-dt-group-start] {
+dm[data-dt-group-start] {
 	margin-top: 1.0625rem;
 }
 
-discord-message:first-child {
+dm:first-child {
 	margin-top: 0;
 }
 
 /* Compact mode */
-discord-messages[compact-mode],
-discord-message[compact-mode] {
+dms[compact-mode],
+dm[compact-mode] {
 	--dt-avatar-size: 16px;
 	--dt-avatar-gap: 8px;
 	--dt-gutter: 16px;
 	--dt-msg-padding-right: 16px;
 }
 
-discord-messages[compact-mode] discord-message {
+dms[compact-mode] dm {
 	padding-top: 1px;
 	padding-bottom: 1px;
 }
 
-discord-messages[compact-mode] .dt-avatar {
+dms[compact-mode] .dt-avatar {
 	margin-top: 0.25rem;
 }
 
-discord-messages[compact-mode] .dt-header {
+dms[compact-mode] .dt-header {
 	display: inline;
 	margin-right: 8px;
 }
 
-discord-messages[compact-mode] .dt-author {
+dms[compact-mode] .dt-author {
 	margin-right: 6px;
 }
 
-discord-messages[compact-mode] .dt-body {
+dms[compact-mode] .dt-body {
 	display: inline;
 }
 
-discord-messages[compact-mode] .dt-timestamp {
+dms[compact-mode] .dt-timestamp {
 	margin-right: 6px;
 	font-size: 0.6875rem;
 }
@@ -727,7 +727,7 @@ discord-messages[compact-mode] .dt-timestamp {
    6. AUTHOR INFO, MENTION, EMOJI, TIME, SPOILER
    ========================================================================== */
 
-:where(discord-author-info) {
+:where(dai) {
 	display: inline-flex;
 	align-items: center;
 	gap: 4px;
@@ -735,15 +735,15 @@ discord-messages[compact-mode] .dt-timestamp {
 	color: var(--dt-role-default);
 }
 
-discord-author-info:not([data-dt-ready])::before {
+dai:not([data-dt-ready])::before {
 	content: attr(author);
 }
 
 :where(
-		discord-author-info[bot],
-		discord-author-info[server],
-		discord-author-info[official-app],
-		discord-author-info[op]
+		dai[bot],
+		dai[server],
+		dai[official-app],
+		dai[op]
 	)
 	::after {
 	margin-left: 4px;
@@ -758,30 +758,30 @@ discord-author-info:not([data-dt-ready])::before {
 
 /* Bots are tagged "APP". Verified bots add the checkmark, so they read "✓ APP"
    (equal :where() specificity, so the later rule wins for verified bots). */
-:where(discord-author-info[bot])::after {
+:where(dai[bot])::after {
 	content: 'APP';
 }
 
-:where(discord-author-info[bot][verified])::after {
+:where(dai[bot][verified])::after {
 	content: '\2713\00a0APP';
 }
 
-:where(discord-author-info[server])::after {
+:where(dai[server])::after {
 	content: 'SERVER';
 	background: #3ba55c;
 }
 
-:where(discord-author-info[official-app])::after {
+:where(dai[official-app])::after {
 	content: 'OFFICIAL';
 	background: #1abc84;
 }
 
-:where(discord-author-info[op])::after {
+:where(dai[op])::after {
 	content: 'OP';
 }
 
 /* Mentions */
-:where(discord-mention) {
+:where(dme) {
 	display: inline;
 	padding: 0 2px;
 	border-radius: 3px;
@@ -791,44 +791,44 @@ discord-author-info:not([data-dt-ready])::before {
 	cursor: pointer;
 }
 
-:where(discord-mention):hover {
+:where(dme):hover {
 	background: var(--dt-bg-modifier-active);
 }
 
-:where(discord-mention[type='channel']),
-:where(discord-mention[type='voice']),
-:where(discord-mention[type='thread']),
-:where(discord-mention[type='forum']),
-:where(discord-mention[type='locked']) {
+:where(dme[type='channel']),
+:where(dme[type='voice']),
+:where(dme[type='thread']),
+:where(dme[type='forum']),
+:where(dme[type='locked']) {
 	background: var(--dt-mention-channel-bg);
 	color: var(--dt-mention-channel-text);
 }
 
-:where(discord-mention[type='role']) {
+:where(dme[type='role']) {
 	background: var(--dt-mention-bg);
 	color: var(--dt-mention-role-color);
 }
 
 /* Prefixes, so the parser does not have to repeat "@" and "#" per mention. */
-discord-mention:not([no-prefix])::before {
+dme:not([no-prefix])::before {
 	content: '@';
 }
 
-discord-mention:not([no-prefix])[type='channel']::before,
-discord-mention:not([no-prefix])[type='voice']::before,
-discord-mention:not([no-prefix])[type='thread']::before,
-discord-mention:not([no-prefix])[type='forum']::before,
-discord-mention:not([no-prefix])[type='locked']::before {
+dme:not([no-prefix])[type='channel']::before,
+dme:not([no-prefix])[type='voice']::before,
+dme:not([no-prefix])[type='thread']::before,
+dme:not([no-prefix])[type='forum']::before,
+dme:not([no-prefix])[type='locked']::before {
 	content: '#';
 }
 
 /* Custom emoji */
-:where(discord-custom-emoji) {
+:where(demo) {
 	display: inline-block;
 	vertical-align: -0.25em;
 }
 
-:where(discord-custom-emoji) img {
+:where(demo) img {
 	display: inline-block;
 	width: 1.375em;
 	height: 1.375em;
@@ -836,14 +836,14 @@ discord-mention:not([no-prefix])[type='locked']::before {
 	vertical-align: middle;
 }
 
-discord-custom-emoji:not([data-dt-ready]):not(:has(img))::before {
+demo:not([data-dt-ready]):not(:has(img))::before {
 	content: attr(name);
 	font-size: 0.75rem;
 	color: var(--dt-text-muted);
 }
 
 /* Inline timestamp chip */
-:where(discord-time) {
+:where(dti) {
 	display: inline;
 	padding: 0 2px;
 	border-radius: 3px;
@@ -852,12 +852,12 @@ discord-custom-emoji:not([data-dt-ready]):not(:has(img))::before {
 	white-space: nowrap;
 }
 
-:where(discord-time):hover {
+:where(dti):hover {
 	background: var(--dt-bg-modifier-active);
 }
 
 /* Spoiler */
-:where(discord-spoiler) {
+:where(dsp) {
 	display: inline;
 	border-radius: var(--dt-radius-sm);
 	background: var(--dt-spoiler-bg);
@@ -868,30 +868,30 @@ discord-custom-emoji:not([data-dt-ready]):not(:has(img))::before {
 		color var(--dt-transition);
 }
 
-:where(discord-spoiler)::selection {
+:where(dsp)::selection {
 	background: transparent;
 	color: transparent;
 }
 
-:where(discord-spoiler[activated]),
-:where(discord-spoiler[revealed]),
-:where(discord-spoiler[data-dt-revealed]) {
+:where(dsp[activated]),
+:where(dsp[revealed]),
+:where(dsp[data-dt-revealed]) {
 	background: var(--dt-spoiler-revealed-bg);
 	color: inherit;
 	cursor: auto;
 }
 
 /* No-JS safety valve: hovering peeks instead of hiding content forever. */
-discord-spoiler:not([data-dt-ready]):hover {
+dsp:not([data-dt-ready]):hover {
 	background: var(--dt-spoiler-revealed-bg);
 	color: inherit;
 }
 
-discord-spoiler[data-dt-ready] {
+dsp[data-dt-ready] {
 	outline: none;
 }
 
-discord-spoiler[data-dt-ready]:focus-visible {
+dsp[data-dt-ready]:focus-visible {
 	box-shadow: 0 0 0 2px var(--dt-focus-ring);
 }
 
@@ -899,7 +899,7 @@ discord-spoiler[data-dt-ready]:focus-visible {
    7. CODE
    ========================================================================== */
 
-:where(discord-code) {
+:where(dc) {
 	display: inline;
 	padding: 0 2px;
 	border-radius: var(--dt-radius-sm);
@@ -911,7 +911,7 @@ discord-spoiler[data-dt-ready]:focus-visible {
 	word-break: break-word;
 }
 
-:where(discord-code[multiline]) {
+:where(dc[multiline]) {
 	display: block;
 	margin: 6px 0 0;
 	padding: 8px 12px;
@@ -925,7 +925,7 @@ discord-spoiler[data-dt-ready]:focus-visible {
 	tab-size: 4;
 }
 
-:where(discord-pre) {
+:where(dp) {
 	position: relative;
 	display: block;
 	margin: 6px 0 0;
@@ -936,8 +936,8 @@ discord-spoiler[data-dt-ready]:focus-visible {
 	overflow: hidden;
 }
 
-:where(discord-pre) > :where(discord-code),
-:where(discord-pre) pre {
+:where(dp) > :where(dc),
+:where(dp) pre {
 	display: block;
 	margin: 0;
 	padding: 8px 12px;
@@ -952,7 +952,7 @@ discord-spoiler[data-dt-ready]:focus-visible {
 	tab-size: 4;
 }
 
-:where(discord-pre) code {
+:where(dp) code {
 	font-family: inherit;
 }
 
@@ -979,7 +979,7 @@ discord-spoiler[data-dt-ready]:focus-visible {
 	cursor: pointer;
 }
 
-discord-pre:hover .dt-copy,
+dp:hover .dt-copy,
 .dt-copy:focus-visible {
 	display: block;
 }
@@ -993,7 +993,7 @@ discord-pre:hover .dt-copy,
    ========================================================================== */
 
 /* System messages render entirely from markup and attributes: no JS needed. */
-:where(discord-system-message) {
+:where(dsy) {
 	position: relative;
 	display: block;
 	margin: 0;
@@ -1004,7 +1004,7 @@ discord-pre:hover .dt-copy,
 	font-size: 0.9375rem;
 }
 
-:where(discord-system-message)::before {
+:where(dsy)::before {
 	content: '';
 	position: absolute;
 	top: 7px;
@@ -1015,46 +1015,46 @@ discord-pre:hover .dt-copy,
 	background: var(--dt-bg-modifier-hover);
 }
 
-discord-system-message[type='join']::before {
+dsy[type='join']::before {
 	background: var(--dt-status-online);
 }
 
-discord-system-message[type='leave']::before,
-discord-system-message[type='missed-call']::before,
-discord-system-message[type='alert']::before,
-discord-system-message[type='error']::before {
+dsy[type='leave']::before,
+dsy[type='missed-call']::before,
+dsy[type='alert']::before,
+dsy[type='error']::before {
 	background: var(--dt-status-dnd);
 }
 
-discord-system-message[type='boost']::before {
+dsy[type='boost']::before {
 	background: #ff73fa;
 }
 
-discord-system-message[type='pin']::before {
+dsy[type='pin']::before {
 	background: var(--dt-status-idle);
 }
 
-discord-system-message[type='upgrade']::before,
-discord-system-message[type='thread']::before,
-discord-system-message[type='edit']::before,
-discord-system-message[type='call']::before {
+dsy[type='upgrade']::before,
+dsy[type='thread']::before,
+dsy[type='edit']::before,
+dsy[type='call']::before {
 	background: var(--dt-brand);
 }
 
-discord-system-message a,
-discord-system-message :where(discord-link) {
+dsy a,
+dsy :where(dl) {
 	color: var(--dt-text-muted);
 	font-weight: 500;
 }
 
-discord-system-message .dt-system-time {
+dsy .dt-system-time {
 	margin-left: 4px;
 	font-size: 0.75rem;
 	color: var(--dt-text-muted);
 }
 
 /* Slash / context command rows */
-:where(discord-command) {
+:where(dcmd) {
 	position: relative;
 	display: block;
 	margin: 0 0 2px;
@@ -1062,7 +1062,7 @@ discord-system-message .dt-system-time {
 	font-size: 0.9375rem;
 }
 
-discord-command:not([data-dt-ready])::before {
+dcmd:not([data-dt-ready])::before {
 	content: attr(author) ' used /' attr(command) '\00a0';
 	font-weight: 500;
 	color: var(--dt-text-normal);
@@ -1084,7 +1084,7 @@ discord-command:not([data-dt-ready])::before {
    9. THREADS
    ========================================================================== */
 
-:where(discord-thread) {
+:where(dth) {
 	position: relative;
 	display: block;
 	margin: 4px 0 0;
@@ -1094,13 +1094,13 @@ discord-command:not([data-dt-ready])::before {
 	color: var(--dt-text-muted);
 }
 
-discord-thread:not([data-dt-ready])::before {
+dth:not([data-dt-ready])::before {
 	content: attr(name);
 	font-weight: 500;
 	color: var(--dt-text-normal);
 }
 
-discord-thread[cta]::after {
+dth[cta]::after {
 	content: attr(cta) ' ' '\203a';
 	position: absolute;
 	top: 4px;
@@ -1111,13 +1111,13 @@ discord-thread[cta]::after {
 	pointer-events: none;
 }
 
-discord-thread-message {
+dthm {
 	display: block;
 	margin: 2px 0;
 	font-size: 0.875rem;
 }
 
-discord-thread-message:not([data-dt-ready])::before {
+dthm:not([data-dt-ready])::before {
 	content: attr(author) '\00a0';
 	font-weight: 500;
 	color: var(--dt-role-default);
@@ -1127,7 +1127,7 @@ discord-thread-message:not([data-dt-ready])::before {
    10. REPLY
    ========================================================================== */
 
-:where(discord-reply) {
+:where(drp) {
 	position: relative;
 	display: block;
 	margin: 0 0 2px;
@@ -1137,21 +1137,21 @@ discord-thread-message:not([data-dt-ready])::before {
 	min-height: 1.125rem;
 }
 
-discord-reply:not([data-dt-ready])::before {
+drp:not([data-dt-ready])::before {
 	content: attr(author) '\00a0';
 	font-weight: 500;
 	color: var(--dt-role-default);
 }
 
-discord-reply[mentions]:not([data-dt-ready])::before {
+drp[mentions]:not([data-dt-ready])::before {
 	content: '@' attr(author) '\00a0';
 }
 
-discord-reply[deleted] > * {
+drp[deleted] > * {
 	display: none;
 }
 
-discord-reply[deleted]::before {
+drp[deleted]::before {
 	content: 'Original message was deleted';
 	font-style: italic;
 	font-weight: 400;
@@ -1160,8 +1160,8 @@ discord-reply[deleted]::before {
 
 /* A reply preview sits above the author row (Discord's layout): the reply takes
    the first grid row, so the avatar and the author name share the second. */
-.dt-msg--has-reply > :where(discord-reply),
-.dt-msg--has-reply > :where(discord-command) {
+.dt-msg--has-reply > :where(drp),
+.dt-msg--has-reply > :where(dcmd) {
 	grid-column: 2;
 	grid-row: 1;
 }
@@ -1172,7 +1172,7 @@ discord-reply[deleted]::before {
 }
 
 /* Curved connector, drawn only once the reply sits in the content column. */
-discord-message[data-dt-ready] :where(discord-reply)::after {
+dm[data-dt-ready] :where(drp)::after {
 	content: '';
 	position: absolute;
 	left: -36px;
@@ -1185,7 +1185,7 @@ discord-message[data-dt-ready] :where(discord-reply)::after {
 	pointer-events: none;
 }
 
-discord-reply[data-dt-ready] .dt-reply-avatar {
+drp[data-dt-ready] .dt-reply-avatar {
 	display: inline-block;
 	width: var(--dt-reply-avatar-size);
 	height: var(--dt-reply-avatar-size);
@@ -1196,31 +1196,31 @@ discord-reply[data-dt-ready] .dt-reply-avatar {
 	background: var(--dt-bg-tertiary);
 }
 
-discord-reply[data-dt-ready] .dt-reply-avatar img {
+drp[data-dt-ready] .dt-reply-avatar img {
 	display: block;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
 
-discord-reply[data-dt-ready] .dt-reply-author {
+drp[data-dt-ready] .dt-reply-author {
 	margin-right: 4px;
 	font-weight: 500;
 	color: var(--dt-role-default);
 }
 
-discord-reply[data-dt-ready] .dt-reply-author:hover {
+drp[data-dt-ready] .dt-reply-author:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-discord-reply[data-dt-ready] .dt-reply-avatar,
-discord-reply[data-dt-ready] .dt-reply-author {
+drp[data-dt-ready] .dt-reply-avatar,
+drp[data-dt-ready] .dt-reply-author {
 	-webkit-user-select: none;
 	user-select: none;
 }
 
-discord-messages[compact-mode] :where(discord-reply)::after {
+dms[compact-mode] :where(drp)::after {
 	display: none;
 }
 
@@ -1228,7 +1228,7 @@ discord-messages[compact-mode] :where(discord-reply)::after {
    11. EMBEDS
    ========================================================================== */
 
-:where(discord-embed) {
+:where(de) {
 	position: relative;
 	display: block;
 	margin: 8px 0 0;
@@ -1247,23 +1247,23 @@ discord-messages[compact-mode] :where(discord-reply)::after {
 	min-width: 0;
 }
 
-discord-embed[thumbnail] .dt-embed-content,
-discord-embed[data-dt-thumbnail] .dt-embed-content,
-discord-embed:has(.dt-embed-thumbnail) .dt-embed-content {
+de[thumbnail] .dt-embed-content,
+de[data-dt-thumbnail] .dt-embed-content,
+de:has(.dt-embed-thumbnail) .dt-embed-content {
 	padding-right: 96px;
 }
 
 /* Without the JS-built wrapper, inset the whole embed body instead. */
-discord-embed[thumbnail]:not(:has(.dt-embed-content)),
-discord-embed[data-dt-thumbnail]:not(:has(.dt-embed-content)),
-discord-embed:has(.dt-embed-thumbnail):not(:has(.dt-embed-content)) {
+de[thumbnail]:not(:has(.dt-embed-content)),
+de[data-dt-thumbnail]:not(:has(.dt-embed-content)),
+de:has(.dt-embed-thumbnail):not(:has(.dt-embed-content)) {
 	padding-right: 104px;
 }
 
 /* Attribute-only embed header, so a title survives without JavaScript.
    Preferred durable form: emit <span class="dt-embed-author"> and
    <span class="dt-embed-title"> markup instead (see docs/SPEC.md). */
-discord-embed:not([data-dt-ready])[embed-title]::before {
+de:not([data-dt-ready])[embed-title]::before {
 	content: attr(embed-title);
 	display: block;
 	margin: 0 0 8px;
@@ -1273,7 +1273,7 @@ discord-embed:not([data-dt-ready])[embed-title]::before {
 	color: var(--dt-text-strong);
 }
 
-discord-embed:not([data-dt-ready]):not([embed-title])[author-name]::before {
+de:not([data-dt-ready]):not([embed-title])[author-name]::before {
 	content: attr(author-name);
 	display: block;
 	margin: 0 0 8px;
@@ -1351,7 +1351,7 @@ a.dt-embed-title {
 	object-fit: cover;
 }
 
-:where(discord-embed-description) {
+:where(ded) {
 	display: block;
 	margin: 0;
 	font-size: 0.875rem;
@@ -1359,26 +1359,26 @@ a.dt-embed-title {
 	white-space: pre-line;
 }
 
-:where(discord-embed-fields) {
+:where(defs) {
 	display: grid;
 	grid-template-columns: repeat(12, minmax(0, 1fr));
 	gap: 8px;
 	margin-top: 8px;
 }
 
-:where(discord-embed-field) {
+:where(def) {
 	grid-column: 1 / -1;
 	min-width: 0;
 	font-size: 0.875rem;
 	line-height: 1.125rem;
 }
 
-:where(discord-embed-field[inline]) {
+:where(def[inline]) {
 	grid-column: span 4;
 }
 
-discord-embed[thumbnail] :where(discord-embed-field[inline]),
-discord-embed[data-dt-thumbnail] :where(discord-embed-field[inline]) {
+de[thumbnail] :where(def[inline]),
+de[data-dt-thumbnail] :where(def[inline]) {
 	grid-column: span 6;
 }
 
@@ -1389,7 +1389,7 @@ discord-embed[data-dt-thumbnail] :where(discord-embed-field[inline]) {
 	color: var(--dt-text-strong);
 }
 
-discord-embed-field:not([data-dt-ready]):not(:has(.dt-embed-field-title))::before {
+def:not([data-dt-ready]):not(:has(.dt-embed-field-title))::before {
 	content: attr(field-title);
 	display: block;
 	margin-bottom: 2px;
@@ -1411,7 +1411,7 @@ discord-embed-field:not([data-dt-ready]):not(:has(.dt-embed-field-title))::befor
 	object-fit: contain;
 }
 
-:where(discord-embed-footer) {
+:where(defo) {
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -1421,7 +1421,7 @@ discord-embed-field:not([data-dt-ready]):not(:has(.dt-embed-field-title))::befor
 	color: var(--dt-text-muted);
 }
 
-discord-embed-footer:empty::before {
+defo:empty::before {
 	content: attr(footer);
 }
 
@@ -1453,7 +1453,7 @@ discord-embed-footer:empty::before {
    12. ATTACHMENTS
    ========================================================================== */
 
-:where(discord-attachments) {
+:where(dats) {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -1462,13 +1462,13 @@ discord-embed-footer:empty::before {
 	max-width: 550px;
 }
 
-:where(discord-attachments:empty) {
+:where(dats:empty) {
 	display: none;
 }
 
 /* --- images ------------------------------------------------------------- */
 
-:where(discord-image-attachment) {
+:where(dimg) {
 	position: relative;
 	display: block;
 	max-width: 100%;
@@ -1477,7 +1477,7 @@ discord-embed-footer:empty::before {
 	line-height: 0;
 }
 
-:where(discord-image-attachment) img {
+:where(dimg) img {
 	display: block;
 	max-width: 100%;
 	max-height: 350px;
@@ -1486,12 +1486,12 @@ discord-embed-footer:empty::before {
 	cursor: pointer;
 }
 
-:where(discord-image-attachment) a {
+:where(dimg) a {
 	display: block;
 }
 
 /* Attribute-only form, filled in by JS; visible placeholder if JS never runs. */
-discord-image-attachment[url]:not([data-dt-ready]):not(:has(img)) {
+dimg[url]:not([data-dt-ready]):not(:has(img)) {
 	min-width: 220px;
 	min-height: 120px;
 	border: 1px dashed var(--dt-border-strong);
@@ -1499,14 +1499,14 @@ discord-image-attachment[url]:not([data-dt-ready]):not(:has(img)) {
 
 /* --- spoiler-wrapped media --------------------------------------------- */
 
-discord-image-attachment[spoiler] img,
-discord-video-attachment[spoiler] video {
+dimg[spoiler] img,
+dvid[spoiler] video {
 	filter: blur(44px);
 	transition: filter var(--dt-transition);
 }
 
-discord-image-attachment[spoiler][data-dt-revealed] img,
-discord-video-attachment[spoiler][data-dt-revealed] video {
+dimg[spoiler][data-dt-revealed] img,
+dvid[spoiler][data-dt-revealed] video {
 	filter: none;
 }
 
@@ -1533,14 +1533,14 @@ discord-video-attachment[spoiler][data-dt-revealed] video {
 	background: rgba(0, 0, 0, 0.45);
 }
 
-discord-image-attachment[data-dt-revealed] > .dt-spoiler-overlay,
-discord-video-attachment[data-dt-revealed] > .dt-spoiler-overlay {
+dimg[data-dt-revealed] > .dt-spoiler-overlay,
+dvid[data-dt-revealed] > .dt-spoiler-overlay {
 	display: none;
 }
 
 /* --- files -------------------------------------------------------------- */
 
-:where(discord-file-attachment) {
+:where(dfil) {
 	display: flex;
 	align-items: center;
 	gap: 12px;
@@ -1552,7 +1552,7 @@ discord-video-attachment[data-dt-revealed] > .dt-spoiler-overlay {
 	background: var(--dt-bg-secondary);
 }
 
-:where(discord-file-attachment) a {
+:where(dfil) a {
 	display: flex;
 	align-items: center;
 	gap: 12px;
@@ -1562,14 +1562,14 @@ discord-video-attachment[data-dt-revealed] > .dt-spoiler-overlay {
 }
 
 /* Attribute-only form: renders name and size with zero JavaScript. */
-discord-file-attachment:empty {
+dfil:empty {
 	display: grid;
 	grid-template-columns: 30px minmax(0, 1fr);
 	align-content: center;
 	column-gap: 12px;
 }
 
-discord-file-attachment:empty::before {
+dfil:empty::before {
 	grid-column: 1;
 	grid-row: 1 / span 2;
 	content: 'FILE';
@@ -1585,19 +1585,19 @@ discord-file-attachment:empty::before {
 	font-weight: 700;
 }
 
-discord-file-attachment[type]:empty::before {
+dfil[type]:empty::before {
 	content: attr(type);
 }
 
-discord-file-attachment:empty::after {
+dfil:empty::after {
 	grid-column: 2;
 	content: attr(name) '\A' attr(bytes) ' ' attr(bytes-unit);
 	white-space: pre-line;
 	line-height: 1.25rem;
 }
 
-discord-file-attachment[bytes='']:empty::after,
-discord-file-attachment:not([bytes]):empty::after {
+dfil[bytes='']:empty::after,
+dfil:not([bytes]):empty::after {
 	content: attr(name);
 }
 
@@ -1638,13 +1638,13 @@ discord-file-attachment:not([bytes]):empty::after {
 
 /* --- audio / video ------------------------------------------------------ */
 
-:where(discord-audio-attachment) {
+:where(daud) {
 	display: block;
 	width: 100%;
 	max-width: 420px;
 }
 
-:where(discord-audio-attachment) audio {
+:where(daud) audio {
 	display: block;
 	width: 100%;
 	max-width: 420px;
@@ -1652,7 +1652,7 @@ discord-file-attachment:not([bytes]):empty::after {
 	outline: none;
 }
 
-:where(discord-video-attachment) {
+:where(dvid) {
 	position: relative;
 	display: block;
 	max-width: 100%;
@@ -1662,15 +1662,15 @@ discord-file-attachment:not([bytes]):empty::after {
 	line-height: 0;
 }
 
-:where(discord-video-attachment) video {
+:where(dvid) video {
 	display: block;
 	max-width: 100%;
 	max-height: 400px;
 	border-radius: var(--dt-radius-md);
 }
 
-:where(discord-video-attachment) video:focus-visible,
-:where(discord-audio-attachment) audio:focus-visible {
+:where(dvid) video:focus-visible,
+:where(daud) audio:focus-visible {
 	box-shadow: 0 0 0 2px var(--dt-focus-ring);
 }
 
@@ -1678,7 +1678,7 @@ discord-file-attachment:not([bytes]):empty::after {
    13. REACTIONS
    ========================================================================== */
 
-:where(discord-reactions) {
+:where(drs) {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -1686,11 +1686,11 @@ discord-file-attachment:not([bytes]):empty::after {
 	margin-top: 8px;
 }
 
-:where(discord-reactions:empty) {
+:where(drs:empty) {
 	display: none;
 }
 
-:where(discord-reaction) {
+:where(dr) {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
@@ -1712,45 +1712,45 @@ discord-file-attachment:not([bytes]):empty::after {
 		border-color var(--dt-transition);
 }
 
-:where(discord-reaction:hover) {
+:where(dr:hover) {
 	border-color: var(--dt-border-strong);
 }
 
-:where(discord-reaction[reacted]) {
+:where(dr[reacted]) {
 	background: var(--dt-reaction-bg-reacted);
 	border-color: var(--dt-reaction-border-reacted);
 	color: var(--dt-reaction-text-reacted);
 }
 
 /* Attribute-only form: emoji and count straight from attributes. */
-discord-reaction:not([data-dt-ready])::before {
+dr:not([data-dt-ready])::before {
 	content: attr(emoji);
 	font-size: 1rem;
 	line-height: 1;
 }
 
-discord-reaction[emoji^='http']:not([data-dt-ready])::before,
-discord-reaction[emoji^='data:']:not([data-dt-ready])::before,
-discord-reaction[emoji^='blob:']:not([data-dt-ready])::before,
-discord-reaction[emoji^='/']:not([data-dt-ready])::before,
-discord-reaction[emoji^='./']:not([data-dt-ready])::before,
-discord-reaction:not([emoji]):not([data-dt-ready])::before {
+dr[emoji^='http']:not([data-dt-ready])::before,
+dr[emoji^='data:']:not([data-dt-ready])::before,
+dr[emoji^='blob:']:not([data-dt-ready])::before,
+dr[emoji^='/']:not([data-dt-ready])::before,
+dr[emoji^='./']:not([data-dt-ready])::before,
+dr:not([emoji]):not([data-dt-ready])::before {
 	content: none;
 }
 
-discord-reaction:not([data-dt-ready])::after {
+dr:not([data-dt-ready])::after {
 	content: attr(count);
 	font-size: 0.875rem;
 	font-weight: 500;
 	line-height: 1;
 }
 
-discord-reaction:not([count]):not([data-dt-ready])::after,
-discord-reaction[count='1']:not([data-dt-ready])::after {
+dr:not([count]):not([data-dt-ready])::after,
+dr[count='1']:not([data-dt-ready])::after {
 	content: none;
 }
 
-:where(discord-reaction) img,
+:where(dr) img,
 .dt-reaction-emoji {
 	display: inline-block;
 	flex: none;
@@ -1772,7 +1772,7 @@ discord-reaction[count='1']:not([data-dt-ready])::after {
    14. ACTION ROW + BUTTONS
    ========================================================================== */
 
-:where(discord-action-row) {
+:where(dar) {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
@@ -1780,7 +1780,7 @@ discord-reaction[count='1']:not([data-dt-ready])::after {
 	max-width: 600px;
 }
 
-:where(discord-button) {
+:where(dbtn) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -1800,31 +1800,31 @@ discord-reaction[count='1']:not([data-dt-ready])::after {
 	transition: background var(--dt-transition);
 }
 
-:where(discord-button):hover {
+:where(dbtn):hover {
 	background: var(--dt-button-secondary-hover);
 }
 
-:where(discord-button[type='primary']) {
+:where(dbtn[type='primary']) {
 	background: var(--dt-button-primary);
 }
 
-:where(discord-button[type='primary']):hover {
+:where(dbtn[type='primary']):hover {
 	background: var(--dt-button-primary-hover);
 }
 
-:where(discord-button[type='success']) {
+:where(dbtn[type='success']) {
 	background: var(--dt-button-success);
 }
 
-:where(discord-button[type='destructive'], discord-button[type='danger']) {
+:where(dbtn[type='destructive'], dbtn[type='danger']) {
 	background: var(--dt-button-danger);
 }
 
-:where(discord-button[type='link']) {
+:where(dbtn[type='link']) {
 	background: var(--dt-button-link);
 }
 
-:where(discord-button[disabled]) {
+:where(dbtn[disabled]) {
 	opacity: 0.5;
 	cursor: not-allowed;
 }
@@ -1842,7 +1842,7 @@ discord-reaction[count='1']:not([data-dt-ready])::after {
 }
 
 /* Verified author tag (used inside author info) */
-:where(discord-verified-author-tag) {
+:where(dvat) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -1860,17 +1860,17 @@ discord-reaction[count='1']:not([data-dt-ready])::after {
 	vertical-align: -2px;
 }
 
-:where(discord-verified-author-tag)::before {
+:where(dvat)::before {
 	content: '\2713';
 	font-size: 0.75rem;
 	line-height: 1;
 }
 
-:where(discord-verified-author-tag:not([verified]))::before {
+:where(dvat:not([verified]))::before {
 	content: none;
 }
 
-:where(discord-verified-author-tag)::after {
+:where(dvat)::after {
 	content: 'APP';
 }
 
@@ -1897,35 +1897,35 @@ discord-reaction[count='1']:not([data-dt-ready])::after {
 	border: 0;
 }
 
-:where(discord-message, discord-embed, discord-attachments, discord-reactions) :focus-visible {
+:where(dm, de, dats, drs) :focus-visible {
 	outline: none;
 	box-shadow: 0 0 0 2px var(--dt-focus-ring);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	:where(discord-spoiler),
-	:where(discord-reaction),
-	:where(discord-button),
-	discord-image-attachment img {
+	:where(dsp),
+	:where(dr),
+	:where(dbtn),
+	dimg img {
 		transition: none;
 	}
 }
 
 @media (max-width: 480px) {
-	:where(discord-messages) {
+	:where(dms) {
 		--dt-msg-padding-right: 16px;
 	}
 
-	:where(discord-embed),
-	:where(discord-attachments) {
+	:where(de),
+	:where(dats) {
 		max-width: 100%;
 	}
 }
 
 @media print {
 	:root,
-	discord-messages,
-	discord-message {
+	dms,
+	dm {
 		--dt-bg-primary: #ffffff;
 		--dt-bg-secondary: #f2f3f5;
 		--dt-bg-embed: #f2f3f5;
@@ -1935,7 +1935,7 @@ discord-reaction[count='1']:not([data-dt-ready])::after {
 		--dt-text-muted: #444444;
 	}
 
-	:where(discord-spoiler) {
+	:where(dsp) {
 		background: none;
 		color: inherit;
 	}

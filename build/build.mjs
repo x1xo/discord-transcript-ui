@@ -23,6 +23,7 @@ import { brotliCompressSync, gzipSync } from 'node:zlib';
 import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { SHORT_TAGS, toShortCSS, unmappedTags } from './short-tags.mjs';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -88,9 +89,26 @@ const jsSource = await readFile(join(root, 'src', 'discord-transcript.js'), 'utf
 const minCss = bannerCss + (await minify('css', cssSource)).trim() + '\n';
 const minJs = bannerJs + (await minify('js', jsSource)).trim() + '\n';
 
+// The short-name stylesheet: the same rules with the compact tag vocabulary, so
+// a renderer that emits short tags links this file instead of the default one
+// and pays nothing for the names it does not use.
+const shortCss = toShortCSS(cssSource);
+const minShortCssBody = toShortCSS(await minify('css', cssSource)).trim();
+// Guard on the shipped body, where comments are gone: a long tag name left
+// behind would silently unstyled that element in short-tag transcripts.
+const missed = unmappedTags(minShortCssBody);
+if (missed.length) {
+	console.error(`✗ short stylesheet still contains long tag names: ${missed.join(', ')}`);
+	console.error('  add them to SHORT_TAGS in build/short-tags.mjs (and to the Go mapping)');
+	process.exit(1);
+}
+const minShortCss = bannerCss + minShortCssBody + '\n';
+
 const artifacts = [
 	{ name: 'discord-transcript.css', content: cssSource, minified: false },
 	{ name: 'discord-transcript.min.css', content: minCss, minified: true },
+	{ name: 'discord-transcript.short.css', content: shortCss, minified: false },
+	{ name: 'discord-transcript.short.min.css', content: minShortCss, minified: true },
 	{ name: 'discord-transcript.js', content: jsSource, minified: false },
 	{ name: 'discord-transcript.min.js', content: minJs, minified: true }
 ];
@@ -107,6 +125,7 @@ const manifest = {
 
 const targets = [
 	{ key: 'cdnPrimary', file: 'discord-transcript.min.css', extension: 'css' },
+	{ key: 'cdnPrimaryShort', file: 'discord-transcript.short.min.css', extension: 'cssShort' },
 	{ key: 'cdnPrimaryJs', file: 'discord-transcript.min.js', extension: 'js' }
 ];
 
@@ -140,6 +159,7 @@ manifest.archivalMirrors = config.archivalMirrors.map((mirror) => ({
 }));
 
 const cssStat = manifest.artifacts['discord-transcript.min.css'];
+const shortCssStat = manifest.artifacts['discord-transcript.short.min.css'];
 const jsStat = manifest.artifacts['discord-transcript.min.js'];
 
 const recovery = `<!--
@@ -201,5 +221,6 @@ await writeFile(join(dist, 'manifest.json'), serialized);
 
 console.log(`✓ built ${config.name} v${version}`);
 console.log(`  css  ${cssStat.bytes}B raw · ${cssStat.gzip}B gzip · ${cssStat.brotli}B brotli`);
+console.log(`  css* ${shortCssStat.bytes}B raw · ${shortCssStat.gzip}B gzip · ${shortCssStat.brotli}B brotli (short tags, ${Object.keys(SHORT_TAGS).length} names)`);
 console.log(`  js   ${jsStat.bytes}B raw · ${jsStat.gzip}B gzip · ${jsStat.brotli}B brotli`);
 console.log('  dist/manifest.json, dist/recovery-comment.txt');
