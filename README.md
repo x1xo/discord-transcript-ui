@@ -87,6 +87,30 @@ docs/CDN-STRATEGY.md           keeping archived transcripts alive for 5-10 years
 docs/DESIGN-TOKENS.md          Discord's live design tokens, with sources and open questions
 ```
 
+## Keeping the Go renderer in sync
+
+The Go renderer (`discord-transcript-go/`) reuses this build: it links these
+artifacts and emits this markup contract. Three things couple the two, and all
+three are derived from this repository's build output:
+
+1. the contract version (this package's version);
+2. the pinned CDN URLs and Subresource Integrity hashes;
+3. the compact tag vocabulary from `build/short-tags.mjs`.
+
+Rather than hand-copying them, `npm run build` writes them into two files the Go
+side never edits:
+
+| Generated file | Contents |
+| --- | --- |
+| `discord-transcript-go/transcript/pins.go` | `ContractVersion`, the jsDelivr URLs and SRI hashes for both stylesheets and the script |
+| `discord-transcript-go/transcript/tags_gen.go` | the compact tag mapping |
+
+`npm run build:check` fails if either is stale, and the Go suite has a matching
+test that catches a hand edit or a rebuild the sync could not see. Point
+`DISCORD_TRANSCRIPT_GO_DIR` at the module if it is not checked out at
+`./discord-transcript-go`; if it is absent, the build prints a note and carries
+on, so consumers who only want the stylesheet are unaffected.
+
 ## Scripts
 
 | Command | Does |

@@ -24,6 +24,7 @@ import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { SHORT_TAGS, toShortCSS, unmappedTags } from './short-tags.mjs';
+import { syncGo } from './sync-go.mjs';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -201,12 +202,17 @@ if (checkOnly) {
 	const currentManifest = existsSync(manifestPath) ? await readFile(manifestPath, 'utf8') : null;
 	if (currentManifest !== serialized) problems.push('manifest.json');
 
+	// The Go renderer's pinned hashes are derived from this build, so they count
+	// as build output too.
+	const goCheck = syncGo({ manifest, shortTags: SHORT_TAGS, check: true });
+	for (const relative of goCheck.stale) problems.push(`discord-transcript-go/${relative}`);
+
 	if (problems.length) {
-		console.error(`✗ dist/ is out of date: ${problems.join(', ')}`);
+		console.error(`✗ build output is out of date: ${problems.join(', ')}`);
 		console.error('  run: npm run build');
 		process.exit(1);
 	}
-	console.log('✓ dist/ matches src/');
+	console.log('✓ dist/ and the Go pins match src/');
 	process.exit(0);
 }
 
@@ -224,3 +230,13 @@ console.log(`  css  ${cssStat.bytes}B raw · ${cssStat.gzip}B gzip · ${cssStat.
 console.log(`  css* ${shortCssStat.bytes}B raw · ${shortCssStat.gzip}B gzip · ${shortCssStat.brotli}B brotli (short tags, ${Object.keys(SHORT_TAGS).length} names)`);
 console.log(`  js   ${jsStat.bytes}B raw · ${jsStat.gzip}B gzip · ${jsStat.brotli}B brotli`);
 console.log('  dist/manifest.json, dist/recovery-comment.txt');
+
+// Keep the Go renderer in step: version, CDN URLs, SRI hashes and the tag map.
+const go = syncGo({ manifest, shortTags: SHORT_TAGS });
+if (go.skipped) {
+	console.log('  go   note: discord-transcript-go not checked out next to this repo, nothing synced');
+} else if (go.written.length) {
+	console.log(`  go   synced ${go.written.join(', ')} (${manifest.version})`);
+} else {
+	console.log('  go   pins already current');
+}
