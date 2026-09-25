@@ -1,6 +1,6 @@
 {
 	"name": "discord-transcript-ui",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Dependency-free, light-DOM custom elements and one stylesheet for rendering Discord chat transcripts in plain HTML.",
 	"license": "MIT",
 	"type": "module",
@@ -32,7 +32,8 @@
 		"verify": "node build/verify.mjs",
 		"scaffold": "node tools/scaffold.mjs",
 		"serve": "node build/serve.mjs",
-		"demo": "node build/serve.mjs"
+		"demo": "node build/serve.mjs",
+		"preview": "node tools/scaffold.mjs --body examples/messages.html --out examples/local-preview.html --config examples/config.js --local --title \"local preview\""
 	},
 	"devDependencies": {
 		"esbuild": "^0.25.12"

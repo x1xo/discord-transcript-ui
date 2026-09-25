@@ -9,7 +9,7 @@
  *
  * Config (define it any time before DOMContentLoaded):
  *   window.$discordMessage = {
- *     profiles: { skyra: { author: 'Skyra', avatar: 'https://…', roleColor: '#ff0000', bot: true } },
+ *     profiles: { miona: { author: 'Miona', avatar: 'https://…', roleColor: '#ff0000', bot: true } },
  *     avatars:  { default: 'blue', blue: 'https://cdn.discordapp.com/embed/avatars/0.png' }
  *   };
  *   window.discordTranscript = { groupWindow: 7, locale: 'en-US', observe: true };
@@ -239,9 +239,11 @@
 
 	function badgeRow(identity) {
 		var row = make('span', 'dt-badges');
+		/* Bots are tagged "APP"; verified bots additionally get the checkmark,
+		   which is drawn by CSS (so the tag reads "✓ APP"). */
 		if (identity.bot) {
-			if (identity.verified) row.appendChild(make('span', 'dt-badge dt-badge--verified'));
-			else row.appendChild(make('span', 'dt-badge', 'BOT'));
+			var botTag = identity.verified ? 'dt-badge dt-badge--verified' : 'dt-badge';
+			row.appendChild(make('span', botTag, 'APP'));
 		} else if (identity.server) {
 			row.appendChild(make('span', 'dt-badge dt-badge--server', 'SERVER'));
 		} else if (identity.official) {
@@ -259,14 +261,29 @@
 		var identity = identityOf(element);
 		var stamp = parseStamp(element.getAttribute('timestamp'));
 		var body = make('div', 'dt-body');
+		var replies = [];
 
 		/* Optional parser-supplied header escapes the generated one. */
 		var suppliedHeader = element.querySelector(':scope > discord-author-info, :scope > discord-message-header');
 		if (suppliedHeader) suppliedHeader.remove();
 
-		while (element.firstChild) body.appendChild(element.firstChild);
+		/* Reply previews are lifted out of the body: Discord draws them above the
+		   author row, with the avatar level with the author name. */
+		while (element.firstChild) {
+			var child = element.firstChild;
+			if (child.nodeType === 1 && (child.tagName === 'DISCORD-REPLY' || child.tagName === 'DISCORD-COMMAND')) {
+				replies.push(child);
+				element.removeChild(child);
+				continue;
+			}
+			body.appendChild(child);
+		}
 
 		var wrap = make('div', 'dt-msg');
+		if (replies.length) {
+			wrap.classList.add('dt-msg--has-reply');
+			for (var replyIndex = 0; replyIndex < replies.length; replyIndex++) wrap.appendChild(replies[replyIndex]);
+		}
 		wrap.appendChild(avatarNode(identity, 'dt-avatar'));
 
 		var content = make('div', 'dt-content');
@@ -422,8 +439,10 @@
 	function upgradeReactions(element) {
 		if (has(element, 'data-dt-ready')) return;
 		var emoji = element.getAttribute('emoji');
-		var isUrl = emoji && /^(https?:|\/|\.\/)/.test(emoji);
-		if (isUrl) {
+		/* Any of these is an image source rather than a unicode character. Data
+		   URIs matter: inline SVG/PNG emoji must never be emitted as visible text. */
+		var isImage = emoji && /^(https?:|data:|blob:|\/|\.\/)/i.test(emoji);
+		if (isImage) {
 			var img = make('img', 'dt-reaction-emoji');
 			img.src = emoji;
 			img.alt = element.getAttribute('name') || '';

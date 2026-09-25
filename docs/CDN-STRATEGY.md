@@ -31,7 +31,7 @@ stranger can repair it.** This document is that plan.
 | Source + history | GitHub repository | `git push origin main --tags` |
 | Release tarball with the built assets | GitHub Releases | attach `dist/` as an artifact |
 | Published package | npm | `npm publish` (never unpublish) |
-| Raw dist bytes | object storage (Cloudflare R2, S3, B2 — free tiers are plenty for two files) | `aws s3 sync dist/ s3://<bucket>/v1.0.0/ --cache-control 'public,max-age=31536000,immutable'` |
+| Raw dist bytes | object storage (Cloudflare R2, S3, B2 — free tiers are plenty for two files) | `aws s3 sync dist/ s3://<bucket>/v1.0.1/ --cache-control 'public,max-age=31536000,immutable'` |
 
 ### Tier 1 — primary mirrors (npm-derived, zero work)
 
@@ -39,8 +39,8 @@ These stay correct as long as the npm version exists, which is why `publishConfi
 is public and why you never unpublish.
 
 ```
-https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.css
-https://unpkg.com/discord-transcript-ui@1.0.0/dist/discord-transcript.min.js
+https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.1/dist/discord-transcript.min.css
+https://unpkg.com/discord-transcript-ui@1.0.1/dist/discord-transcript.min.js
 ```
 
 * Both support **SRI** and send CORS headers, so the loader applies `integrity` to these first.
@@ -51,9 +51,9 @@ https://unpkg.com/discord-transcript-ui@1.0.0/dist/discord-transcript.min.js
 
 | Mirror | URL shape | Notes |
 | --- | --- | --- |
-| GitHub Pages | `https://<org>.github.io/<repo>/v1.0.0/discord-transcript.min.css` | Push `dist/v1.0.0/` to the `gh-pages` branch. The build already emits that folder. |
-| Statically | `https://cdn.statically.io/gh/<org>/<repo>/v1.0.0/dist/…` | Mirrors a GitHub tag. |
-| raw.githack | `https://raw.githack.com/<org>/<repo>/v1.0.0/dist/…` | Serves tags with correct content types. |
+| GitHub Pages | `https://<org>.github.io/<repo>/v1.0.1/discord-transcript.min.css` | Push `dist/v1.0.1/` to the `gh-pages` branch. The build already emits that folder. |
+| Statically | `https://cdn.statically.io/gh/<org>/<repo>/v1.0.1/dist/…` | Mirrors a GitHub tag. |
+| raw.githack | `https://raw.githack.com/<org>/<repo>/v1.0.1/dist/…` | Serves tags with correct content types. |
 | Your own domain | `https://cdn.example.com/discord-transcript/1.0.0/…` | Put the object-storage bucket behind a CDN. |
 
 ### Tier 3 — archival (survives you)
@@ -98,7 +98,7 @@ Design decisions worth keeping:
 
 ## 4. Pinning policy
 
-* Every transcript pins the **exact version** (`@1.0.0`), never a range or `latest`.
+* Every transcript pins the **exact version** (`@1.0.1`), never a range or `latest`.
   Byte-stability is worth more than silently receiving a CSS fix.
 * A bug found after release is fixed in a **new version**; old transcripts keep the old
   bytes. If you need to repair an archive in bulk, use the migration tool below.
@@ -113,13 +113,13 @@ Design decisions worth keeping:
 
 ```html
 <!--
-  discord-transcript-ui v1.0.0 — asset recovery information.
-  Stylesheet : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.css
+  discord-transcript-ui v1.0.1 — asset recovery information.
+  Stylesheet : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.1/dist/discord-transcript.min.css
                sha256-af58b4c1…
                integrity="sha384-XUcBaPTj…"
   Script     : …
   Mirrors (same bytes, drop-in): …
-  Manifest   : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/manifest.json
+  Manifest   : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.1/dist/manifest.json
 -->
 ```
 
@@ -133,10 +133,10 @@ That comment is the difference between "the CDN died and my transcripts are unst
    **before the first release** — after that, editing them changes frozen URLs.
 3. `npm run build` → confirm the reported sizes and `dist/manifest.json`.
 4. `npm run verify` → all checks pass in headless Chrome (enhanced page, no-script page, bootstrap page).
-5. `git commit`, `git tag v1.0.0`, `git push --tags`.
+5. `git commit`, `git tag v1.0.1`, `git push --tags`.
 6. `npm publish` (with 2FA; never unpublish).
 7. GitHub Release: attach `dist/discord-transcript.min.{css,js}` and `dist/manifest.json`.
-8. Push `dist/v1.0.0/` to the `gh-pages` branch.
+8. Push `dist/v1.0.1/` to the `gh-pages` branch.
 9. Upload `dist/` to your object storage at `/discord-transcript/1.0.0/`.
 10. Archive: Software Heritage (tag), Wayback (`/save/` each CDN URL), Zenodo (release tarball),
     IPFS (`ipfs add` the two files, record the CID in the release notes).

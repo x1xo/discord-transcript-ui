@@ -13,23 +13,23 @@ window.$discordMessage = {
 		red: 'https://cdn.discordapp.com/embed/avatars/4.png'
 	},
 	profiles: {
-		alyx: {
-			author: 'Alyx Vargas',
+		piton: {
+			author: 'Piton',
 			avatar: 'https://cdn.discordapp.com/embed/avatars/2.png',
 			roleColor: '#57f287'
 		},
-		dawn: {
-			author: 'Dawn'
+		kestrel: {
+			author: 'Kestrel'
 		},
-		favna: {
-			author: 'Favna',
+		miona: {
+			author: 'Miona',
 			avatar: 'https://cdn.discordapp.com/embed/avatars/4.png',
 			roleColor: '#eb459e',
 			bot: true,
 			verified: true
 		},
-		skyra: {
-			author: 'Skyra',
+		ravik: {
+			author: 'Ravik',
 			avatar: 'https://cdn.discordapp.com/embed/avatars/0.png',
 			roleColor: '#5865f2',
 			bot: true,

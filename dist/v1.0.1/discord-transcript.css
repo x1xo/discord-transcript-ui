@@ -544,9 +544,10 @@ discord-message:not([data-dt-ready])[author='']::before {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	height: 15px;
-	padding: 0 4px;
-	border-radius: 3px;
+	gap: 3px;
+	height: 16px;
+	padding: 0 5px;
+	border-radius: 4px;
 	background: var(--dt-brand);
 	color: var(--dt-text-on-brand);
 	font-size: 0.625rem;
@@ -556,15 +557,17 @@ discord-message:not([data-dt-ready])[author='']::before {
 	text-transform: uppercase;
 }
 
+/* Verified bot / application tag: a slightly rounded blurple rectangle reading
+   "✓ APP" (the tick is drawn here, the text comes from the script so that it is
+   real, readable text rather than generated content). */
 .dt-badge--verified {
-	width: 15px;
-	padding: 0;
-	border-radius: 50%;
+	padding: 0 5px 0 4px;
 }
 
-.dt-badge--verified::after {
+.dt-badge--verified::before {
 	content: '\2713';
-	font-size: 9px;
+	font-size: 0.75rem;
+	line-height: 1;
 }
 
 .dt-badge--server {
@@ -731,7 +734,12 @@ discord-author-info:not([data-dt-ready])::before {
 	content: attr(author);
 }
 
-:where(discord-author-info[bot], discord-author-info[server], discord-author-info[official-app], discord-author-info[op])
+:where(
+		discord-author-info[bot],
+		discord-author-info[server],
+		discord-author-info[official-app],
+		discord-author-info[op]
+	)
 	::after {
 	margin-left: 4px;
 	padding: 0 4px;
@@ -743,8 +751,14 @@ discord-author-info:not([data-dt-ready])::before {
 	line-height: 15px;
 }
 
+/* Bots are tagged "APP". Verified bots add the checkmark, so they read "✓ APP"
+   (equal :where() specificity, so the later rule wins for verified bots). */
 :where(discord-author-info[bot])::after {
-	content: 'BOT';
+	content: 'APP';
+}
+
+:where(discord-author-info[bot][verified])::after {
+	content: '\2713\00a0APP';
 }
 
 :where(discord-author-info[server])::after {
@@ -1137,6 +1151,19 @@ discord-reply[deleted]::before {
 	font-style: italic;
 	font-weight: 400;
 	color: var(--dt-text-muted);
+}
+
+/* A reply preview sits above the author row (Discord's layout): the reply takes
+   the first grid row, so the avatar and the author name share the second. */
+.dt-msg--has-reply > :where(discord-reply),
+.dt-msg--has-reply > :where(discord-command) {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+.dt-msg--has-reply > .dt-avatar,
+.dt-msg--has-reply > .dt-content {
+	grid-row: 2;
 }
 
 /* Curved connector, drawn only once the reply sits in the content column. */
@@ -1698,6 +1725,8 @@ discord-reaction:not([data-dt-ready])::before {
 }
 
 discord-reaction[emoji^='http']:not([data-dt-ready])::before,
+discord-reaction[emoji^='data:']:not([data-dt-ready])::before,
+discord-reaction[emoji^='blob:']:not([data-dt-ready])::before,
 discord-reaction[emoji^='/']:not([data-dt-ready])::before,
 discord-reaction[emoji^='./']:not([data-dt-ready])::before,
 discord-reaction:not([emoji]):not([data-dt-ready])::before {
@@ -1719,8 +1748,10 @@ discord-reaction[count='1']:not([data-dt-ready])::after {
 :where(discord-reaction) img,
 .dt-reaction-emoji {
 	display: inline-block;
+	flex: none;
 	width: 1rem;
 	height: 1rem;
+	overflow: hidden;
 	object-fit: contain;
 	vertical-align: middle;
 }
@@ -1810,17 +1841,32 @@ discord-reaction[count='1']:not([data-dt-ready])::after {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 15px;
-	height: 15px;
-	border-radius: 50%;
+	gap: 3px;
+	height: 16px;
+	padding: 0 5px 0 4px;
+	border-radius: 4px;
 	background: var(--dt-brand);
 	color: var(--dt-text-on-brand);
-	font-size: 9px;
+	font-size: 0.625rem;
+	font-weight: 600;
+	line-height: 1;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
 	vertical-align: -2px;
 }
 
-:where(discord-verified-author-tag)::after {
+:where(discord-verified-author-tag)::before {
 	content: '\2713';
+	font-size: 0.75rem;
+	line-height: 1;
+}
+
+:where(discord-verified-author-tag:not([verified]))::before {
+	content: none;
+}
+
+:where(discord-verified-author-tag)::after {
+	content: 'APP';
 }
 
 /* ==========================================================================

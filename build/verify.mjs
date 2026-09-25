@@ -12,7 +12,7 @@
  * Requires: a Chrome/Chromium binary (CHROME env var, or google-chrome on PATH).
  */
 
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -204,16 +204,40 @@ const fullPageSuite = `(() => {
 	near('cozy avatar size', style(all('.dt-avatar')[0], 'width'), 40, 0.5);
 	near('content starts at the 72px text column', all('#cozy discord-message')[2].querySelector('.dt-content').getBoundingClientRect().left - all('#cozy discord-message')[2].getBoundingClientRect().left, 72, 1);
 	check('message right padding', style(all('#cozy discord-message')[2], 'padding-right'), '48px');
-	check('role colour applied', style(byAuthor('Alyx Vargas').querySelector('.dt-author'), 'color'), 'rgb(87, 242, 135)');
-	check('verified bot badge', byAuthor('Favna').querySelector('.dt-badge').classList.contains('dt-badge--verified'), true);
-	check('plain bot badge text', document.querySelector('#compact discord-message[author="Botty"] .dt-badge').textContent, 'BOT');
-	check('timestamp formatted', /03\\/15\\/2024/.test(byAuthor('Favna').querySelector('.dt-timestamp').textContent), true);
-	check('timestamp tooltip present', byAuthor('Favna').querySelector('.dt-timestamp').title.length > 0, true);
+	check('role colour applied', style(byAuthor('Piton').querySelector('.dt-author'), 'color'), 'rgb(87, 242, 135)');
+	const appBadge = byAuthor('Miona').querySelector('.dt-badge--verified');
+	const appBox = appBadge.getBoundingClientRect();
+	check('verified badge reads APP', appBadge.textContent, 'APP');
+	check('verified badge draws a checkmark', style(appBadge, 'content', '::before'), '"\u2713"');
+	check('verified badge is a rounded rectangle, not a circle', appBox.width > appBox.height, true);
+	check('verified badge background is blurple', style(appBadge, 'background-color'), 'rgb(88, 101, 242)');
+	check('verified badge is slightly rounded', style(appBadge, 'border-top-left-radius'), '4px');
+	const plainBotTag = document.querySelector('#compact discord-message[author="Sable"] .dt-badge');
+	check('unverified bot tag reads APP', plainBotTag.textContent, 'APP');
+	check('unverified bot tag has no checkmark', style(plainBotTag, 'content', '::before').includes('\u2713'), false);
+	check('unverified bot tag is not the verified variant', plainBotTag.classList.contains('dt-badge--verified'), false);
+	check('timestamp formatted', /03\\/15\\/2024/.test(byAuthor('Miona').querySelector('.dt-timestamp').textContent), true);
+	check('timestamp tooltip present', byAuthor('Miona').querySelector('.dt-timestamp').title.length > 0, true);
 	check('initials fallback for avatar-less author', all('.dt-avatar--initials').length, 5);
 
 	const continuation = all('#cozy discord-message[data-dt-continuation]')[0];
 	check('continuation hides avatar', style(continuation.querySelector('.dt-avatar'), 'visibility'), 'hidden');
 	check('continuation hides header', style(continuation.querySelector('.dt-header'), 'display'), 'none');
+
+	// Reply layout: Discord puts the reply preview above the author row.
+	const replyMessage = all('discord-message').find((m) => m.querySelector('discord-reply'));
+	const replyNode = replyMessage.querySelector('discord-reply');
+	const replyAvatar = replyMessage.querySelector('.dt-avatar');
+	const replyHeader = replyMessage.querySelector('.dt-header');
+	check('reply renders above the author row', replyNode.getBoundingClientRect().top < replyHeader.getBoundingClientRect().top, true);
+	check('avatar is level with the author name', Math.abs(replyAvatar.getBoundingClientRect().top - replyHeader.getBoundingClientRect().top) < 8, true);
+	check('reply is lifted out of the message body', replyNode.closest('.dt-body'), null);
+	check('reply is a direct child of the message grid', replyNode.parentElement.classList.contains('dt-msg'), true);
+
+	// An image-source emoji must become an <img>, never a span full of URI text.
+	const dataReaction = all('discord-reaction').find((r) => (r.getAttribute('emoji') || '').startsWith('data:'));
+	check('data-URI emoji rendered as an image', dataReaction.querySelector('img') !== null, true);
+	check('no reaction leaks a long text node', all('discord-reaction').every((r) => r.textContent.length < 20), true);
 
 	check('user mention prefix', style(all('discord-mention')[0], 'content', '::before'), '"@"');
 	check('channel mention prefix', style(all('discord-mention[type="channel"]')[0], 'content', '::before'), '"#"');
@@ -277,16 +301,19 @@ const noScriptSuite = `(() => {
 
 	check('script never ran', all('.dt-msg').length + all('.dt-avatar').length, 0);
 	check('message text still present', document.body.textContent.includes('Plain message text stays readable'), true);
-	check('author name from attr(author)', style(all('discord-message')[0], 'content', '::before').includes('Alyx Vargas'), true);
+	check('author name from attr(author)', style(all('discord-message')[0], 'content', '::before').includes('Piton'), true);
 	check('user mention prefix', style(all('discord-mention')[0], 'content', '::before'), '"@"');
 	check('channel mention prefix', style(all('discord-mention[type="channel"]')[0], 'content', '::before'), '"#"');
-	check('reply author from attr', style(all('discord-reply')[0], 'content', '::before').includes('Alyx Vargas'), true);
+	check('reply author from attr', style(all('discord-reply')[0], 'content', '::before').includes('Piton'), true);
 	check('embed title from attribute', style(all('discord-embed')[0], 'content', '::before').includes('Attribute-rendered embed title'), true);
 	check('embed description is markup', all('discord-embed-description').length, 2);
 	check('field title from attribute', style(all('discord-embed-field')[0], 'content', '::before').includes('Field'), true);
 	check('file card rendered from attributes', style(all('discord-file-attachment')[0], 'content', '::after').includes('transcript.html'), true);
 	check('reaction emoji from attribute', style(all('discord-reaction')[0], 'content', '::before'), '"🎉"');
 	check('reaction count from attribute', style(all('discord-reaction')[0], 'content', '::after'), '"3"');
+	const dataReactionNoJs = all('discord-reaction').find((r) => (r.getAttribute('emoji') || '').startsWith('data:'));
+	check('data-URI emoji is not printed as text without the script', style(dataReactionNoJs, 'content', '::before'), 'none');
+	check('data-URI pill text stays empty without the script', dataReactionNoJs.textContent.length, 0);
 	check('single reaction hides count', style(all('discord-reaction')[1], 'content', '::after'), 'none');
 	check('real image markup survives', all('discord-image-attachment img').length, 1);
 	check('system message icon colour', style(all('discord-system-message')[0], 'background-color', '::before'), 'rgb(61, 158, 96)');
@@ -308,7 +335,7 @@ const bootstrapSuite = `(() => {
 	check('script upgraded every message', document.querySelectorAll('discord-message[data-dt-ready]').length, document.querySelectorAll('discord-message').length);
 	check('messages present', document.querySelectorAll('discord-message').length, 8);
 	check('recovery comment kept', document.documentElement.outerHTML.includes('asset recovery information'), true);
-	check('config applied from before the bootstrap', document.querySelector('.dt-author').textContent, 'Alyx Vargas');
+	check('config applied from before the bootstrap', document.querySelector('.dt-author').textContent, 'Piton');
 	check('no horizontal overflow', document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1, true);
 	return checks;
 })()`;
@@ -328,11 +355,27 @@ async function main() {
 		await openPage(session, pathToFileURL(join(root, 'demo', 'no-js.html')).href);
 		failures += report('demo/no-js.html — stylesheet only', await session.evaluate(noScriptSuite));
 
-		const localPreview = join(root, 'examples', '.local-preview.html');
-		if (existsSync(localPreview)) {
-			await openPage(session, pathToFileURL(localPreview).href);
-			failures += report('examples/.local-preview.html — CDN bootstrap', await session.evaluate(bootstrapSuite));
-		}
+		// Regenerate the local-preview transcript first, so the bootstrap path is
+		// always exercised against the artifacts that were just built.
+		const localPreview = join(root, 'examples', 'local-preview.html');
+		execFileSync(
+			process.execPath,
+			[
+				join(root, 'tools', 'scaffold.mjs'),
+				'--body',
+				join(root, 'examples', 'messages.html'),
+				'--config',
+				join(root, 'examples', 'config.js'),
+				'--out',
+				localPreview,
+				'--local',
+				'--title',
+				'local preview'
+			],
+			{ stdio: 'ignore' }
+		);
+		await openPage(session, pathToFileURL(localPreview).href);
+		failures += report('examples/local-preview.html — CDN bootstrap', await session.evaluate(bootstrapSuite));
 
 		if (session.errors.length) {
 			failures += session.errors.length;

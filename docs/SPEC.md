@@ -14,8 +14,8 @@ for consumers.
 ## 1. Include the assets
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.js" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.1/dist/discord-transcript.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.1/dist/discord-transcript.min.js" defer></script>
 ```
 
 For real transcripts use the multi-mirror bootstrap in `assets/cdn-loader.html`
@@ -32,14 +32,14 @@ The script reads this when it runs, so the config **must appear before the asset
 	window.$discordMessage = {
 		avatars: { default: 'blue', blue: 'https://cdn.discordapp.com/embed/avatars/0.png' },
 		profiles: {
-			skyra: { author: 'Skyra', avatar: '…', roleColor: '#5865f2', bot: true, verified: true }
+			miona: { author: 'Miona', avatar: '…', roleColor: '#5865f2', bot: true, verified: true }
 		}
 	};
 	window.discordTranscript = { groupWindow: 7, locale: 'en-US', observe: true };
 </script>
 ```
 
-`profile="skyra"` on an element pulls all of it in. Per-element attributes always win
+`profile="miona"` on an element pulls all of it in. Per-element attributes always win
 over the profile entry. `avatar` accepts a key from `avatars`, a full URL, or nothing
 (then `avatars.default` is used; if that is unreachable the script draws a coloured
 initial, so a transcript never depends on a remote image to be readable).
@@ -79,7 +79,7 @@ Only direct `<discord-message>` children participate in continuation grouping.
 | `author` | string | Display name (overrides the profile). |
 | `avatar` | string | Avatar key or URL (overrides the profile). |
 | `role-color` | hex | Name colour. |
-| `bot`, `verified`, `server`, `official-app`, `op` | boolean | Name badges. |
+| `bot`, `verified`, `server`, `official-app`, `op` | boolean | Name badges. A bot renders Discord's `APP` tag (a slightly rounded blurple rectangle); `verified` adds the checkmark, so it reads `✓ APP`. `server`, `official-app` and `op` render `SERVER`, `OFFICIAL` and `OP`. |
 | `timestamp` | ISO-8601 or epoch ms | Header timestamp. |
 | `twenty-four` | boolean | 24-hour clock for this message. |
 | `edited` | boolean | Adds `(edited)`. |
@@ -135,7 +135,7 @@ Two ways to build one, and you can mix them:
 The title, author, thumbnail and media exist only after the script runs.
 
 ```html
-<discord-embed color="#5865f2" embed-title="Title" author-name="Skyra" thumbnail="…" image="…">
+<discord-embed color="#5865f2" embed-title="Title" author-name="Miona" thumbnail="…" image="…">
 	<discord-embed-description>Text stays as markup.</discord-embed-description>
 </discord-embed>
 ```
@@ -144,7 +144,7 @@ The title, author, thumbnail and media exist only after the script runs.
 
 ```html
 <discord-embed color="#5865f2">
-	<span class="dt-embed-author"><img src="…" alt="" />Skyra</span>
+	<span class="dt-embed-author"><img src="…" alt="" />Miona</span>
 	<a class="dt-embed-title" href="…">Title</a>
 	<discord-embed-description>Text stays as markup.</discord-embed-description>
 	<div class="dt-embed-thumbnail"><img src="…" alt="" /></div>

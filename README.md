@@ -22,21 +22,21 @@ A transcript HTML file then contains only its own text and markup.
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.1/dist/discord-transcript.min.css" />
 		<script>
 			window.$discordMessage = {
 				profiles: {
-					skyra: { author: 'Skyra', avatar: '…', roleColor: '#5865f2', bot: true, verified: true }
+					miona: { author: 'Miona', avatar: '…', roleColor: '#5865f2', bot: true, verified: true }
 				}
 			};
 		</script>
-		<script src="https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.js" defer></script>
+		<script src="https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.1/dist/discord-transcript.min.js" defer></script>
 	</head>
 	<body class="dt-page">
 		<div class="dt-page__inner">
 			<discord-messages channel-name="general" channel-type="text">
-				<discord-message profile="skyra" timestamp="2024-03-15T14:31:00Z">
-					Hello, <discord-mention>Alyx</discord-mention>!
+				<discord-message profile="miona" timestamp="2024-03-15T14:31:00Z">
+					Hello, <discord-mention>Piton</discord-mention>!
 				</discord-message>
 			</discord-messages>
 		</div>
