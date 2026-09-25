@@ -18,7 +18,7 @@
  */
 
 import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -111,6 +111,15 @@ export function syncGo({ manifest, shortTags, check = false }) {
 	const dir = goModuleDir();
 	if (!dir) return { written: [], stale: [], skipped: true };
 
+	// A submodule's working tree has a .git file pointing into the parent's
+	// .git/modules; its changes have to be committed and pushed separately.
+	let submodule = false;
+	try {
+		submodule = statSync(join(dir, '.git')).isFile();
+	} catch {
+		submodule = false;
+	}
+
 	const files = [
 		['transcript/pins.go', pinsSource(manifest)],
 		['transcript/tags_gen.go', tagsSource(shortTags)]
@@ -147,5 +156,5 @@ export function syncGo({ manifest, shortTags, check = false }) {
 			console.warn(String(error.stderr ?? error.message).trim().split('\n').map((l) => `        ${l}`).join('\n'));
 		}
 	}
-	return { written, stale, skipped: false };
+	return { written, stale, skipped: false, submodule };
 }

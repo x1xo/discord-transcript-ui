@@ -237,6 +237,11 @@ if (go.skipped) {
 	console.log('  go   note: discord-transcript-go not checked out next to this repo, nothing synced');
 } else if (go.written.length) {
 	console.log(`  go   synced ${go.written.join(', ')} (${manifest.version})`);
+	if (go.submodule) {
+		console.log('  go   that is a submodule, so record the change there before the parent:');
+		console.log(`         git -C discord-transcript-go commit -am "Sync pins from discord-transcript-ui ${manifest.version}" && git -C discord-transcript-go push`);
+		console.log('         git add discord-transcript-go && git commit -m "Bump discord-transcript-go"');
+	}
 } else {
 	console.log('  go   pins already current');
 }

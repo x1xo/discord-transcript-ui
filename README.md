@@ -111,6 +111,15 @@ test that catches a hand edit or a rebuild the sync could not see. Point
 `./discord-transcript-go`; if it is absent, the build prints a note and carries
 on, so consumers who only want the stylesheet are unaffected.
 
+`discord-transcript-go` is a **submodule**, so:
+
+```bash
+git clone --recurse-submodules <this repo>     # or: git submodule update --init
+```
+
+A build that changes the generated files prints the two commands needed to land
+them: commit and push inside the submodule, then record the new commit here.
+
 ## Scripts
 
 | Command | Does |

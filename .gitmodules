@@ -1,0 +1,4 @@
+[submodule "discord-transcript-go"]
+	path = discord-transcript-go
+	url = https://github.com/x1xo/discord-transcript-go.git
+	branch = master
