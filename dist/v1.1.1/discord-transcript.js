@@ -162,15 +162,30 @@
 		return intl({ hour: 'numeric', minute: '2-digit', hour12: hour12(use24) }, date).replace(/\u202f/g, ' ');
 	}
 
+	/** The same time without the space before AM/PM, as message headers show it. */
+	function compactTime(date, use24) {
+		return clockTime(date, use24).replace(/\s+(AM|PM)$/i, '$1');
+	}
+
+	/** Discord's short date: 3/14/26 (locale-aware, no leading zeros). */
+	function shortDate(date) {
+		return intl({ year: '2-digit', month: 'numeric', day: 'numeric' }, date);
+	}
+
+	/** Short date and short time: 3/14/26, 11:57 AM. */
+	function shortDateTime(date, use24) {
+		return shortDate(date) + ', ' + clockTime(date, use24);
+	}
+
 	/** Discord message-header stamp: relative days for today/yesterday. */
 	function headerStamp(date, use24) {
 		var now = new Date();
 		var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 		var day = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 		var diffDays = Math.round((today - day) / 86400000);
-		if (diffDays === 0) return 'Today at ' + clockTime(date, use24);
-		if (diffDays === 1) return 'Yesterday at ' + clockTime(date, use24);
-		return intl({ day: '2-digit', month: '2-digit', year: 'numeric' }, date);
+		if (diffDays === 0) return compactTime(date, use24);
+		if (diffDays === 1) return 'Yesterday at ' + compactTime(date, use24);
+		return shortDateTime(date, use24);
 	}
 
 	/** Discord's <t:…> format flags: t T d D f F R. */
@@ -184,7 +199,7 @@
 					date
 				).replace(/\u202f/g, ' ');
 			case 'd':
-				return intl({ day: '2-digit', month: '2-digit', year: 'numeric' }, date);
+				return shortDate(date);
 			case 'D':
 				return intl({ day: 'numeric', month: 'long', year: 'numeric' }, date);
 			case 'F':
@@ -195,13 +210,20 @@
 				);
 			case 'R':
 				return relativeStamp(date);
+			case 's':
+				return shortDateTime(date, use24);
+			case 'S':
+				return (
+					shortDate(date) +
+					', ' +
+					intl({ hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: hour12(use24) }, date).replace(
+						/\u202f/g,
+						' '
+					)
+				);
 			case 'f':
 			default:
-				return (
-					intl({ day: 'numeric', month: 'long', year: 'numeric' }, date) +
-					' at ' +
-					clockTime(date, use24)
-				);
+				return shortDateTime(date, use24);
 		}
 	}
 

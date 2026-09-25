@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.1.1
+
+* **Timestamps now read the way Discord shows them.** Message headers use the
+  compact time without a space before AM/PM: `11:49PM` for today,
+  `Yesterday at 11:49PM` for yesterday, and `3/14/26, 11:57 AM` before that.
+  Every other stamp — inline `<t:…>` timestamps and embed footers — uses the
+  short date and time, `3/14/26, 11:57 AM`.
+* The `d`, `f`, `s` and `S` `<t:…>` flags switched from a zero-padded
+  four-digit-year date (`03/14/2026`) to Discord's short form (`3/14/26`), and
+  `F` now reads `Saturday, March 14, 2026 at 11:57 AM`.
+
+## 1.1.0
+
 ## 1.1.0
 
 * **Compact tag vocabulary, opt-in.** A second stylesheet,
