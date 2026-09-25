@@ -3,3 +3,4 @@ build/tmp/
 *.log
 .DS_Store
 examples/.local-preview.html
+discord-components/
