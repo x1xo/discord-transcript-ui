@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>discord-transcript-ui — component gallery</title>
+		<link rel="stylesheet" href="../dist/discord-transcript.min.css" />
+
+		<script>
+			// Author metadata lives here once, not in every message.
+			window.$discordMessage = {
+				avatars: {
+					default: 'blue',
+					blue: 'https://cdn.discordapp.com/embed/avatars/0.png',
+					green: 'https://cdn.discordapp.com/embed/avatars/2.png'
+				},
+				profiles: {
+					alyx: {
+						author: 'Alyx Vargas',
+						avatar: 'https://cdn.discordapp.com/embed/avatars/2.png',
+						roleColor: '#57f287'
+					},
+					favna: {
+						author: 'Favna',
+						avatar: 'https://cdn.discordapp.com/embed/avatars/4.png',
+						roleColor: '#eb459e',
+						bot: true,
+						verified: true
+					},
+					skyra: {
+						author: 'Skyra',
+						avatar: 'https://cdn.discordapp.com/embed/avatars/0.png',
+						roleColor: '#5865f2',
+						bot: true,
+						verified: true
+					},
+					dawn: {
+						author: 'Dawn',
+						roleColor: '#faa81a'
+					}
+				}
+			};
+			window.discordTranscript = { groupWindow: 7, observe: true };
+		</script>
+		<script src="../dist/discord-transcript.min.js" defer></script>
+
+		<style>
+			body {
+				margin: 0;
+				background: #1e1f22;
+				color: #dbdee1;
+				font-family: system-ui, sans-serif;
+			}
+
+			.gallery {
+				max-width: 900px;
+				margin: 0 auto;
+				padding: 32px 16px 96px;
+			}
+
+			h1 {
+				font-size: 1.5rem;
+			}
+
+			h2 {
+				margin: 40px 0 8px;
+				font-size: 0.875rem;
+				font-weight: 600;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				color: #949ba4;
+			}
+
+			.pane {
+				border: 1px solid #2b2d31;
+				border-radius: 12px;
+				overflow: hidden;
+			}
+
+			discord-messages {
+				border-radius: 12px;
+			}
+
+			.note {
+				margin: 8px 0 0;
+				font-size: 0.75rem;
+				color: #949ba4;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="gallery">
+			<h1>discord-transcript-ui <small>v1.0.0</small></h1>
+			<p>
+				Every component in the supported subset, rendered from static HTML with no framework and no Shadow DOM. Author
+				names, avatars and role colours come from the profile map above.
+			</p>
+
+			<h2>Cozy · dark · continuation grouping</h2>
+			<div class="pane" id="cozy">
+				<discord-messages channel-name="general" channel-type="text">
+					<discord-message profile="alyx" timestamp="2024-03-15T14:28:00Z" role-color="#57f287">
+						Hey! I'm new here, glad to be able to join you all 👋
+					</discord-message>
+					<discord-message profile="alyx" timestamp="2024-03-15T14:28:40Z">
+						Second message from the same author within seven minutes — no repeated header.
+					</discord-message>
+					<discord-message profile="dawn" timestamp="2024-03-15T14:30:00Z">
+						Welcome, <discord-mention>Alyx</discord-mention> and
+						<discord-mention type="role" style="--dt-mention-role-color: #57f287">Moderators</discord-mention>! Please
+						read <discord-mention type="channel">rules</discord-mention>.
+					</discord-message>
+					<discord-message profile="favna" timestamp="2024-03-15T14:31:00Z">
+						Hi, I'm a bot with a <discord-bold>bold</discord-bold>, <discord-italic>italic</discord-italic>,
+						<discord-underlined>underlined</discord-underlined> and <discord-code>inline_code</discord-code> line.
+						Here's a spoiler: <discord-spoiler>the cake is a lie</discord-spoiler>.
+					</discord-message>
+					<discord-message profile="favna" timestamp="2024-03-15T14:32:00Z" edited>
+						This message was edited, with a timestamp chip at
+						<discord-time timestamp="2024-03-15T14:32:00Z" format="R">2 minutes ago</discord-time> and another one at
+						<discord-time timestamp="2024-03-15T14:32:00Z" format="t">2:32 PM</discord-time>.
+					</discord-message>
+					<discord-message profile="dawn" timestamp="2024-03-15T14:33:00Z">
+						<discord-quote>Quoting something someone said earlier.</discord-quote>
+						<discord-unordered-list>
+							<discord-list-item>First bullet</discord-list-item>
+							<discord-list-item>Second bullet with <discord-bold>weight</discord-bold></discord-list-item>
+						</discord-unordered-list>
+						<discord-ordered-list start="1">
+							<discord-list-item>Step one</discord-list-item>
+							<discord-list-item>Step two</discord-list-item>
+						</discord-ordered-list>
+						<discord-pre><discord-code>npm install discord-transcript-ui
+# one stylesheet, one small script, zero dependencies</discord-code></discord-pre>
+					</discord-message>
+					<discord-message profile="alyx" timestamp="2024-03-15T14:34:00Z">
+						<discord-reply profile="favna" mentions timestamp="2024-03-15T14:31:00Z">
+							Replying to a bot message.
+						</discord-reply>
+						Good to know, thanks!
+						<discord-reactions>
+							<discord-reaction emoji="🎉" count="3"></discord-reaction>
+							<discord-reaction
+								emoji="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9' fill='%235865f2'/%3E%3C/svg%3E"
+								name=":blurple:"
+								count="12"
+								reacted
+							></discord-reaction>
+							<discord-reaction emoji="🍰" count="1"></discord-reaction>
+						</discord-reactions>
+					</discord-message>
+					<discord-message profile="skyra" timestamp="2024-03-15T14:35:00Z" highlight>
+						<discord-embed
+							color="#5865f2"
+							author-name="Skyra"
+							author-image="https://cdn.discordapp.com/embed/avatars/0.png"
+							author-url="https://github.com/skyra-project"
+							embed-title="Everything renders from attributes"
+							url="https://github.com/skyra-project/discord-components"
+							thumbnail="https://cdn.discordapp.com/embed/avatars/0.png"
+							image="https://cdn.discordapp.com/embed/avatars/3.png"
+						>
+							<discord-embed-description>
+								Embeds keep their description, fields, image and footer as real markup, so they survive if the
+								script never runs.
+							</discord-embed-description>
+							<discord-embed-fields>
+								<discord-embed-field field-title="Inline one" inline>Value A</discord-embed-field>
+								<discord-embed-field field-title="Inline two" inline>Value B</discord-embed-field>
+								<discord-embed-field field-title="Full width">Not inline, spans the grid.</discord-embed-field>
+							</discord-embed-fields>
+							<discord-embed-footer footer-image="https://cdn.discordapp.com/embed/avatars/0.png">
+								Footer text
+							</discord-embed-footer>
+						</discord-embed>
+					</discord-message>
+					<discord-message profile="alyx" timestamp="2024-03-15T14:36:00Z">
+						Attachments:
+						<discord-attachments>
+							<discord-image-attachment>
+								<img src="https://cdn.discordapp.com/embed/avatars/1.png" alt="example image" width="120" />
+							</discord-image-attachment>
+							<discord-image-attachment url="https://cdn.discordapp.com/embed/avatars/4.png" alt="built by JS" width="80" spoiler></discord-image-attachment>
+							<discord-file-attachment
+								name="transcript-2024-03-15.html"
+								bytes="48"
+								bytes-unit="KB"
+								type="HTML"
+								href="https://example.com/transcript.html"
+							></discord-file-attachment>
+							<discord-audio-attachment
+								href="./sample.wav"
+								name="voice-message.wav"
+							></discord-audio-attachment>
+						</discord-attachments>
+					</discord-message>
+					<discord-system-message type="join" timestamp="2024-03-15T14:37:00Z">
+						<discord-mention>Alyx Vargas</discord-mention> joined the server.
+					</discord-system-message>
+					<discord-message profile="favna" timestamp="2024-03-15T14:38:00Z">
+						Buttons and action rows are static:
+						<discord-action-row>
+							<discord-button type="primary">Primary</discord-button>
+							<discord-button type="secondary">Secondary</discord-button>
+							<discord-button type="success">Success</discord-button>
+							<discord-button type="destructive">Destructive</discord-button>
+							<discord-button type="secondary" disabled>Disabled</discord-button>
+						</discord-action-row>
+					</discord-message>
+					<discord-message profile="dawn" timestamp="2024-03-15T14:39:00Z">
+						Footer note
+						<discord-thread name="Design thread" cta="See thread">
+							<discord-thread-message profile="alyx" relative-timestamp="2m ago">
+								A reply inside the thread preview.
+							</discord-thread-message>
+						</discord-thread>
+					</discord-message>
+				</discord-messages>
+			</div>
+
+			<h2>Compact mode</h2>
+			<div class="pane" id="compact">
+				<discord-messages compact-mode channel-name="compact" channel-type="text">
+					<discord-message profile="alyx" timestamp="2024-03-15T15:00:00Z">
+						Compact rows keep the 16px avatar, inline header and one line per message.
+					</discord-message>
+					<discord-message profile="alyx" timestamp="2024-03-15T15:00:30Z">Same author, no header at all.</discord-message>
+					<discord-message profile="favna" timestamp="2024-03-15T15:01:00Z" bot verified>Bot message.</discord-message>
+					<discord-message author="Botty" bot timestamp="2024-03-15T15:02:00Z">Plain bot badge.</discord-message>
+				</discord-messages>
+			</div>
+
+			<h2>Light theme</h2>
+			<div class="pane" id="light">
+				<discord-messages light-theme>
+					<discord-message profile="dawn" timestamp="2024-03-15T16:00:00Z">
+						<discord-reply profile="alyx">Replying in light mode.</discord-reply>
+						Light theme is one attribute: <discord-code>light-theme</discord-code>.
+						<discord-embed color="#57f287" embed-title="Light embed">Same markup, different tokens.</discord-embed>
+					</discord-message>
+				</discord-messages>
+			</div>
+
+			<p class="note">
+				Open <a href="./no-js.html">no-js.html</a> to see the same markup without the script — authors, text, embeds,
+				fields, files and reactions are still readable.
+			</p>
+		</div>
+	</body>
+</html>

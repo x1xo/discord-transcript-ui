@@ -1,0 +1,76 @@
+{
+	"$comment": "Single source of truth for the published artifact identity. Changing name/version after the first publish changes frozen CDN URLs, so decide before releasing.",
+	"name": "discord-transcript-ui",
+	"version": "1.0.0",
+	"description": "Dependency-free, light-DOM custom elements and one stylesheet for rendering Discord chat transcripts in plain HTML.",
+	"repository": {
+		"host": "github",
+		"org": "x1xo",
+		"repo": "discord-transcript-ui",
+		"defaultBranch": "master"
+	},
+	"files": {
+		"css": "discord-transcript.css",
+		"js": "discord-transcript.js"
+	},
+	"cdn": [
+		{
+			"id": "jsdelivr",
+			"kind": "npm",
+			"base": "https://cdn.jsdelivr.net/npm/{name}@{version}/dist/",
+			"note": "Primary. npm-derived, immutable-cached with an exact version, supports SRI."
+		},
+		{
+			"id": "unpkg",
+			"kind": "npm",
+			"base": "https://unpkg.com/{name}@{version}/dist/",
+			"note": "Second npm mirror, different infrastructure and company than jsDelivr."
+		},
+		{
+			"id": "github-pages",
+			"kind": "gh",
+			"base": "https://{org}.github.io/{repo}/v{version}/",
+			"note": "Your own repo as an origin. Simple, but tied to your account."
+		},
+		{
+			"id": "statically",
+			"kind": "gh",
+			"base": "https://cdn.statically.io/gh/{org}/{repo}/v{version}/dist/",
+			"note": "Third-party GitHub mirror; independent of your hosting."
+		},
+		{
+			"id": "raw-githack",
+			"kind": "gh",
+			"base": "https://raw.githack.com/{org}/{repo}/v{version}/dist/",
+			"note": "Serves GitHub tags with correct content types. Useful long-tail fallback."
+		},
+		{
+			"id": "self-hosted",
+			"kind": "own",
+			"base": "https://cdn.example.com/discord-transcript/{version}/",
+			"note": "Replace with your own immutable object-storage path (R2/S3/B2). Keep forever."
+		}
+	],
+	"archivalMirrors": [
+		{
+			"id": "software-heritage",
+			"url": "https://archive.softwareheritage.org/",
+			"note": "Permanent source archive with intrinsic identifiers. Archive each release tag."
+		},
+		{
+			"id": "wayback",
+			"url": "https://web.archive.org/save/{primaryCdnCssUrl}",
+			"note": "Snapshot every published CDN URL once, right after release."
+		},
+		{
+			"id": "zenodo",
+			"url": "https://zenodo.org/",
+			"note": "DOI-stamped release tarball; citable and permanent. Good for a v1.0.0 freeze."
+		},
+		{
+			"id": "ipfs",
+			"url": "https://ipfs.io/ipfs/{ipfsCid}",
+			"note": "Content-addressed copy of the exact bytes; provable integrity."
+		}
+	]
+}

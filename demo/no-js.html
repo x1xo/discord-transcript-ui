@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>discord-transcript-ui — CSS only (no script)</title>
+		<!--
+			Deliberately loads ONLY the stylesheet: no enhancement script, no config.
+			This is the degradation path for archived transcripts, blocked CDNs,
+			disabled JavaScript or a file:// open with no network.
+		-->
+		<link rel="stylesheet" href="../dist/discord-transcript.min.css" />
+		<style>
+			body {
+				margin: 0;
+				background: #1e1f22;
+				font-family: system-ui, sans-serif;
+			}
+			.wrap {
+				max-width: 900px;
+				margin: 0 auto;
+				padding: 32px 16px 96px;
+				color: #949ba4;
+			}
+			h1 {
+				font-size: 1.25rem;
+				color: #dbdee1;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<h1>No script loaded — what still works</h1>
+			<p>
+				Author names come from <code>attr(author)</code>, mentions add their own <code>@</code>/<code>#</code>, emoji
+				reactions and their counts come from attributes, embed titles and footers render from attributes, file
+				attachments render a name and size, and every piece of message text is real HTML.
+			</p>
+
+			<discord-messages>
+				<discord-message author="Alyx Vargas" role-color="#57f287" timestamp="2024-03-15T14:28:00Z">
+					Plain message text stays readable, with the author name shown before it.
+				</discord-message>
+				<discord-message author="Dawn" timestamp="2024-03-15T14:30:00Z">
+					Welcome, <discord-mention>Alyx</discord-mention>, please read
+					<discord-mention type="channel">rules</discord-mention>. Hint: <discord-spoiler>hover me</discord-spoiler>.
+				</discord-message>
+				<discord-message author="Favna" bot timestamp="2024-03-15T14:31:00Z">
+					<discord-reply author="Alyx Vargas">Reply text without an avatar.</discord-reply>
+					<discord-embed color="#5865f2" author-name="Skyra" embed-title="Attribute-rendered embed title">
+						<discord-embed-description>
+							Description stays as markup.
+						</discord-embed-description>
+						<discord-embed-fields>
+							<discord-embed-field field-title="Field" inline>Value</discord-embed-field>
+						</discord-embed-fields>
+						<discord-embed-footer>Footer from markup</discord-embed-footer>
+					</discord-embed>
+					<discord-embed color="#57f287">
+						<span class="dt-embed-author"><img src="https://cdn.discordapp.com/embed/avatars/2.png" alt="" />Dawn</span>
+						<span class="dt-embed-title">The durable form: real markup, no script needed</span>
+						<discord-embed-description>This variant never depends on the enhancement script.</discord-embed-description>
+					</discord-embed>
+				</discord-message>
+				<discord-message author="Alyx Vargas" timestamp="2024-03-15T14:34:00Z">
+					<discord-attachments>
+						<discord-image-attachment>
+							<img src="https://cdn.discordapp.com/embed/avatars/1.png" alt="real markup image" width="96" />
+						</discord-image-attachment>
+						<discord-file-attachment name="transcript.html" bytes="48" bytes-unit="KB" type="HTML"></discord-file-attachment>
+					</discord-attachments>
+					<discord-reactions>
+						<discord-reaction emoji="🎉" count="3"></discord-reaction>
+						<discord-reaction emoji="🍰" count="1"></discord-reaction>
+					</discord-reactions>
+				</discord-message>
+				<discord-system-message type="join">Alyx Vargas joined the server.</discord-system-message>
+			</discord-messages>
+		</div>
+	</body>
+</html>

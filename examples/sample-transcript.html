@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="dark light" />
+		<title>general — 2024-03-15</title>
+
+		<!--
+		  discord-transcript-ui v1.0.0 — asset recovery information.
+
+		  Keep this comment when you hand a transcript to someone else: it is enough to
+		  rebuild a working view even if this project is gone.
+
+		  Stylesheet : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.css
+		               sha256-5bfaf5f536c4132b226835383413a8fce7783764f03a12e22986ea1a7ce98204
+		               integrity="sha384-niaVHOrosdHYZQ0AcBbPmmKzRRNR/XPP1O1X8/5XDPsvLvy5mJH58jF+GuG7M4tr"
+		  Script     : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.js
+		               sha256-cb8e720919710f57c08390f852cae27efe9f0f8d01f9aaa7fcef66f96d5000eb
+		               integrity="sha384-/0nTIMH4m7+VrIxzSILln6d7cd5LfBV79izAhmoLJVxIBhezsr7wrp3iQuWg4j3X"
+
+		  Mirrors (same bytes, drop-in):
+		    jsdelivr       https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.css
+		    unpkg          https://unpkg.com/discord-transcript-ui@1.0.0/dist/discord-transcript.min.css
+		    github-pages   https://YOUR-GITHUB-ORG.github.io/discord-transcript-ui/v1.0.0/discord-transcript.min.css
+		    statically     https://cdn.statically.io/gh/YOUR-GITHUB-ORG/discord-transcript-ui/v1.0.0/dist/discord-transcript.min.css
+		    raw-githack    https://raw.githack.com/YOUR-GITHUB-ORG/discord-transcript-ui/v1.0.0/dist/discord-transcript.min.css
+		    self-hosted    https://cdn.example.com/discord-transcript/1.0.0/discord-transcript.min.css
+
+		  Manifest   : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/manifest.json
+		  Source     : https://github.com/YOUR-GITHUB-ORG/discord-transcript-ui/tree/v1.0.0
+		  Licence    : MIT
+		  Sizes      : CSS 32739B raw / 6124B gzip · JS 14861B raw / 4798B gzip
+		-->
+
+		<script>
+			/**
+			 * Author metadata for a transcript, defined once and shared by every message.
+			 *
+			 * This file is inlined into the generated HTML by tools/scaffold.mjs and must
+			 * appear BEFORE the CDN bootstrap, because the enhancement script reads it when
+			 * it runs. Key names are the values used by <discord-message profile="…">.
+			 */
+			window.$discordMessage = {
+				avatars: {
+					default: 'blue',
+					blue: 'https://cdn.discordapp.com/embed/avatars/0.png',
+					green: 'https://cdn.discordapp.com/embed/avatars/2.png',
+					red: 'https://cdn.discordapp.com/embed/avatars/4.png'
+				},
+				profiles: {
+					alyx: {
+						author: 'Alyx Vargas',
+						avatar: 'https://cdn.discordapp.com/embed/avatars/2.png',
+						roleColor: '#57f287'
+					},
+					dawn: {
+						author: 'Dawn'
+					},
+					favna: {
+						author: 'Favna',
+						avatar: 'https://cdn.discordapp.com/embed/avatars/4.png',
+						roleColor: '#eb459e',
+						bot: true,
+						verified: true
+					},
+					skyra: {
+						author: 'Skyra',
+						avatar: 'https://cdn.discordapp.com/embed/avatars/0.png',
+						roleColor: '#5865f2',
+						bot: true,
+						verified: true
+					}
+				}
+			};
+
+			/** Optional: grouping window in minutes, locale, time zone, observer toggle. */
+			window.discordTranscript = { groupWindow: 7, locale: 'en-US', observe: true };
+		</script>
+		<!--
+			discord-transcript-ui bootstrap (paste this into every generated transcript).
+
+			Behaviour
+			  1. Tries each mirror in order, for the stylesheet and for the script.
+			  2. Applies Subresource Integrity on the npm-backed mirrors, which all serve
+			     byte-identical files and send CORS headers. Other mirrors are loaded
+			     without integrity so a missing CORS header can never blackhole them.
+			  3. If every mirror fails, it stops quietly: the transcript stays readable as
+			     plain HTML with unstyled components. Nothing throws, nothing blocks.
+
+			Requirements
+			  * The configuration script (window.$discordMessage) must appear BEFORE this
+			    block, because the script reads it when it runs.
+			  * Add mirrors only when they serve the exact same bytes.
+
+			The %%…%% placeholders are filled in by tools/scaffold.mjs.
+		-->
+		<script>
+			(function (w, d) {
+				var CSS = [
+				{
+						"u": "https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.css",
+						"s": "sha384-niaVHOrosdHYZQ0AcBbPmmKzRRNR/XPP1O1X8/5XDPsvLvy5mJH58jF+GuG7M4tr"
+				},
+				{
+						"u": "https://unpkg.com/discord-transcript-ui@1.0.0/dist/discord-transcript.min.css",
+						"s": "sha384-niaVHOrosdHYZQ0AcBbPmmKzRRNR/XPP1O1X8/5XDPsvLvy5mJH58jF+GuG7M4tr"
+				},
+				{
+						"u": "https://YOUR-GITHUB-ORG.github.io/discord-transcript-ui/v1.0.0/discord-transcript.min.css",
+						"s": null
+				},
+				{
+						"u": "https://cdn.statically.io/gh/YOUR-GITHUB-ORG/discord-transcript-ui/v1.0.0/dist/discord-transcript.min.css",
+						"s": null
+				},
+				{
+						"u": "https://raw.githack.com/YOUR-GITHUB-ORG/discord-transcript-ui/v1.0.0/dist/discord-transcript.min.css",
+						"s": null
+				},
+				{
+						"u": "https://cdn.example.com/discord-transcript/1.0.0/discord-transcript.min.css",
+						"s": null
+				}
+		];
+				var JS = [
+				{
+						"u": "https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.0.0/dist/discord-transcript.min.js",
+						"s": "sha384-/0nTIMH4m7+VrIxzSILln6d7cd5LfBV79izAhmoLJVxIBhezsr7wrp3iQuWg4j3X"
+				},
+				{
+						"u": "https://unpkg.com/discord-transcript-ui@1.0.0/dist/discord-transcript.min.js",
+						"s": "sha384-/0nTIMH4m7+VrIxzSILln6d7cd5LfBV79izAhmoLJVxIBhezsr7wrp3iQuWg4j3X"
+				},
+				{
+						"u": "https://YOUR-GITHUB-ORG.github.io/discord-transcript-ui/v1.0.0/discord-transcript.min.js",
+						"s": null
+				},
+				{
+						"u": "https://cdn.statically.io/gh/YOUR-GITHUB-ORG/discord-transcript-ui/v1.0.0/dist/discord-transcript.min.js",
+						"s": null
+				},
+				{
+						"u": "https://raw.githack.com/YOUR-GITHUB-ORG/discord-transcript-ui/v1.0.0/dist/discord-transcript.min.js",
+						"s": null
+				},
+				{
+						"u": "https://cdn.example.com/discord-transcript/1.0.0/discord-transcript.min.js",
+						"s": null
+				}
+		];
+
+				function load(list, make) {
+					var i = 0;
+					(function next() {
+						if (i >= list.length) return; /* every mirror failed — degrade quietly */
+						var entry = list[i++];
+						var node = make(entry);
+						node.onerror = next;
+						(d.head || d.documentElement).appendChild(node);
+					})();
+				}
+
+				load(CSS, function (entry) {
+					var link = d.createElement('link');
+					link.rel = 'stylesheet';
+					link.href = entry.u;
+					if (entry.s) {
+						link.integrity = entry.s;
+						link.crossOrigin = 'anonymous';
+					}
+					return link;
+				});
+
+				load(JS, function (entry) {
+					var script = d.createElement('script');
+					script.src = entry.u;
+					if (entry.s) {
+						script.integrity = entry.s;
+						script.crossOrigin = 'anonymous';
+					}
+					return script;
+				});
+			})(window, document);
+		</script>
+	</head>
+	<body>
+		<div class="dt-page">
+			<div class="dt-page__inner">
+				<discord-messages channel-name="general" channel-type="text">
+					<discord-message profile="alyx" timestamp="2024-03-15T14:28:00Z">
+						Hey! I'm new here, glad to be able to join you all 👋
+					</discord-message>
+					<discord-message profile="alyx" timestamp="2024-03-15T14:28:40Z">
+						Second message from the same author within seven minutes — the header is not repeated.
+					</discord-message>
+					<discord-message profile="dawn" timestamp="2024-03-15T14:30:00Z">
+						Welcome, <discord-mention>Alyx Vargas</discord-mention>! Please read
+						<discord-mention type="channel">rules</discord-mention> before posting.
+					</discord-message>
+					<discord-message profile="favna" timestamp="2024-03-15T14:31:00Z">
+						Here's a <discord-code>code snippet</discord-code>, a spoiler
+						<discord-spoiler>the cake is a lie</discord-spoiler>, and a timestamp
+						<discord-time timestamp="2024-03-15T14:31:00Z" format="R">2 minutes ago</discord-time>.
+						<discord-pre><discord-code>npm install discord-transcript-ui
+				# one stylesheet, one small script, no dependencies at build time for consumers</discord-code></discord-pre>
+					</discord-message>
+					<discord-message profile="alyx" timestamp="2024-03-15T14:34:00Z">
+						<discord-reply profile="favna" mentions>Replying to the snippet above.</discord-reply>
+						Thanks, that's exactly what I needed.
+						<discord-reactions>
+							<discord-reaction emoji="🎉" count="3"></discord-reaction>
+							<discord-reaction emoji="✅" count="1"></discord-reaction>
+						</discord-reactions>
+					</discord-message>
+					<discord-message profile="skyra" timestamp="2024-03-15T14:35:00Z" highlight>
+						<discord-embed
+							color="#5865f2"
+							author-name="Skyra"
+							author-image="https://cdn.discordapp.com/embed/avatars/0.png"
+							author-url="https://github.com/skyra-project"
+							embed-title="Embeds keep their content as real markup"
+							url="https://github.com/skyra-project/discord-components"
+							thumbnail="https://cdn.discordapp.com/embed/avatars/0.png"
+						>
+							<discord-embed-description>
+								If the script never runs, the description, fields and footer are still there.
+							</discord-embed-description>
+							<discord-embed-fields>
+								<discord-embed-field field-title="Stylesheet" inline>one file</discord-embed-field>
+								<discord-embed-field field-title="Script" inline>optional</discord-embed-field>
+							</discord-embed-fields>
+							<discord-embed-footer footer-image="https://cdn.discordapp.com/embed/avatars/0.png">
+								Footer text, from markup
+							</discord-embed-footer>
+						</discord-embed>
+					</discord-message>
+					<discord-message profile="dawn" timestamp="2024-03-15T14:36:00Z">
+						<discord-attachments>
+							<discord-image-attachment>
+								<img src="https://cdn.discordapp.com/embed/avatars/1.png" alt="screenshot" width="140" />
+							</discord-image-attachment>
+							<discord-file-attachment name="transcript.html" bytes="48" bytes-unit="KB" type="HTML"></discord-file-attachment>
+						</discord-attachments>
+					</discord-message>
+					<discord-system-message type="join" timestamp="2024-03-15T14:37:00Z">
+						Alyx Vargas joined the server.
+					</discord-system-message>
+					<discord-message profile="favna" timestamp="2024-03-15T14:38:00Z">
+						<discord-action-row>
+							<discord-button type="primary">Primary</discord-button>
+							<discord-button type="secondary" disabled>Disabled</discord-button>
+						</discord-action-row>
+					</discord-message>
+				</discord-messages>
+			</div>
+		</div>
+	</body>
+</html>
