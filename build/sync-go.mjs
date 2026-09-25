@@ -137,6 +137,15 @@ export function syncGo({ manifest, shortTags, check = false }) {
 		} catch {
 			// gofmt is optional; the generated text is already formatted.
 		}
+		// Best effort: prove the generated package still compiles. The build must
+		// keep working for people without a Go toolchain, so a failure warns
+		// rather than stops the JS build.
+		try {
+			execFileSync('go', ['build', './...'], { cwd: dir, stdio: 'pipe' });
+		} catch (error) {
+			console.warn('  go   warning: the synced Go package did not compile:');
+			console.warn(String(error.stderr ?? error.message).trim().split('\n').map((l) => `        ${l}`).join('\n'));
+		}
 	}
 	return { written, stale, skipped: false };
 }
