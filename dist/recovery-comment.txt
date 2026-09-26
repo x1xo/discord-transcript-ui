@@ -1,26 +1,26 @@
 <!--
-  discord-transcript-ui v1.1.1 — asset recovery information.
+  discord-transcript-ui v1.1.2 — asset recovery information.
 
   Keep this comment when you hand a transcript to someone else: it is enough to
   rebuild a working view even if this project is gone.
 
-  Stylesheet : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.1/dist/discord-transcript.min.css
-               sha256-bb9723ea06767beb6dde0ba4aff14a9696bce27e7b09be1fee49c54cd32f271d
-               integrity="sha384-YTrnJvnnpXkWP3IADDX2m/kc63CUbbcHsLOXaPm+M28ZLFfZepkM5H3D1829+6tF"
-  Script     : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.1/dist/discord-transcript.min.js
-               sha256-21b6f97bb8a997155857047e8c14e4d7f0f20698f1e59119ea6157968901c4e7
-               integrity="sha384-cS/TflqdMu31dWz6A8skYO2pih/bQlY6mTWlQQiUimt3ieOcsp9F7ZZYJ9uQYOqR"
+  Stylesheet : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.2/dist/discord-transcript.min.css
+               sha256-f1927b5c335175de98b8a39a460a74a17a081f706d8494f59766d95ddbce83cc
+               integrity="sha384-9Ie/pN0/r7Lm3gzo7/NrdXkOu+SgOu0sp7qhQGOt7zNQ4Uq5aLOhhsqoxrGjsNGo"
+  Script     : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.2/dist/discord-transcript.min.js
+               sha256-ef86852b635653ecaedf8bffb4907f98cdcdca053eea950558a2c6955b69d395
+               integrity="sha384-PbU5DeSUSIsBrmUREzzD1PhuDyJDDgQ3+7rzuhpZXAhKMY/Iab4ZaEXzJsUiTZa4"
 
   Mirrors (same bytes, drop-in):
-    jsdelivr       https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.1/dist/discord-transcript.min.css
-    unpkg          https://unpkg.com/discord-transcript-ui@1.1.1/dist/discord-transcript.min.css
-    github-pages   https://x1xo.github.io/discord-transcript-ui/v1.1.1/discord-transcript.min.css
-    statically     https://cdn.statically.io/gh/x1xo/discord-transcript-ui/v1.1.1/dist/discord-transcript.min.css
-    raw-githack    https://raw.githack.com/x1xo/discord-transcript-ui/v1.1.1/dist/discord-transcript.min.css
-    self-hosted    https://cdn.example.com/discord-transcript/1.1.1/discord-transcript.min.css
+    jsdelivr       https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.2/dist/discord-transcript.min.css
+    unpkg          https://unpkg.com/discord-transcript-ui@1.1.2/dist/discord-transcript.min.css
+    github-pages   https://x1xo.github.io/discord-transcript-ui/v1.1.2/discord-transcript.min.css
+    statically     https://cdn.statically.io/gh/x1xo/discord-transcript-ui/v1.1.2/dist/discord-transcript.min.css
+    raw-githack    https://raw.githack.com/x1xo/discord-transcript-ui/v1.1.2/dist/discord-transcript.min.css
+    self-hosted    https://cdn.example.com/discord-transcript/1.1.2/discord-transcript.min.css
 
-  Manifest   : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.1/dist/manifest.json
-  Source     : https://github.com/x1xo/discord-transcript-ui/tree/v1.1.1
+  Manifest   : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.2/dist/manifest.json
+  Source     : https://github.com/x1xo/discord-transcript-ui/tree/v1.1.2
   Licence    : MIT
-  Sizes      : CSS 33437B raw / 6191B gzip · JS 15590B raw / 5145B gzip
+  Sizes      : CSS 34217B raw / 6346B gzip · JS 15858B raw / 5275B gzip
 -->

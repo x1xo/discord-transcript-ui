@@ -1230,9 +1230,10 @@ dms[compact-mode] :where(drp)::after {
 
 :where(de) {
 	position: relative;
-	display: block;
+	/* flow-root so a floated thumbnail is contained by the embed box. */
+	display: flow-root;
 	margin: 8px 0 0;
-	padding: 2px 16px 16px 12px;
+	padding: 8px 16px 16px 12px;
 	border: 1px solid var(--dt-border);
 	border-left: 4px solid var(--dt-embed-color, var(--dt-embed-default-color));
 	border-radius: var(--dt-radius-sm);
@@ -1247,17 +1248,27 @@ dms[compact-mode] :where(drp)::after {
 	min-width: 0;
 }
 
-de[thumbnail] .dt-embed-content,
-de[data-dt-thumbnail] .dt-embed-content,
-de:has(.dt-embed-thumbnail) .dt-embed-content {
-	padding-right: 96px;
+/* Every block stacked inside an embed keeps the same 8px rhythm, and the first
+   one sits straight on the container padding. Nothing carries a leading margin
+   of its own: markup with no content wrapper (a bare description) used to have
+   no element to carry one, which left the text hugging the top border. */
+de > *,
+.dt-embed-content > * {
+	margin-top: 0;
 }
 
-/* Without the JS-built wrapper, inset the whole embed body instead. */
-de[thumbnail]:not(:has(.dt-embed-content)),
-de[data-dt-thumbnail]:not(:has(.dt-embed-content)),
-de:has(.dt-embed-thumbnail):not(:has(.dt-embed-content)) {
-	padding-right: 104px;
+de > * + *,
+.dt-embed-content > * + * {
+	margin-top: 8px;
+}
+
+/* The accent colour: the helper variable wins, and hex `color` attributes are
+   read straight off the element where typed attr() is available. Decimal
+   colours (16766720) still need the enhancement script. */
+@supports (color: attr(color type(<color>), red)) {
+	:where(de[color]) {
+		border-left-color: var(--dt-embed-color, attr(color type(<color>), var(--dt-embed-default-color)));
+	}
 }
 
 /* Attribute-only embed header, so a title survives without JavaScript.
@@ -1283,7 +1294,6 @@ de:not([data-dt-ready]):not([embed-title])[author-name]::before {
 
 .dt-embed-provider {
 	display: block;
-	margin-bottom: 8px;
 	color: var(--dt-text-normal);
 }
 
@@ -1291,7 +1301,6 @@ de:not([data-dt-ready]):not([embed-title])[author-name]::before {
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	margin-bottom: 8px;
 	font-size: 0.875rem;
 	font-weight: 600;
 	line-height: 1.125rem;
@@ -1315,7 +1324,6 @@ de:not([data-dt-ready]):not([embed-title])[author-name]::before {
 
 .dt-embed-title {
 	display: block;
-	margin: 0 0 8px;
 	font-size: 1rem;
 	font-weight: 600;
 	line-height: 1.375rem;
@@ -1333,6 +1341,13 @@ a.dt-embed-title {
 	color: var(--dt-text-link);
 }
 
+/* Renderers may mark embed media with slot attributes instead of the helper
+   classes. Those attributes do nothing in light DOM, so the media has to be
+   positioned here. The thumbnail is taken out of flow and pinned to the
+   top-right, which works no matter where the parser put it in the source, and
+   a generated spacer of the same size floats in the first line so the text
+   wraps beside the thumbnail and later blocks (the footer) clear it. */
+:where(de) [slot='thumbnail'],
 .dt-embed-thumbnail {
 	position: absolute;
 	top: 8px;
@@ -1344,6 +1359,18 @@ a.dt-embed-title {
 	background: var(--dt-bg-tertiary);
 }
 
+de[thumbnail]::before,
+de[data-dt-thumbnail]::before,
+de:has(.dt-embed-thumbnail)::before,
+de:has([slot='thumbnail'])::before {
+	content: '';
+	float: right;
+	width: 80px;
+	height: 80px;
+	margin: 0 0 8px 16px;
+}
+
+:where(de) [slot='thumbnail'] img,
 .dt-embed-thumbnail img {
 	display: block;
 	width: 100%;
@@ -1351,19 +1378,46 @@ a.dt-embed-title {
 	object-fit: cover;
 }
 
+:where(de) img[slot='thumbnail'] {
+	display: block;
+	object-fit: cover;
+}
+
+:where(de) [slot='image'] {
+	clear: both;
+	display: block;
+	max-width: 100%;
+	border-radius: var(--dt-radius-sm);
+}
+
+:where(de) img[slot='image'],
+:where(de) video[slot='image'] {
+	display: block;
+	max-width: 100%;
+	max-height: 300px;
+	border-radius: var(--dt-radius-sm);
+	object-fit: contain;
+}
+
 :where(ded) {
 	display: block;
-	margin: 0;
 	font-size: 0.875rem;
 	line-height: 1.125rem;
 	white-space: pre-line;
 }
 
+/* Renderers that put the description straight inside the embed, with no
+   wrapper element, still get newlines preserved. Guarded on the wrapper so
+   indentation between pretty-printed elements is not turned into blank lines. */
+:where(de):not(:has(ded)) {
+	white-space: pre-line;
+}
+
 :where(defs) {
+	clear: both;
 	display: grid;
 	grid-template-columns: repeat(12, minmax(0, 1fr));
 	gap: 8px;
-	margin-top: 8px;
 }
 
 :where(def) {
@@ -1378,7 +1432,9 @@ a.dt-embed-title {
 }
 
 de[thumbnail] :where(def[inline]),
-de[data-dt-thumbnail] :where(def[inline]) {
+de[data-dt-thumbnail] :where(def[inline]),
+de:has(.dt-embed-thumbnail) :where(def[inline]),
+de:has([slot='thumbnail']) :where(def[inline]) {
 	grid-column: span 6;
 }
 
@@ -1398,8 +1454,8 @@ def:not([data-dt-ready]):not(:has(.dt-embed-field-title))::before {
 }
 
 .dt-embed-image {
+	clear: both;
 	display: block;
-	margin-top: 16px;
 }
 
 .dt-embed-image img,
@@ -1411,11 +1467,13 @@ def:not([data-dt-ready]):not(:has(.dt-embed-field-title))::before {
 	object-fit: contain;
 }
 
-:where(defo) {
+:where(defo),
+:where(de) > [slot='footer'] {
+	clear: both;
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	margin-top: 8px;
+	width: 100%;
 	font-size: 0.75rem;
 	line-height: 1rem;
 	color: var(--dt-text-muted);

@@ -474,6 +474,24 @@
 		if (element.hasAttribute('aria-expanded')) element.setAttribute('aria-expanded', open ? 'true' : 'false');
 	}
 
+	/* Discord stores an embed colour as a decimal integer (`16766720`), which CSS
+	   cannot read from an attribute. Anything already in CSS form — a hex string,
+	   an rgb()/hsl() call, a keyword — is handed back untouched, so a renderer can
+	   use whichever form it has. */
+	function normaliseColor(value) {
+		var text = String(value).trim();
+		if (!text) return text;
+		if (/^[0-9]+$/.test(text)) {
+			var decimal = parseInt(text, 10);
+			if (!isFinite(decimal) || decimal < 0 || decimal > 0xffffff) return text;
+			return '#' + ('000000' + decimal.toString(16)).slice(-6);
+		}
+		if (/^#?[0-9a-f]{3}$/i.test(text) || /^#?[0-9a-f]{6}$/i.test(text)) {
+			return text.charAt(0) === '#' ? text : '#' + text;
+		}
+		return text;
+	}
+
 	function upgradeReactions(element) {
 		if (has(element, 'data-dt-ready')) return;
 		var emoji = element.getAttribute('emoji');
@@ -513,7 +531,7 @@
 	function upgradeEmbed(element) {
 		if (has(element, 'data-dt-ready')) return;
 		var color = element.getAttribute('color');
-		if (color) element.style.setProperty('--dt-embed-color', color);
+		if (color) element.style.setProperty('--dt-embed-color', normaliseColor(color));
 
 		var content = element.querySelector(':scope > .dt-embed-content');
 		if (!content) {

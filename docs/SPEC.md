@@ -165,6 +165,24 @@ Embed children:
 Public helper classes (part of the contract): `dt-embed-author`, `dt-embed-title`,
 `dt-embed-thumbnail`, `dt-embed-image`, `dt-embed-provider`, `dt-embed-footer-icon`.
 
+Renderers that keep skyra's markup can mark media with `slot` attributes instead
+of the helper classes; the stylesheet lays those out too, with no script:
+
+| Markup | Layout |
+| --- | --- |
+| `[slot='thumbnail']` (an `<img>` or a wrapper around one) | Pinned 80×80 to the embed's top-right. A generated spacer of the same size reserves that corner, so a description written as bare text wraps beside it rather than under it. |
+| `[slot='image']` | Full-width block below the text. |
+| `[slot='footer']` | Same as `<discord-embed-footer>`. |
+
+Whatever the parser's child order, the thumbnail stays in the top-right corner and
+`<discord-embed-fields>`, `[slot='image']` and the footer clear it, so the footer
+always occupies its own full-width row below everything.
+
+The accent colour resolves in this order: the `--dt-embed-color` custom property,
+then a `color` attribute that is already a CSS colour (`#5865f2`), then the default
+grey. Discord's decimal form (`color="16766720"`) only becomes a colour once the
+script runs — it normalises decimals on to `--dt-embed-color`.
+
 ## 7. Attachments
 
 `<discord-attachments>` is a single-column wrapper; children render in order.

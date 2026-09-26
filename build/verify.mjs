@@ -216,7 +216,10 @@ const fullPageSuite = `(() => {
 	check('unverified bot tag reads APP', plainBotTag.textContent, 'APP');
 	check('unverified bot tag has no checkmark', style(plainBotTag, 'content', '::before').includes('\u2713'), false);
 	check('unverified bot tag is not the verified variant', plainBotTag.classList.contains('dt-badge--verified'), false);
-	check('timestamp formatted', /03\\/15\\/2024/.test(byAuthor('Miona').querySelector('.dt-timestamp').textContent), true);
+	// Anything older than yesterday reads as the short date and time Discord
+	// uses, not the old zero-padded four-digit-year form. The clock time is
+	// local, so only the shape is asserted here.
+	check('timestamp formatted', /\\d{1,2}\\/\\d{1,2}\\/\\d{2}, \\d{1,2}:\\d{2} [AP]M/.test(byAuthor('Miona').querySelector('.dt-timestamp').textContent), true);
 	check('timestamp tooltip present', byAuthor('Miona').querySelector('.dt-timestamp').title.length > 0, true);
 	check('initials fallback for avatar-less author', all('.dt-avatar--initials').length, 5);
 
@@ -265,7 +268,15 @@ const fullPageSuite = `(() => {
 
 	const fields = all('#cozy discord-embed-field[inline]');
 	near('two inline fields share a row', fields[0].getBoundingClientRect().top, fields[1].getBoundingClientRect().top, 1.5);
-	check('inline field is narrower than the embed', fields[0].getBoundingClientRect().width < embed.getBoundingClientRect().width * 0.45, true);
+	check('inline field is narrower than the embed', fields[0].getBoundingClientRect().width < embed.getBoundingClientRect().width * 0.5, true);
+
+	// The thumbnail is pinned to the corner and the footer has to clear it on its
+	// own full-width row; neither may overlap the other.
+	const embedThumb = embed.querySelector('.dt-embed-thumbnail').getBoundingClientRect();
+	const embedFooter = embed.querySelector('discord-embed-footer').getBoundingClientRect();
+	check('embed footer clears the thumbnail', embedFooter.top >= embedThumb.bottom - 1, true);
+	check('embed footer spans the row below', embedFooter.width > embedThumb.width * 1.5, true);
+	check('embed thumbnail sits in the top-right corner', embedThumb.top - embed.getBoundingClientRect().top < 20 && embedThumb.right > embedFooter.right - 1, true);
 
 	check('reaction click increments', (() => {
 		const r = all('discord-reaction')[0];
@@ -286,6 +297,10 @@ const fullPageSuite = `(() => {
 	check('light transcript background', style(light, 'background-color'), 'rgb(255, 255, 255)');
 	check('light token inheritance', style(document.querySelector('#light discord-message'), 'color'), 'rgb(46, 46, 52)');
 	check('light embed background', style(document.querySelector('#light discord-embed'), 'background-color'), 'rgb(255, 255, 255)');
+	// Discord's decimal colour attribute only becomes a CSS colour once the
+	// script normalises it on to --dt-embed-color.
+	check('decimal embed colour normalised', style(document.querySelector('#light discord-embed'), 'border-left-color'), 'rgb(255, 215, 0)');
+	check('decimal colour left the attribute alone', document.querySelector('#light discord-embed').getAttribute('color'), '16766720');
 
 	check('no horizontal overflow', document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1, true);
 	return checks;

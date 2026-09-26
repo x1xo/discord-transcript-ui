@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.1.2
+
+Fixes for embeds produced by renderers that use skyra-style markup — a bare
+description, media marked with `slot` attributes — rather than the helper
+classes:
+
+* **The embed accent colour is applied.** The stylesheet reads
+  `--dt-embed-color`, which only the script used to set, and the script skips
+  embeds already marked `data-dt-ready` — so every embed from the Go renderer
+  drew a default grey bar. The renderer now sets the property inline, and a
+  `color` attribute that is already a CSS colour (`#5865f2`) is read straight
+  off the element wherever typed `attr()` is available.
+* **Media marked with `slot` attributes is positioned**, instead of flowing
+  inline beside the footer. The thumbnail is pinned to the top-right corner
+  whatever order the parser emits its children in, and a generated spacer of the
+  same size makes the description wrap beside it; `[slot='image']` becomes a
+  block below the text.
+* **A bare description keeps its line breaks**, and the embed footer clears the
+  thumbnail and always spans its own full-width row below everything.
+* **Embed spacing**: an embed with no content wrapper used to hug its top border,
+  because the leading 8px lived on the first child's margin and bare text has no
+  element to carry it. That padding is now on the embed itself, and every block
+  inside an embed keeps the same 8px rhythm, matching Discord.
+
 ## 1.1.1
 
 * **Timestamps now read the way Discord shows them.** Message headers use the

@@ -236,7 +236,8 @@
 					<discord-message profile="kestrel" timestamp="2024-03-15T16:00:00Z">
 						<discord-reply profile="piton">Replying in light mode.</discord-reply>
 						Light theme is one attribute: <discord-code>light-theme</discord-code>.
-						<discord-embed color="#57f287" embed-title="Light embed">Same markup, different tokens.</discord-embed>
+						<!-- Discord serialises colours as decimal integers; the script normalises this to #ffd700. -->
+						<discord-embed color="16766720" embed-title="Light embed">Same markup, different tokens.</discord-embed>
 					</discord-message>
 				</discord-messages>
 			</div>
