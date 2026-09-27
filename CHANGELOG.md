@@ -30,10 +30,12 @@ release of the renderer.
   stdlib downscale that keeps the original bytes whenever the result would not be
   smaller), and any inline blob used more than once is stored once in a
   `<style data-dt-media-pool>` block, with `<span class="dt-media dt-media-1">`
-  references in its place. `WithoutMediaPool()` and `WithoutMediaDownscale()`
-  restore the old output, `transcript.ShrinkImage` lets a custom `MediaStore`
-  right-size too, and `docs/SPEC.md` §7a documents the pooled markup for
-  consumers.
+  references in its place. Both happen in the renderer, so a custom
+  `MediaStore` — and any proxy behind its fetcher — gets them without extra
+  code: the URL it receives already names the size, and what it returns inline
+  is downscaled on the way out. `WithoutMediaPool()` and
+  `WithoutMediaDownscale()` restore the old output, and `docs/SPEC.md` §7a
+  documents the pooled markup for consumers.
 
 ## 1.1.2
 
