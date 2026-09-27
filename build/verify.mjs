@@ -205,6 +205,24 @@ const fullPageSuite = `(() => {
 	check('link button keeps the button itself', linkButton.textContent, 'Docs');
 	check('spoiler upgraded', all('discord-spoiler[data-dt-r], discord-spoiler[data-dt-ready]').length, 1);
 	check('media spoiler overlay built', all('.dt-spoiler-overlay').length, 1);
+
+	// The guild header: icon on the left, guild name with the channel under it.
+	// It is written as attributes in the demo, so this is the script-built path.
+	const guildHeader = document.querySelector('discord-guild-header, dgh');
+	check('guild header upgraded', guildHeader !== null && guildHeader.hasAttribute('data-dt-r'), true);
+	check('guild icon built from the attribute', guildHeader.querySelector('.dt-guild-icon img') !== null, true);
+	check('guild name built from the attribute', guildHeader.querySelector('.dt-guild-name').textContent, "Piton's Server");
+	check('channel inherited from the container', guildHeader.querySelector('.dt-guild-channel').textContent, '#general');
+	const guildIcon = guildHeader.querySelector('.dt-guild-icon').getBoundingClientRect();
+	const guildName = guildHeader.querySelector('.dt-guild-name').getBoundingClientRect();
+	const guildChannel = guildHeader.querySelector('.dt-guild-channel').getBoundingClientRect();
+	check('guild icon is 48px square', Math.round(guildIcon.width) + 'x' + Math.round(guildIcon.height), '48x48');
+	check('guild icon sits left of the name', guildIcon.right <= guildName.left, true);
+	check('guild name sits above the channel', guildName.bottom <= guildChannel.top + 1, true);
+	const fallback = style(guildHeader.closest('discord-messages'), 'content', '::before');
+	check('channel fallback stands down behind a guild header', String(fallback).includes('none') || fallback === 'none' || fallback === '', true);
+	const compactList = document.querySelector('#compact discord-messages');
+	check('channel fallback still renders without a guild', style(compactList, 'content', '::before').includes('compact'), true);
 	check('file attachment built', all('.dt-file-name').length, 1);
 	check('audio element built', all('discord-audio-attachment audio').length, 1);
 	check('thread CTA rendered', style(all('discord-thread')[0], 'content', '::after').includes('See thread'), true);
@@ -343,6 +361,16 @@ const noScriptSuite = `(() => {
 	check('real image markup survives', all('discord-image-attachment img').length, 1);
 	check('system message icon colour', style(all('discord-system-message')[0], 'background-color', '::before'), 'rgb(61, 158, 96)');
 	check('durable embed markup styled', style(all('.dt-embed-title')[0], 'font-size'), '16px');
+	// The guild header is written as finished markup here, so it has to render
+	// with the stylesheet alone — no script ever runs on this page.
+	const durableGuild = document.querySelector('discord-guild-header');
+	check('durable guild header styled', style(durableGuild, 'display'), 'flex');
+	check('durable guild icon is an image', durableGuild.querySelector('.dt-guild-icon img') !== null, true);
+	check('durable guild name rendered', durableGuild.querySelector('.dt-guild-name').textContent, "Piton's Server");
+	check('durable guild channel rendered', durableGuild.querySelector('.dt-guild-channel').textContent, '#general');
+	const durableIcon = durableGuild.querySelector('.dt-guild-icon').getBoundingClientRect();
+	check('durable guild icon is 48px', Math.round(durableIcon.width), 48);
+	check('durable channel fallback stands down', style(document.querySelector('discord-messages'), 'content', '::before'), 'none');
 	check('no horizontal overflow', document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1, true);
 	return checks;
 })()`;

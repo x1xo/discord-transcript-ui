@@ -431,12 +431,82 @@ dms[data-theme='dark'] {
 	color: var(--dt-text-strong);
 }
 
-dms[channel-type='text'][channel-name]::before,
-dms[channel-type='voice'][channel-name]::before,
-dms[channel-type='thread'][channel-name]::before,
-dms[channel-type='forum'][channel-name]::before,
-dms[channel-type='locked'][channel-name]::before {
+/* Wrapped in :where() so this keeps only source order over the rule above: a
+   guild header has to be able to switch the whole fallback off. */
+:where(dms[channel-type='text'][channel-name])::before,
+:where(dms[channel-type='voice'][channel-name])::before,
+:where(dms[channel-type='thread'][channel-name])::before,
+:where(dms[channel-type='forum'][channel-name])::before,
+:where(dms[channel-type='locked'][channel-name])::before {
 	content: '#\00a0' attr(channel-name);
+}
+
+/* The guild header: the server the conversation happened in, then the channel
+   under it. A real element rather than a pseudo-element, so the icon is an
+   <img> the media pipeline can pool and the whole header renders with no
+   script. Where it exists the channel-name fallback above stands down, so the
+   channel is named once. */
+:where(dgh) {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 0 0 8px;
+	padding: 4px 16px 12px;
+	border-bottom: 1px solid var(--dt-divider);
+}
+
+dms:has(> dgh)::before {
+	content: none;
+}
+
+.dt-guild-icon {
+	flex: none;
+	display: block;
+	width: 48px;
+	height: 48px;
+	border-radius: var(--dt-radius-lg);
+	overflow: hidden;
+	background: var(--dt-bg-tertiary);
+}
+
+.dt-guild-icon img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* A guild with no icon keeps its place with a coloured initial, the same
+   fallback an avatar uses. */
+.dt-guild-icon--initials {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--dt-text-on-brand);
+	font-size: 1.25rem;
+	font-weight: 600;
+	line-height: 1;
+}
+
+.dt-guild-meta {
+	display: block;
+	min-width: 0;
+}
+
+.dt-guild-name {
+	display: block;
+	font-size: 1.25rem;
+	font-weight: 700;
+	line-height: 1.5rem;
+	color: var(--dt-text-strong);
+}
+
+.dt-guild-channel {
+	display: block;
+	font-size: 1rem;
+	font-weight: 500;
+	line-height: 1.25rem;
+	color: var(--dt-text-subtle);
 }
 
 dms ::-webkit-scrollbar {

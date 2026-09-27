@@ -71,6 +71,44 @@ Required wrapper. Attributes:
 
 Only direct `<discord-message>` children participate in continuation grouping.
 
+### `<discord-guild-header>`
+
+Optional first child of `<discord-messages>`: the server the conversation happened in,
+drawn above the messages — icon on the left, guild name with the channel under it.
+
+```html
+<discord-messages channel-name="general" channel-type="text">
+	<discord-guild-header>
+		<span class="dt-guild-icon"><img src="…" alt="" /></span>
+		<span class="dt-guild-meta">
+			<span class="dt-guild-name">Piton's Server</span>
+			<span class="dt-guild-channel">#general</span>
+		</span>
+	</discord-guild-header>
+	…
+</discord-messages>
+```
+
+That is the durable form: it renders with the stylesheet alone. The script also accepts
+the attribute form, and takes `channel-name`/`channel-type` from the container when the
+element does not carry them:
+
+```html
+<discord-guild-header guild-name="Piton's Server" guild-icon="…"></discord-guild-header>
+```
+
+| Attribute | Type | Meaning |
+| --- | --- | --- |
+| `guild-name` | string | Server name. Without it and without `guild-icon`, no header is drawn. |
+| `guild-icon` | URL or data URI | Server icon, drawn 48×48. Without it the header falls back to a coloured initial. |
+| `channel-name` | string | Overrides the container's `channel-name` for the line under the guild name. |
+| `channel-type` | `text` \| `voice` \| `thread` \| `forum` \| `locked` | Chooses the `#` prefix on that line. |
+
+When a guild header is present, the `channel-name` fallback header on
+`<discord-messages>` stands down, so the channel is named once. Public helper classes:
+`dt-guild-icon`, `dt-guild-icon--initials`, `dt-guild-meta`, `dt-guild-name`,
+`dt-guild-channel`.
+
 ### `<discord-message>`
 
 | Attribute | Type | Meaning |
@@ -292,6 +330,7 @@ inert — a bot's `custom_id` means nothing to a reader — but keeps its style 
 | Embeds: description, fields, footer | yes | title/author/thumbnail/media from attributes |
 | Attachments: nested `<img>`/`<video>`/`<audio>`, file cards | yes | lazy loading, spoiler overlay, attribute-only forms |
 | Buttons | yes (style, label, `disabled`) | emoji images and links from attributes |
+| Guild header | yes, as markup | icon, name and channel from attributes |
 
 Rule of thumb: **if it is content, put it in markup**; attributes are for chrome.
 

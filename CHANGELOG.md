@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.1.5
+
+* **A guild header above the conversation.** `<discord-guild-header>` is an
+  optional first child of `<discord-messages>`: the server icon on the left, the
+  guild name with the channel under it. The channel name is the one the transcript
+  already had; it now sits below the guild instead of standing alone. When a guild
+  header is present the `channel-name` fallback header on `<discord-messages>`
+  stands down, so the channel is never named twice.
+* The element renders from markup — icon, name and channel as real elements, with
+  no script — and a guild with no icon keeps its place with a coloured initial,
+  the same fallback an avatar uses. The script also accepts the attribute form
+  (`guild-name`, `guild-icon`, and `channel-name`/`channel-type` inherited from the
+  container), and the icon goes through the media pipeline like any avatar, so a
+  repeated one is pooled.
+* New public helper classes: `dt-guild-icon`, `dt-guild-icon--initials`,
+  `dt-guild-meta`, `dt-guild-name`, `dt-guild-channel`; new short tag
+  `discord-guild-header` → `dgh`.
+
 ## 1.1.4
 
 * **An embed hugs its content.** `discord-embed` was a block box with only a

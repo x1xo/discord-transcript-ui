@@ -1,6 +1,6 @@
 {
 	"name": "discord-transcript-ui",
-	"version": "1.1.4",
+	"version": "1.1.5",
 	"builtFrom": [
 		"src/discord-transcript.css",
 		"src/discord-transcript.js"
@@ -8,78 +8,78 @@
 	"license": "MIT",
 	"artifacts": {
 		"discord-transcript.css": {
-			"bytes": 48025,
-			"gzip": 9698,
-			"brotli": 8355,
-			"sha256": "cc727d3f3b2e7fc08a0713072540dabe8318b3e2968b86546a299587b9056abf",
-			"sri": "sha384-A2l/51S/rGoGM1JifYq1G19AwW9vNAvx0JYf9A71c/Yk/vxVYog6fclNuzIJmqmV"
+			"bytes": 49657,
+			"gzip": 10055,
+			"brotli": 8653,
+			"sha256": "b820fb3ea4737a800481b9a7755bb8d49668653aa3d3be93952f9fa5a3de7418",
+			"sri": "sha384-7OzRc10n99xFbU6RCheyefTGvcX3+u01C0O3T3erMlFD1MRZrtVqDqz63rr5HJMl"
 		},
 		"discord-transcript.min.css": {
-			"bytes": 34837,
-			"gzip": 6389,
-			"brotli": 5664,
-			"sha256": "51296acc29917a4a59310d5ef1ef36e7cd1ceef376b180a55cf98d29d802d23c",
-			"sri": "sha384-ng2dMz4DmK4QeyYEewpQUFIgVD7CPRpu10OEwoYHqCZVZBuokD9nT/hGm6PHJVPs"
+			"bytes": 35728,
+			"gzip": 6481,
+			"brotli": 5750,
+			"sha256": "3e49640026cc4dd8b7172d2b63cc3aada7e7fd98f6b9391acb1642e4832e987f",
+			"sri": "sha384-vU+7HHC+8NwsKy9izZirYO82I+f2TeUO52B43XyBR8ycs0/wrGJ1VBlZt/4kozxm"
 		},
 		"discord-transcript.short.css": {
-			"bytes": 43446,
-			"gzip": 9464,
-			"brotli": 8185,
-			"sha256": "4d260c28af5186b159032f950ba634fdc7a8d0b4cb082229d513ffb1e7677b3d",
-			"sri": "sha384-l57tudyaUIqQKN5soDpHR6wEu2SlDWnuNSd0qnwNd3l4baEnKDVLRWjBUESg7p9W"
+			"bytes": 45031,
+			"gzip": 9819,
+			"brotli": 8488,
+			"sha256": "e569e433bc55174012948101c92cb087902aa56d2d9db5ed0700b6202f6f6690",
+			"sri": "sha384-BY3+vn5WgSb4GmI2sXs2sjuKgJ5CA2cR/qeM8Uqo/Icg8yZJi06XAyRUTTic1XKq"
 		},
 		"discord-transcript.short.min.css": {
-			"bytes": 30307,
-			"gzip": 6189,
-			"brotli": 5503,
-			"sha256": "ccd4beb241366c7ef7671766c2366cd828a639e47be51a27b583fd6be151b4fe",
-			"sri": "sha384-drPg2Mma6LsaH913OKAGybtw0vXWHsyXTlhL6/OhyOwc1B5MxFFhAlw0KACJEqk4"
+			"bytes": 31151,
+			"gzip": 6274,
+			"brotli": 5578,
+			"sha256": "08f1b69fcfea65a02eb56f36a750e738c33ed0a20c200d2114dfcabf7cfa0a59",
+			"sri": "sha384-9taaKg6MESLZSAi0wub892bNcO6/3zxMPSDSoqCjaLM/r5i2eQtweJKY7pZHAmrU"
 		},
 		"discord-transcript.js": {
-			"bytes": 30921,
-			"gzip": 8697,
-			"brotli": 7504,
-			"sha256": "2cf1972075e9f40a3217b061e724bb5f2288c269a31faabb8e8e999fac85377f",
-			"sri": "sha384-NfbVixVIc255Wmi/NI8pPfDKOwqW9H+ci93g482l/ySGqkfVxjOhDtPUdh5UrnVj"
+			"bytes": 32903,
+			"gzip": 9165,
+			"brotli": 7916,
+			"sha256": "c91e67b6f9570deeaa004f160d672a8397b8bf5db9c87ae904c29fde5e2c99c4",
+			"sri": "sha384-bC5ZnbN+cj6SAjfqsM3EiFzFzmsnHbXfpuCzbr67E1wfQTGNf8CndUAz1SVOZRDd"
 		},
 		"discord-transcript.min.js": {
-			"bytes": 16045,
-			"gzip": 5435,
-			"brotli": 4845,
-			"sha256": "1120aabf88767e9c03bd1fa0e84b1e5710dc3e3a3375e1b8f49f1074eeb6e845",
-			"sri": "sha384-ZNhmFo31VB98WmO3KK9LDC/IKZGWct5Y79W7gic3pqELYKD8Mz1ABui4SYXYzwF0"
+			"bytes": 17038,
+			"gzip": 5692,
+			"brotli": 5064,
+			"sha256": "36e24776501ea88c39483910dba26413bf58d93d64193d32f9cf1d2e2bb1419e",
+			"sri": "sha384-ASJ1Y8dyhQmUXQSw6CEnKMBxxuXtbvHKu3gpq3+TjcLDpRq/qDxK/ULW7lzlQSbm"
 		}
 	},
 	"urls": {
 		"css": {
-			"jsdelivr": "https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.4/dist/discord-transcript.min.css",
-			"unpkg": "https://unpkg.com/discord-transcript-ui@1.1.4/dist/discord-transcript.min.css",
-			"github-pages": "https://x1xo.github.io/discord-transcript-ui/v1.1.4/discord-transcript.min.css",
-			"statically": "https://cdn.statically.io/gh/x1xo/discord-transcript-ui/v1.1.4/dist/discord-transcript.min.css",
-			"raw-githack": "https://raw.githack.com/x1xo/discord-transcript-ui/v1.1.4/dist/discord-transcript.min.css",
-			"self-hosted": "https://cdn.example.com/discord-transcript/1.1.4/discord-transcript.min.css"
+			"jsdelivr": "https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.5/dist/discord-transcript.min.css",
+			"unpkg": "https://unpkg.com/discord-transcript-ui@1.1.5/dist/discord-transcript.min.css",
+			"github-pages": "https://x1xo.github.io/discord-transcript-ui/v1.1.5/discord-transcript.min.css",
+			"statically": "https://cdn.statically.io/gh/x1xo/discord-transcript-ui/v1.1.5/dist/discord-transcript.min.css",
+			"raw-githack": "https://raw.githack.com/x1xo/discord-transcript-ui/v1.1.5/dist/discord-transcript.min.css",
+			"self-hosted": "https://cdn.example.com/discord-transcript/1.1.5/discord-transcript.min.css"
 		},
 		"cssShort": {
-			"jsdelivr": "https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.4/dist/discord-transcript.short.min.css",
-			"unpkg": "https://unpkg.com/discord-transcript-ui@1.1.4/dist/discord-transcript.short.min.css",
-			"github-pages": "https://x1xo.github.io/discord-transcript-ui/v1.1.4/discord-transcript.short.min.css",
-			"statically": "https://cdn.statically.io/gh/x1xo/discord-transcript-ui/v1.1.4/dist/discord-transcript.short.min.css",
-			"raw-githack": "https://raw.githack.com/x1xo/discord-transcript-ui/v1.1.4/dist/discord-transcript.short.min.css",
-			"self-hosted": "https://cdn.example.com/discord-transcript/1.1.4/discord-transcript.short.min.css"
+			"jsdelivr": "https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.5/dist/discord-transcript.short.min.css",
+			"unpkg": "https://unpkg.com/discord-transcript-ui@1.1.5/dist/discord-transcript.short.min.css",
+			"github-pages": "https://x1xo.github.io/discord-transcript-ui/v1.1.5/discord-transcript.short.min.css",
+			"statically": "https://cdn.statically.io/gh/x1xo/discord-transcript-ui/v1.1.5/dist/discord-transcript.short.min.css",
+			"raw-githack": "https://raw.githack.com/x1xo/discord-transcript-ui/v1.1.5/dist/discord-transcript.short.min.css",
+			"self-hosted": "https://cdn.example.com/discord-transcript/1.1.5/discord-transcript.short.min.css"
 		},
 		"js": {
-			"jsdelivr": "https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.4/dist/discord-transcript.min.js",
-			"unpkg": "https://unpkg.com/discord-transcript-ui@1.1.4/dist/discord-transcript.min.js",
-			"github-pages": "https://x1xo.github.io/discord-transcript-ui/v1.1.4/discord-transcript.min.js",
-			"statically": "https://cdn.statically.io/gh/x1xo/discord-transcript-ui/v1.1.4/dist/discord-transcript.min.js",
-			"raw-githack": "https://raw.githack.com/x1xo/discord-transcript-ui/v1.1.4/dist/discord-transcript.min.js",
-			"self-hosted": "https://cdn.example.com/discord-transcript/1.1.4/discord-transcript.min.js"
+			"jsdelivr": "https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.5/dist/discord-transcript.min.js",
+			"unpkg": "https://unpkg.com/discord-transcript-ui@1.1.5/dist/discord-transcript.min.js",
+			"github-pages": "https://x1xo.github.io/discord-transcript-ui/v1.1.5/discord-transcript.min.js",
+			"statically": "https://cdn.statically.io/gh/x1xo/discord-transcript-ui/v1.1.5/dist/discord-transcript.min.js",
+			"raw-githack": "https://raw.githack.com/x1xo/discord-transcript-ui/v1.1.5/dist/discord-transcript.min.js",
+			"self-hosted": "https://cdn.example.com/discord-transcript/1.1.5/discord-transcript.min.js"
 		}
 	},
 	"integrity": {
-		"css": "sha384-ng2dMz4DmK4QeyYEewpQUFIgVD7CPRpu10OEwoYHqCZVZBuokD9nT/hGm6PHJVPs",
-		"cssShort": "sha384-drPg2Mma6LsaH913OKAGybtw0vXWHsyXTlhL6/OhyOwc1B5MxFFhAlw0KACJEqk4",
-		"js": "sha384-ZNhmFo31VB98WmO3KK9LDC/IKZGWct5Y79W7gic3pqELYKD8Mz1ABui4SYXYzwF0"
+		"css": "sha384-vU+7HHC+8NwsKy9izZirYO82I+f2TeUO52B43XyBR8ycs0/wrGJ1VBlZt/4kozxm",
+		"cssShort": "sha384-9taaKg6MESLZSAi0wub892bNcO6/3zxMPSDSoqCjaLM/r5i2eQtweJKY7pZHAmrU",
+		"js": "sha384-ASJ1Y8dyhQmUXQSw6CEnKMBxxuXtbvHKu3gpq3+TjcLDpRq/qDxK/ULW7lzlQSbm"
 	},
 	"archivalMirrors": [
 		{
@@ -90,7 +90,7 @@
 		{
 			"id": "wayback",
 			"note": "Snapshot every published CDN URL once, right after release.",
-			"url": "https://web.archive.org/save/https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.4/dist/discord-transcript.min.css"
+			"url": "https://web.archive.org/save/https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.5/dist/discord-transcript.min.css"
 		},
 		{
 			"id": "zenodo",
@@ -103,5 +103,5 @@
 			"url": "https://ipfs.io/ipfs/{ipfsCid}"
 		}
 	],
-	"recovery": "<!--\n  discord-transcript-ui v1.1.4 — asset recovery information.\n\n  Keep this comment when you hand a transcript to someone else: it is enough to\n  rebuild a working view even if this project is gone.\n\n  Stylesheet : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.4/dist/discord-transcript.min.css\n               sha256-51296acc29917a4a59310d5ef1ef36e7cd1ceef376b180a55cf98d29d802d23c\n               integrity=\"sha384-ng2dMz4DmK4QeyYEewpQUFIgVD7CPRpu10OEwoYHqCZVZBuokD9nT/hGm6PHJVPs\"\n  Script     : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.4/dist/discord-transcript.min.js\n               sha256-1120aabf88767e9c03bd1fa0e84b1e5710dc3e3a3375e1b8f49f1074eeb6e845\n               integrity=\"sha384-ZNhmFo31VB98WmO3KK9LDC/IKZGWct5Y79W7gic3pqELYKD8Mz1ABui4SYXYzwF0\"\n\n  Mirrors (same bytes, drop-in):\n    jsdelivr       https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.4/dist/discord-transcript.min.css\n    unpkg          https://unpkg.com/discord-transcript-ui@1.1.4/dist/discord-transcript.min.css\n    github-pages   https://x1xo.github.io/discord-transcript-ui/v1.1.4/discord-transcript.min.css\n    statically     https://cdn.statically.io/gh/x1xo/discord-transcript-ui/v1.1.4/dist/discord-transcript.min.css\n    raw-githack    https://raw.githack.com/x1xo/discord-transcript-ui/v1.1.4/dist/discord-transcript.min.css\n    self-hosted    https://cdn.example.com/discord-transcript/1.1.4/discord-transcript.min.css\n\n  Manifest   : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.4/dist/manifest.json\n  Source     : https://github.com/x1xo/discord-transcript-ui/tree/v1.1.4\n  Licence    : MIT\n  Sizes      : CSS 34837B raw / 6389B gzip · JS 16045B raw / 5435B gzip\n-->"
+	"recovery": "<!--\n  discord-transcript-ui v1.1.5 — asset recovery information.\n\n  Keep this comment when you hand a transcript to someone else: it is enough to\n  rebuild a working view even if this project is gone.\n\n  Stylesheet : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.5/dist/discord-transcript.min.css\n               sha256-3e49640026cc4dd8b7172d2b63cc3aada7e7fd98f6b9391acb1642e4832e987f\n               integrity=\"sha384-vU+7HHC+8NwsKy9izZirYO82I+f2TeUO52B43XyBR8ycs0/wrGJ1VBlZt/4kozxm\"\n  Script     : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.5/dist/discord-transcript.min.js\n               sha256-36e24776501ea88c39483910dba26413bf58d93d64193d32f9cf1d2e2bb1419e\n               integrity=\"sha384-ASJ1Y8dyhQmUXQSw6CEnKMBxxuXtbvHKu3gpq3+TjcLDpRq/qDxK/ULW7lzlQSbm\"\n\n  Mirrors (same bytes, drop-in):\n    jsdelivr       https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.5/dist/discord-transcript.min.css\n    unpkg          https://unpkg.com/discord-transcript-ui@1.1.5/dist/discord-transcript.min.css\n    github-pages   https://x1xo.github.io/discord-transcript-ui/v1.1.5/discord-transcript.min.css\n    statically     https://cdn.statically.io/gh/x1xo/discord-transcript-ui/v1.1.5/dist/discord-transcript.min.css\n    raw-githack    https://raw.githack.com/x1xo/discord-transcript-ui/v1.1.5/dist/discord-transcript.min.css\n    self-hosted    https://cdn.example.com/discord-transcript/1.1.5/discord-transcript.min.css\n\n  Manifest   : https://cdn.jsdelivr.net/npm/discord-transcript-ui@1.1.5/dist/manifest.json\n  Source     : https://github.com/x1xo/discord-transcript-ui/tree/v1.1.5\n  Licence    : MIT\n  Sizes      : CSS 35728B raw / 6481B gzip · JS 17038B raw / 5692B gzip\n-->"
 }

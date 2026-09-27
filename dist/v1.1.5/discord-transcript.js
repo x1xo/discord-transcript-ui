@@ -735,6 +735,58 @@
 		element.setAttribute(READY, '');
 	}
 
+	/* A guild header written as attributes. The renderer emits the finished
+	   markup and marks it ready; this is for hand-written transcripts. The
+	   channel name falls back to the container's channel-name, so the author
+	   names it once. */
+	function upgradeGuildHeader(element) {
+		if (isReady(element)) return;
+		var list = element.closest(tag('messages'));
+		var name = element.getAttribute('guild-name') || '';
+		var icon = element.getAttribute('guild-icon');
+		var channel = element.getAttribute('channel-name') || (list ? list.getAttribute('channel-name') : '') || '';
+		var type = element.getAttribute('channel-type') || (list ? list.getAttribute('channel-type') : '') || '';
+
+		if (!element.querySelector('.dt-guild-icon')) {
+			if (icon) {
+				var box = make('span', 'dt-guild-icon');
+				var img = make('img');
+				img.src = icon;
+				img.alt = '';
+				img.loading = 'lazy';
+				img.decoding = 'async';
+				box.appendChild(img);
+				element.appendChild(box);
+			} else if (name) {
+				var initials = make('span', 'dt-guild-icon dt-guild-icon--initials', name.charAt(0));
+				initials.style.backgroundColor = initialsColor(name);
+				element.appendChild(initials);
+			}
+		}
+		if ((name || channel) && !element.querySelector('.dt-guild-meta')) {
+			var meta = make('span', 'dt-guild-meta');
+			if (name) meta.appendChild(make('span', 'dt-guild-name', name));
+			if (channel) meta.appendChild(make('span', 'dt-guild-channel', channelPrefix(type) + channel));
+			element.appendChild(meta);
+		}
+		element.setAttribute(READY, '');
+	}
+
+	/* Mirrors the '#\00a0' the stylesheet puts in front of the channel-name
+	   fallback header. */
+	function channelPrefix(type) {
+		switch (type) {
+		case 'text':
+		case 'voice':
+		case 'thread':
+		case 'forum':
+		case 'locked':
+			return '#';
+		default:
+			return '';
+		}
+	}
+
 	function lazyImages(root) {
 		var images = root.querySelectorAll(
 			tag('attachments') + ' img:not([loading]), ' + tag('embed') + ' img:not([loading]), ' + tag('embed') + ' video, ' + tag('thread') + ' img'
@@ -749,6 +801,9 @@
 
 		var messages = root.querySelectorAll(tag('message') + NOT_READY);
 		for (var i = 0; i < messages.length; i++) upgradeMessage(messages[i]);
+
+		var guildHeaders = root.querySelectorAll(tag('guild-header') + NOT_READY);
+		for (var g = 0; g < guildHeaders.length; g++) upgradeGuildHeader(guildHeaders[g]);
 
 		var lists = root.querySelectorAll(tag('messages'));
 		for (var j = 0; j < lists.length; j++) {

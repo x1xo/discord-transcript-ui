@@ -15,6 +15,7 @@
 
 export const SHORT_TAGS = {
 	'discord-messages': 'dms',
+	'discord-guild-header': 'dgh',
 	'discord-message': 'dm',
 	'discord-attachments': 'dats',
 	'discord-image-attachment': 'dimg',

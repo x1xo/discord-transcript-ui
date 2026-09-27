@@ -37,7 +37,18 @@
 				attachments render a name and size, and every piece of message text is real HTML.
 			</p>
 
-			<discord-messages>
+			<discord-messages channel-name="general" channel-type="text">
+				<discord-guild-header>
+					<span class="dt-guild-icon"
+						><img
+							src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%235865f2'/%3E%3Ccircle cx='16' cy='20' r='4' fill='%23fff'/%3E%3Ccircle cx='32' cy='20' r='4' fill='%23fff'/%3E%3C/svg%3E"
+							alt=""
+					/></span>
+					<span class="dt-guild-meta">
+						<span class="dt-guild-name">Piton's Server</span>
+						<span class="dt-guild-channel">#general</span>
+					</span>
+				</discord-guild-header>
 				<discord-message author="Piton" role-color="#57f287" timestamp="2024-03-15T14:28:00Z">
 					Plain message text stays readable, with the author name shown before it.
 				</discord-message>
