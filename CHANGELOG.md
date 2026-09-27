@@ -24,6 +24,16 @@ release of the renderer.
   bot's reply) renders a description with every block-level construct in it, and
   the browser check asserts the headings, list markers, quote bar and code-block
   body survive.
+* **Transcripts are about three times smaller.** Two changes, both on by default
+  and neither needing a script or a newer stylesheet: media is right-sized to the
+  size it is drawn at (a `?size=` hint for Discord's fixed-size endpoints, then a
+  stdlib downscale that keeps the original bytes whenever the result would not be
+  smaller), and any inline blob used more than once is stored once in a
+  `<style data-dt-media-pool>` block, with `<span class="dt-media dt-media-1">`
+  references in its place. `WithoutMediaPool()` and `WithoutMediaDownscale()`
+  restore the old output, `transcript.ShrinkImage` lets a custom `MediaStore`
+  right-size too, and `docs/SPEC.md` §7a documents the pooled markup for
+  consumers.
 
 ## 1.1.2
 

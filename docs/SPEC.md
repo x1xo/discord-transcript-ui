@@ -197,6 +197,39 @@ script runs — it normalises decimals on to `--dt-embed-color`.
 Prefer nesting real media elements: images and video then render even if every CDN is
 down, which matters for a 10-year-old archive.
 
+## 7a. Inline media and the media pool
+
+A renderer that inlines its media — the Go renderer does, because Discord's signed
+URLs expire within hours — may store a repeated blob once instead of once per use.
+This is a producer-side optimization: nothing in this stylesheet and nothing in the
+script is needed for it, and the document stays self-contained.
+
+* **One-off images stay images.** An attachment or an embed image that appears once
+  is an ordinary `<img src="data:…">`, so `alt` text and printing keep working.
+* **Repeated decorative media is hoisted.** An avatar, an embed author or footer
+  icon, or a thumbnail that appears more than once becomes a reference:
+
+  ```html
+  <style data-dt-media-pool>
+  	.dt-media{display:block;background-position:center;background-size:cover;background-repeat:no-repeat}
+  	.dt-media-1{background-image:url("data:image/png;base64,…")}
+  </style>
+  …
+  <span class="dt-avatar"
+  	><span class="dt-media dt-media-1" role="img" aria-label="" style="width:100%;height:100%"></span
+  ></span>
+  ```
+
+  The box comes from the element it replaces: an avatar or footer icon fills its
+  parent, the embed author icon carries `24px`, a thumbnail fills its wrapper. Being
+  a background rather than an `<img>` is the trade-off: a strict CSP then needs
+  `style-src 'unsafe-inline'` (or a nonce) for the style block and `img-src data:`
+  for the background.
+
+Consumers that walk images should accept both forms — `img[src^="data:"]` and
+`.dt-media`, whose blob lives in the pool's `<style>` — and neither needs the script
+to render.
+
 ## 8. Reactions
 
 ```html
