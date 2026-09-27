@@ -702,6 +702,39 @@
 		element.setAttribute(READY, '');
 	}
 
+	/* The stylesheet already draws a button's label, colour and disabled state.
+	   The script only adds the two things CSS cannot: a custom emoji image, and
+	   an anchor around a link button — a light-DOM custom element cannot navigate
+	   on its own. A renderer that emits the finished markup marks the button
+	   ready and none of this runs. */
+	function upgradeButton(element) {
+		if (isReady(element)) return;
+		var emoji = element.getAttribute('emoji');
+		if (emoji && !element.querySelector('.dt-button-emoji')) {
+			var node;
+			if (/^(https?:|data:)/i.test(emoji)) {
+				node = make('img', 'dt-button-emoji');
+				node.src = emoji;
+				node.alt = element.getAttribute('emoji-name') || 'emoji';
+				node.loading = 'lazy';
+				node.decoding = 'async';
+			} else {
+				node = document.createTextNode(emoji);
+			}
+			element.insertBefore(node, element.firstChild);
+		}
+		var url = element.getAttribute('url');
+		if (url && !element.closest('a')) {
+			var link = make('a', 'dt-button-link');
+			link.href = url;
+			link.target = '_blank';
+			link.rel = 'noopener noreferrer';
+			element.parentNode.insertBefore(link, element);
+			link.appendChild(element);
+		}
+		element.setAttribute(READY, '');
+	}
+
 	function lazyImages(root) {
 		var images = root.querySelectorAll(
 			tag('attachments') + ' img:not([loading]), ' + tag('embed') + ' img:not([loading]), ' + tag('embed') + ' video, ' + tag('thread') + ' img'
@@ -749,6 +782,9 @@
 
 		var codes = root.querySelectorAll(tag('pre') + NOT_READY);
 		for (var t = 0; t < codes.length; t++) upgradeCode(codes[t]);
+
+		var buttons = root.querySelectorAll(tag('button') + NOT_READY);
+		for (var u = 0; u < buttons.length; u++) upgradeButton(buttons[u]);
 
 		upgradeSpoilers(root);
 		lazyImages(root);

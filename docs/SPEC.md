@@ -130,6 +130,11 @@ the message text, exactly like Discord).
 standard grid. Attributes: `color`, `url`, `author-name`, `author-image`, `author-url`,
 `embed-title`, `thumbnail`, `image`, `video`, `provider`.
 
+An embed is **as wide as its content**, up to Discord's 516px cap: a one-line embed
+contracts to its sentence instead of stretching to the whole message column, and a
+long one stops at 516px. Nothing about the markup changes — a renderer does not have
+to measure anything.
+
 Two ways to build one, and you can mix them:
 
 **A. Attribute form** (compact HTML; the script fills in the chrome).
@@ -255,6 +260,25 @@ it is 1; `reacted` highlights the pill; `interactive` lets a click change the co
 | `<discord-command>` | `command`, `author`, `profile`, `type` (`slash_command`, `user_command`, `message_command`). Rendered as a reply-style line: "Author used /command". |
 | `<discord-verified-author-tag>` | `verified` — inline "App"-style badge. |
 
+A link button is the only button that does anything in a transcript, and light DOM has
+no way to make a custom element navigate, so an anchor wraps it:
+
+```html
+<discord-action-row>
+	<discord-button type="primary" emoji="✅">Confirm</discord-button>
+	<a class="dt-button-link" href="https://…" target="_blank" rel="noopener noreferrer">
+		<discord-button type="link">Docs</discord-button>
+	</a>
+</discord-action-row>
+```
+
+`dt-button-link` is a public helper class (it drops the anchor's own underline and
+colour). A renderer that emits the anchor and the emoji inline needs no script at all;
+given hand-written markup the script builds both from the `emoji`/`emoji-name` and
+`url` attributes and marks the button `data-dt-r`. Every other button is deliberately
+inert — a bot's `custom_id` means nothing to a reader — but keeps its style and its
+`disabled` state.
+
 ## 10. What works without JavaScript
 
 | Feature | CSS only | Needs the script |
@@ -267,7 +291,7 @@ it is 1; `reacted` highlights the pill; `interactive` lets a click change the co
 | Mentions, spoilers (hover-peek), reactions, system messages, threads | yes | interaction |
 | Embeds: description, fields, footer | yes | title/author/thumbnail/media from attributes |
 | Attachments: nested `<img>`/`<video>`/`<audio>`, file cards | yes | lazy loading, spoiler overlay, attribute-only forms |
-| Buttons | yes | emoji images, links |
+| Buttons | yes (style, label, `disabled`) | emoji images and links from attributes |
 
 Rule of thumb: **if it is content, put it in markup**; attributes are for chrome.
 

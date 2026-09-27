@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.1.4
+
+* **An embed hugs its content.** `discord-embed` was a block box with only a
+  `max-width`, so an embed holding one short line still stretched to the whole
+  516px column and left a wide empty slab beside its text. It now sizes to its
+  content and keeps the 516px cap only for text long enough to need it, which is
+  the width Discord draws.
+* **A link button is a real link.** The stylesheet positions a `<discord-button>`
+  inside an `<a class="dt-button-link">`, the shape a renderer emits when a button
+  has a URL: a light-DOM custom element cannot navigate on its own, so the anchor
+  is what makes the button clickable without any script. The anchor adds no
+  underline or colour of its own.
+* **The script upgrades buttons it did not build.** It reads `emoji` (a unicode
+  character, or an image URL for a custom emoji, with `emoji-name` as the alt) and
+  wraps a `url` button in the same anchor, so hand-written markup renders the way
+  the Go renderer's does. A button already marked `data-dt-r` is left alone.
+
 ## 1.1.3
 
 * **A grouped line no longer reserves an avatar's height.** A continuation row

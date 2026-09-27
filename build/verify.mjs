@@ -193,6 +193,16 @@ const fullPageSuite = `(() => {
 	check('auto-grouped continuations', all('discord-message[data-dt-continuation]').length, 3);
 	check('replies upgraded', all('discord-reply[data-dt-r], discord-reply[data-dt-ready]').length, 2);
 	check('reactions upgraded', all('discord-reaction[data-dt-r], discord-reaction[data-dt-ready]').length, 3);
+	check('buttons upgraded', all('discord-button[data-dt-r], discord-button[data-dt-ready]').length, all('discord-button').length);
+	check('button unicode emoji from the attribute', all('discord-button')[0].firstChild.nodeValue, '✅');
+	const customButtonEmoji = all('discord-button')[2].querySelector('.dt-button-emoji');
+	check('button custom emoji is an image', customButtonEmoji !== null && customButtonEmoji.tagName, 'IMG');
+	check('button custom emoji keeps its alt', customButtonEmoji ? customButtonEmoji.alt : '', ':blurple:');
+	const linkButton = all('discord-button[type="link"]')[0];
+	check('link button wrapped in an anchor', linkButton.closest('a.dt-button-link') !== null, true);
+	check('link button anchor carries the url', all('a.dt-button-link')[0].getAttribute('href'), 'https://example.com/docs');
+	check('link button anchor adds no underline', style(all('a.dt-button-link')[0], 'text-decoration-line'), 'none');
+	check('link button keeps the button itself', linkButton.textContent, 'Docs');
 	check('spoiler upgraded', all('discord-spoiler[data-dt-r], discord-spoiler[data-dt-ready]').length, 1);
 	check('media spoiler overlay built', all('.dt-spoiler-overlay').length, 1);
 	check('file attachment built', all('.dt-file-name').length, 1);
