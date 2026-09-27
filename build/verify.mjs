@@ -188,12 +188,12 @@ const fullPageSuite = `(() => {
 	document.documentElement.style.setProperty('--dt-transition', '0s');
 	const byAuthor = (name) => all('discord-message').find((m) => (m.querySelector('.dt-author') || {}).textContent === name);
 
-	check('every message upgraded', all('discord-message[data-dt-ready]').length, all('discord-message').length);
+	check('every message upgraded', all('discord-message[data-dt-r], discord-message[data-dt-ready]').length, all('discord-message').length);
 	check('message count', all('discord-message').length, 16);
 	check('auto-grouped continuations', all('discord-message[data-dt-continuation]').length, 3);
-	check('replies upgraded', all('discord-reply[data-dt-ready]').length, 2);
-	check('reactions upgraded', all('discord-reaction[data-dt-ready]').length, 3);
-	check('spoiler upgraded', all('discord-spoiler[data-dt-ready]').length, 1);
+	check('replies upgraded', all('discord-reply[data-dt-r], discord-reply[data-dt-ready]').length, 2);
+	check('reactions upgraded', all('discord-reaction[data-dt-r], discord-reaction[data-dt-ready]').length, 3);
+	check('spoiler upgraded', all('discord-spoiler[data-dt-r], discord-spoiler[data-dt-ready]').length, 1);
 	check('media spoiler overlay built', all('.dt-spoiler-overlay').length, 1);
 	check('file attachment built', all('.dt-file-name').length, 1);
 	check('audio element built', all('discord-audio-attachment audio').length, 1);
@@ -347,7 +347,7 @@ const bootstrapSuite = `(() => {
 	check('bootstrap injected the stylesheet', document.querySelectorAll('link[href*="discord-transcript"]').length, 1);
 	check('bootstrap injected the script', document.querySelectorAll('script[src*="discord-transcript"]').length, 1);
 	check('stylesheet took effect', style(document.querySelector('discord-messages'), 'background-color'), 'rgb(50, 51, 57)');
-	check('script upgraded every message', document.querySelectorAll('discord-message[data-dt-ready]').length, document.querySelectorAll('discord-message').length);
+	check('script upgraded every message', document.querySelectorAll('discord-message[data-dt-r], discord-message[data-dt-ready]').length, document.querySelectorAll('discord-message').length);
 	check('messages present', document.querySelectorAll('discord-message').length, 8);
 	check('recovery comment kept', document.documentElement.outerHTML.includes('asset recovery information'), true);
 	check('config applied from before the bootstrap', document.querySelector('.dt-author').textContent, 'Piton');

@@ -1,9 +1,17 @@
 # Changelog
 
-## Unreleased
+## 1.1.3
 
-No pending changes to this package. Renderer changes ship in the Go module; see
-`discord-transcript-go/CHANGELOG.md`.
+* **A grouped line no longer reserves an avatar's height.** A continuation row
+  keeps its avatar slot so the columns stay aligned, but the slot is now zero
+  height — an invisible 32px box used to hold every consecutive message apart
+  from the same author. Applies to `[data-dt-continuation]` and
+  `[message-body-only]`.
+* **The "this is already built" marker is shorter:** `data-dt-ready` became
+  `data-dt-r`, four bytes less on every message, reply, embed, attachment and
+  reaction. The stylesheet and the script read **both** names, so a transcript
+  generated against 1.1.2 or earlier keeps rendering with this release; the
+  script only ever writes the short one.
 
 ## 1.1.2
 

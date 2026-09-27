@@ -478,14 +478,14 @@ dms ::-webkit-scrollbar-track {
 
 /* Pre-upgrade fallback: no avatar or header yet, but the author name and the
    message text are both visible, so a JS-less or CSS-only view stays readable. */
-dm:not([data-dt-ready])::before {
+dm:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(author) '\00a0';
 	font-weight: 600;
 	color: var(--dt-role-default);
 }
 
-dm:not([data-dt-ready]):not([author])::before,
-dm:not([data-dt-ready])[author='']::before {
+dm:not([data-dt-r], [data-dt-ready]):not([author])::before,
+dm:not([data-dt-r], [data-dt-ready])[author='']::before {
 	content: '';
 }
 
@@ -653,10 +653,15 @@ dm[mentioned]:hover {
 }
 
 /* Continuation rows (same author as the previous message), detected by JS or
-   forced by the parser with message-body-only. */
+   forced by the parser with message-body-only. The avatar slot stays so the
+   columns keep lining up, but it must not keep its height: an invisible 32px box
+   held every grouped line apart as if it had an avatar. */
 dm[data-dt-continuation] .dt-avatar,
 dm[message-body-only] .dt-avatar {
 	visibility: hidden;
+	height: 0;
+	min-height: 0;
+	margin-top: 0;
 }
 
 dm[data-dt-continuation] .dt-header,
@@ -735,7 +740,7 @@ dms[compact-mode] .dt-timestamp {
 	color: var(--dt-role-default);
 }
 
-dai:not([data-dt-ready])::before {
+dai:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(author);
 }
 
@@ -836,7 +841,7 @@ dme:not([no-prefix])[type='locked']::before {
 	vertical-align: middle;
 }
 
-demo:not([data-dt-ready]):not(:has(img))::before {
+demo:not([data-dt-r], [data-dt-ready]):not(:has(img))::before {
 	content: attr(name);
 	font-size: 0.75rem;
 	color: var(--dt-text-muted);
@@ -882,16 +887,16 @@ demo:not([data-dt-ready]):not(:has(img))::before {
 }
 
 /* No-JS safety valve: hovering peeks instead of hiding content forever. */
-dsp:not([data-dt-ready]):hover {
+dsp:not([data-dt-r], [data-dt-ready]):hover {
 	background: var(--dt-spoiler-revealed-bg);
 	color: inherit;
 }
 
-dsp[data-dt-ready] {
+dsp:is([data-dt-r], [data-dt-ready]) {
 	outline: none;
 }
 
-dsp[data-dt-ready]:focus-visible {
+dsp:is([data-dt-r], [data-dt-ready]):focus-visible {
 	box-shadow: 0 0 0 2px var(--dt-focus-ring);
 }
 
@@ -1062,7 +1067,7 @@ dsy .dt-system-time {
 	font-size: 0.9375rem;
 }
 
-dcmd:not([data-dt-ready])::before {
+dcmd:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(author) ' used /' attr(command) '\00a0';
 	font-weight: 500;
 	color: var(--dt-text-normal);
@@ -1094,7 +1099,7 @@ dcmd:not([data-dt-ready])::before {
 	color: var(--dt-text-muted);
 }
 
-dth:not([data-dt-ready])::before {
+dth:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(name);
 	font-weight: 500;
 	color: var(--dt-text-normal);
@@ -1117,7 +1122,7 @@ dthm {
 	font-size: 0.875rem;
 }
 
-dthm:not([data-dt-ready])::before {
+dthm:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(author) '\00a0';
 	font-weight: 500;
 	color: var(--dt-role-default);
@@ -1137,13 +1142,13 @@ dthm:not([data-dt-ready])::before {
 	min-height: 1.125rem;
 }
 
-drp:not([data-dt-ready])::before {
+drp:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(author) '\00a0';
 	font-weight: 500;
 	color: var(--dt-role-default);
 }
 
-drp[mentions]:not([data-dt-ready])::before {
+drp[mentions]:not([data-dt-r], [data-dt-ready])::before {
 	content: '@' attr(author) '\00a0';
 }
 
@@ -1172,7 +1177,7 @@ drp[deleted]::before {
 }
 
 /* Curved connector, drawn only once the reply sits in the content column. */
-dm[data-dt-ready] :where(drp)::after {
+dm:is([data-dt-r], [data-dt-ready]) :where(drp)::after {
 	content: '';
 	position: absolute;
 	left: -36px;
@@ -1185,7 +1190,7 @@ dm[data-dt-ready] :where(drp)::after {
 	pointer-events: none;
 }
 
-drp[data-dt-ready] .dt-reply-avatar {
+drp:is([data-dt-r], [data-dt-ready]) .dt-reply-avatar {
 	display: inline-block;
 	width: var(--dt-reply-avatar-size);
 	height: var(--dt-reply-avatar-size);
@@ -1196,26 +1201,26 @@ drp[data-dt-ready] .dt-reply-avatar {
 	background: var(--dt-bg-tertiary);
 }
 
-drp[data-dt-ready] .dt-reply-avatar img {
+drp:is([data-dt-r], [data-dt-ready]) .dt-reply-avatar img {
 	display: block;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
 
-drp[data-dt-ready] .dt-reply-author {
+drp:is([data-dt-r], [data-dt-ready]) .dt-reply-author {
 	margin-right: 4px;
 	font-weight: 500;
 	color: var(--dt-role-default);
 }
 
-drp[data-dt-ready] .dt-reply-author:hover {
+drp:is([data-dt-r], [data-dt-ready]) .dt-reply-author:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-drp[data-dt-ready] .dt-reply-avatar,
-drp[data-dt-ready] .dt-reply-author {
+drp:is([data-dt-r], [data-dt-ready]) .dt-reply-avatar,
+drp:is([data-dt-r], [data-dt-ready]) .dt-reply-author {
 	-webkit-user-select: none;
 	user-select: none;
 }
@@ -1274,7 +1279,7 @@ de > * + *,
 /* Attribute-only embed header, so a title survives without JavaScript.
    Preferred durable form: emit <span class="dt-embed-author"> and
    <span class="dt-embed-title"> markup instead (see docs/SPEC.md). */
-de:not([data-dt-ready])[embed-title]::before {
+de:not([data-dt-r], [data-dt-ready])[embed-title]::before {
 	content: attr(embed-title);
 	display: block;
 	margin: 0 0 8px;
@@ -1284,7 +1289,7 @@ de:not([data-dt-ready])[embed-title]::before {
 	color: var(--dt-text-strong);
 }
 
-de:not([data-dt-ready]):not([embed-title])[author-name]::before {
+de:not([data-dt-r], [data-dt-ready]):not([embed-title])[author-name]::before {
 	content: attr(author-name);
 	display: block;
 	margin: 0 0 8px;
@@ -1445,7 +1450,7 @@ de:has([slot='thumbnail']) :where(def[inline]) {
 	color: var(--dt-text-strong);
 }
 
-def:not([data-dt-ready]):not(:has(.dt-embed-field-title))::before {
+def:not([data-dt-r], [data-dt-ready]):not(:has(.dt-embed-field-title))::before {
 	content: attr(field-title);
 	display: block;
 	margin-bottom: 2px;
@@ -1549,7 +1554,7 @@ defo:empty::before {
 }
 
 /* Attribute-only form, filled in by JS; visible placeholder if JS never runs. */
-dimg[url]:not([data-dt-ready]):not(:has(img)) {
+dimg[url]:not([data-dt-r], [data-dt-ready]):not(:has(img)) {
 	min-width: 220px;
 	min-height: 120px;
 	border: 1px dashed var(--dt-border-strong);
@@ -1781,30 +1786,30 @@ dfil:not([bytes]):empty::after {
 }
 
 /* Attribute-only form: emoji and count straight from attributes. */
-dr:not([data-dt-ready])::before {
+dr:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(emoji);
 	font-size: 1rem;
 	line-height: 1;
 }
 
-dr[emoji^='http']:not([data-dt-ready])::before,
-dr[emoji^='data:']:not([data-dt-ready])::before,
-dr[emoji^='blob:']:not([data-dt-ready])::before,
-dr[emoji^='/']:not([data-dt-ready])::before,
-dr[emoji^='./']:not([data-dt-ready])::before,
-dr:not([emoji]):not([data-dt-ready])::before {
+dr[emoji^='http']:not([data-dt-r], [data-dt-ready])::before,
+dr[emoji^='data:']:not([data-dt-r], [data-dt-ready])::before,
+dr[emoji^='blob:']:not([data-dt-r], [data-dt-ready])::before,
+dr[emoji^='/']:not([data-dt-r], [data-dt-ready])::before,
+dr[emoji^='./']:not([data-dt-r], [data-dt-ready])::before,
+dr:not([emoji]):not([data-dt-r], [data-dt-ready])::before {
 	content: none;
 }
 
-dr:not([data-dt-ready])::after {
+dr:not([data-dt-r], [data-dt-ready])::after {
 	content: attr(count);
 	font-size: 0.875rem;
 	font-weight: 500;
 	line-height: 1;
 }
 
-dr:not([count]):not([data-dt-ready])::after,
-dr[count='1']:not([data-dt-ready])::after {
+dr:not([count]):not([data-dt-r], [data-dt-ready])::after,
+dr[count='1']:not([data-dt-r], [data-dt-ready])::after {
 	content: none;
 }
 

@@ -271,6 +271,20 @@ it is 1; `reacted` highlights the pill; `interactive` lets a click change the co
 
 Rule of thumb: **if it is content, put it in markup**; attributes are for chrome.
 
+### The ready marker
+
+A producer that emits finished markup marks it `data-dt-r` on every element the
+script would otherwise build (message, reply, reaction, spoiler, embed, field,
+attachment, command, thread). The script skips anything carrying it and writes
+the same attribute after upgrading what it did build, so neither path rebuilds
+the other's work. The stylesheet uses the same marker the other way round: its
+`:not([data-dt-r], [data-dt-ready])` rules are the attr-only fallbacks that must
+disappear once real elements exist.
+
+`data-dt-ready` is the pre-1.1.3 name. The stylesheet and the script still read
+it, so an archived transcript keeps rendering; new output uses the short one,
+which is four bytes less on every marked element.
+
 ## 11. Theming
 
 Override `--dt-*` custom properties on `:root`, on `<discord-messages>`, or on any element.

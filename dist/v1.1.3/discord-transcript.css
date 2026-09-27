@@ -478,14 +478,14 @@ discord-messages ::-webkit-scrollbar-track {
 
 /* Pre-upgrade fallback: no avatar or header yet, but the author name and the
    message text are both visible, so a JS-less or CSS-only view stays readable. */
-discord-message:not([data-dt-ready])::before {
+discord-message:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(author) '\00a0';
 	font-weight: 600;
 	color: var(--dt-role-default);
 }
 
-discord-message:not([data-dt-ready]):not([author])::before,
-discord-message:not([data-dt-ready])[author='']::before {
+discord-message:not([data-dt-r], [data-dt-ready]):not([author])::before,
+discord-message:not([data-dt-r], [data-dt-ready])[author='']::before {
 	content: '';
 }
 
@@ -653,10 +653,15 @@ discord-message[mentioned]:hover {
 }
 
 /* Continuation rows (same author as the previous message), detected by JS or
-   forced by the parser with message-body-only. */
+   forced by the parser with message-body-only. The avatar slot stays so the
+   columns keep lining up, but it must not keep its height: an invisible 32px box
+   held every grouped line apart as if it had an avatar. */
 discord-message[data-dt-continuation] .dt-avatar,
 discord-message[message-body-only] .dt-avatar {
 	visibility: hidden;
+	height: 0;
+	min-height: 0;
+	margin-top: 0;
 }
 
 discord-message[data-dt-continuation] .dt-header,
@@ -735,7 +740,7 @@ discord-messages[compact-mode] .dt-timestamp {
 	color: var(--dt-role-default);
 }
 
-discord-author-info:not([data-dt-ready])::before {
+discord-author-info:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(author);
 }
 
@@ -836,7 +841,7 @@ discord-mention:not([no-prefix])[type='locked']::before {
 	vertical-align: middle;
 }
 
-discord-custom-emoji:not([data-dt-ready]):not(:has(img))::before {
+discord-custom-emoji:not([data-dt-r], [data-dt-ready]):not(:has(img))::before {
 	content: attr(name);
 	font-size: 0.75rem;
 	color: var(--dt-text-muted);
@@ -882,16 +887,16 @@ discord-custom-emoji:not([data-dt-ready]):not(:has(img))::before {
 }
 
 /* No-JS safety valve: hovering peeks instead of hiding content forever. */
-discord-spoiler:not([data-dt-ready]):hover {
+discord-spoiler:not([data-dt-r], [data-dt-ready]):hover {
 	background: var(--dt-spoiler-revealed-bg);
 	color: inherit;
 }
 
-discord-spoiler[data-dt-ready] {
+discord-spoiler:is([data-dt-r], [data-dt-ready]) {
 	outline: none;
 }
 
-discord-spoiler[data-dt-ready]:focus-visible {
+discord-spoiler:is([data-dt-r], [data-dt-ready]):focus-visible {
 	box-shadow: 0 0 0 2px var(--dt-focus-ring);
 }
 
@@ -1062,7 +1067,7 @@ discord-system-message .dt-system-time {
 	font-size: 0.9375rem;
 }
 
-discord-command:not([data-dt-ready])::before {
+discord-command:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(author) ' used /' attr(command) '\00a0';
 	font-weight: 500;
 	color: var(--dt-text-normal);
@@ -1094,7 +1099,7 @@ discord-command:not([data-dt-ready])::before {
 	color: var(--dt-text-muted);
 }
 
-discord-thread:not([data-dt-ready])::before {
+discord-thread:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(name);
 	font-weight: 500;
 	color: var(--dt-text-normal);
@@ -1117,7 +1122,7 @@ discord-thread-message {
 	font-size: 0.875rem;
 }
 
-discord-thread-message:not([data-dt-ready])::before {
+discord-thread-message:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(author) '\00a0';
 	font-weight: 500;
 	color: var(--dt-role-default);
@@ -1137,13 +1142,13 @@ discord-thread-message:not([data-dt-ready])::before {
 	min-height: 1.125rem;
 }
 
-discord-reply:not([data-dt-ready])::before {
+discord-reply:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(author) '\00a0';
 	font-weight: 500;
 	color: var(--dt-role-default);
 }
 
-discord-reply[mentions]:not([data-dt-ready])::before {
+discord-reply[mentions]:not([data-dt-r], [data-dt-ready])::before {
 	content: '@' attr(author) '\00a0';
 }
 
@@ -1172,7 +1177,7 @@ discord-reply[deleted]::before {
 }
 
 /* Curved connector, drawn only once the reply sits in the content column. */
-discord-message[data-dt-ready] :where(discord-reply)::after {
+discord-message:is([data-dt-r], [data-dt-ready]) :where(discord-reply)::after {
 	content: '';
 	position: absolute;
 	left: -36px;
@@ -1185,7 +1190,7 @@ discord-message[data-dt-ready] :where(discord-reply)::after {
 	pointer-events: none;
 }
 
-discord-reply[data-dt-ready] .dt-reply-avatar {
+discord-reply:is([data-dt-r], [data-dt-ready]) .dt-reply-avatar {
 	display: inline-block;
 	width: var(--dt-reply-avatar-size);
 	height: var(--dt-reply-avatar-size);
@@ -1196,26 +1201,26 @@ discord-reply[data-dt-ready] .dt-reply-avatar {
 	background: var(--dt-bg-tertiary);
 }
 
-discord-reply[data-dt-ready] .dt-reply-avatar img {
+discord-reply:is([data-dt-r], [data-dt-ready]) .dt-reply-avatar img {
 	display: block;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
 
-discord-reply[data-dt-ready] .dt-reply-author {
+discord-reply:is([data-dt-r], [data-dt-ready]) .dt-reply-author {
 	margin-right: 4px;
 	font-weight: 500;
 	color: var(--dt-role-default);
 }
 
-discord-reply[data-dt-ready] .dt-reply-author:hover {
+discord-reply:is([data-dt-r], [data-dt-ready]) .dt-reply-author:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-discord-reply[data-dt-ready] .dt-reply-avatar,
-discord-reply[data-dt-ready] .dt-reply-author {
+discord-reply:is([data-dt-r], [data-dt-ready]) .dt-reply-avatar,
+discord-reply:is([data-dt-r], [data-dt-ready]) .dt-reply-author {
 	-webkit-user-select: none;
 	user-select: none;
 }
@@ -1274,7 +1279,7 @@ discord-embed > * + *,
 /* Attribute-only embed header, so a title survives without JavaScript.
    Preferred durable form: emit <span class="dt-embed-author"> and
    <span class="dt-embed-title"> markup instead (see docs/SPEC.md). */
-discord-embed:not([data-dt-ready])[embed-title]::before {
+discord-embed:not([data-dt-r], [data-dt-ready])[embed-title]::before {
 	content: attr(embed-title);
 	display: block;
 	margin: 0 0 8px;
@@ -1284,7 +1289,7 @@ discord-embed:not([data-dt-ready])[embed-title]::before {
 	color: var(--dt-text-strong);
 }
 
-discord-embed:not([data-dt-ready]):not([embed-title])[author-name]::before {
+discord-embed:not([data-dt-r], [data-dt-ready]):not([embed-title])[author-name]::before {
 	content: attr(author-name);
 	display: block;
 	margin: 0 0 8px;
@@ -1445,7 +1450,7 @@ discord-embed:has([slot='thumbnail']) :where(discord-embed-field[inline]) {
 	color: var(--dt-text-strong);
 }
 
-discord-embed-field:not([data-dt-ready]):not(:has(.dt-embed-field-title))::before {
+discord-embed-field:not([data-dt-r], [data-dt-ready]):not(:has(.dt-embed-field-title))::before {
 	content: attr(field-title);
 	display: block;
 	margin-bottom: 2px;
@@ -1549,7 +1554,7 @@ discord-embed-footer:empty::before {
 }
 
 /* Attribute-only form, filled in by JS; visible placeholder if JS never runs. */
-discord-image-attachment[url]:not([data-dt-ready]):not(:has(img)) {
+discord-image-attachment[url]:not([data-dt-r], [data-dt-ready]):not(:has(img)) {
 	min-width: 220px;
 	min-height: 120px;
 	border: 1px dashed var(--dt-border-strong);
@@ -1781,30 +1786,30 @@ discord-file-attachment:not([bytes]):empty::after {
 }
 
 /* Attribute-only form: emoji and count straight from attributes. */
-discord-reaction:not([data-dt-ready])::before {
+discord-reaction:not([data-dt-r], [data-dt-ready])::before {
 	content: attr(emoji);
 	font-size: 1rem;
 	line-height: 1;
 }
 
-discord-reaction[emoji^='http']:not([data-dt-ready])::before,
-discord-reaction[emoji^='data:']:not([data-dt-ready])::before,
-discord-reaction[emoji^='blob:']:not([data-dt-ready])::before,
-discord-reaction[emoji^='/']:not([data-dt-ready])::before,
-discord-reaction[emoji^='./']:not([data-dt-ready])::before,
-discord-reaction:not([emoji]):not([data-dt-ready])::before {
+discord-reaction[emoji^='http']:not([data-dt-r], [data-dt-ready])::before,
+discord-reaction[emoji^='data:']:not([data-dt-r], [data-dt-ready])::before,
+discord-reaction[emoji^='blob:']:not([data-dt-r], [data-dt-ready])::before,
+discord-reaction[emoji^='/']:not([data-dt-r], [data-dt-ready])::before,
+discord-reaction[emoji^='./']:not([data-dt-r], [data-dt-ready])::before,
+discord-reaction:not([emoji]):not([data-dt-r], [data-dt-ready])::before {
 	content: none;
 }
 
-discord-reaction:not([data-dt-ready])::after {
+discord-reaction:not([data-dt-r], [data-dt-ready])::after {
 	content: attr(count);
 	font-size: 0.875rem;
 	font-weight: 500;
 	line-height: 1;
 }
 
-discord-reaction:not([count]):not([data-dt-ready])::after,
-discord-reaction[count='1']:not([data-dt-ready])::after {
+discord-reaction:not([count]):not([data-dt-r], [data-dt-ready])::after,
+discord-reaction[count='1']:not([data-dt-r], [data-dt-ready])::after {
 	content: none;
 }
 

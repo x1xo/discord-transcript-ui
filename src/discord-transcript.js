@@ -52,6 +52,16 @@
 	/* Tag names come in two vocabularies: the readable discord-* default, and the
 	   compact codes an opt-in renderer emits (see build/short-tags.mjs). Both are
 	   matched, so this script works with either stylesheet. */
+	/* data-dt-r marks a structure the script must not rebuild. data-dt-ready is
+	   the name older transcripts carry; the stylesheet accepts both, and the
+	   script reads both, but it only ever writes the short one. */
+	var READY = 'data-dt-r';
+	var NOT_READY = ':not([data-dt-r], [data-dt-ready])';
+
+	function isReady(element) {
+		return element.hasAttribute('data-dt-r') || element.hasAttribute('data-dt-ready');
+	}
+
 	var SHORT_TAGS = {
 		messages: 'dms', message: 'dm', reply: 'drp', time: 'dti', spoiler: 'dsp',
 		embed: 'de', 'embed-footer': 'defo', 'file-attachment': 'dfil',
@@ -294,7 +304,7 @@
 	/* --------------------------------------------------------- message upgrade */
 
 	function upgradeMessage(element) {
-		if (has(element, 'data-dt-ready')) return;
+		if (isReady(element)) return;
 
 		var identity = identityOf(element);
 		var stamp = parseStamp(element.getAttribute('timestamp'));
@@ -349,7 +359,7 @@
 		if (has(element, 'edited')) body.appendChild(make('span', 'dt-edited', '(edited)'));
 		if (isJumbo(body)) body.classList.add('dt-jumbo');
 
-		element.setAttribute('data-dt-ready', '');
+		element.setAttribute(READY, '');
 	}
 
 	function identityOf(element) {
@@ -402,7 +412,7 @@
 	/* ----------------------------------------------------------- sub-upgrades */
 
 	function upgradeReply(element) {
-		if (has(element, 'data-dt-ready') || has(element, 'deleted')) return;
+		if (isReady(element) || has(element, 'deleted')) return;
 		var identity = identityOf(element);
 		var leading = [];
 
@@ -418,11 +428,11 @@
 		element.insertBefore(mentions, element.firstChild);
 		for (var i = leading.length - 1; i >= 0; i--) element.insertBefore(leading[i], mentions.nextSibling);
 
-		element.setAttribute('data-dt-ready', '');
+		element.setAttribute(READY, '');
 	}
 
 	function upgradeTime(element) {
-		if (has(element, 'data-dt-ready')) return;
+		if (isReady(element)) return;
 		var raw = element.getAttribute('timestamp');
 		if (!raw) return;
 		var date = parseStamp(raw === 'now' ? String(Date.now()) : raw);
@@ -433,7 +443,7 @@
 		element.textContent = formatStamp(date, flag, use24);
 		element.setAttribute('datetime', date.toISOString());
 		element.title = formatStamp(date, 'F', use24);
-		element.setAttribute('data-dt-ready', '');
+		element.setAttribute(READY, '');
 		if (flag === 'R' && relativeElements.indexOf(element) === -1) relativeElements.push(element);
 	}
 
@@ -449,10 +459,10 @@
 	}
 
 	function upgradeSpoilers(root) {
-		var spoilers = root.querySelectorAll(tag('spoiler') + ':not([data-dt-ready])');
+		var spoilers = root.querySelectorAll(tag('spoiler') + NOT_READY);
 		for (var i = 0; i < spoilers.length; i++) {
 			var spoiler = spoilers[i];
-			spoiler.setAttribute('data-dt-ready', '');
+			spoiler.setAttribute(READY, '');
 			spoiler.setAttribute('role', 'button');
 			if (!spoiler.hasAttribute('tabindex')) spoiler.setAttribute('tabindex', '0');
 			spoiler.setAttribute('aria-expanded', has(spoiler, 'activated') ? 'true' : 'false');
@@ -493,7 +503,7 @@
 	}
 
 	function upgradeReactions(element) {
-		if (has(element, 'data-dt-ready')) return;
+		if (isReady(element)) return;
 		var emoji = element.getAttribute('emoji');
 		/* Any of these is an image source rather than a unicode character. Data
 		   URIs matter: inline SVG/PNG emoji must never be emitted as visible text. */
@@ -510,7 +520,7 @@
 		}
 		var count = parseInt(element.getAttribute('count') || '1', 10);
 		if (count > 1) element.appendChild(make('span', 'dt-reaction-count', String(count)));
-		element.setAttribute('data-dt-ready', '');
+		element.setAttribute(READY, '');
 	}
 
 	function reactionCount(element) {
@@ -529,7 +539,7 @@
 	}
 
 	function upgradeEmbed(element) {
-		if (has(element, 'data-dt-ready')) return;
+		if (isReady(element)) return;
 		var color = element.getAttribute('color');
 		if (color) element.style.setProperty('--dt-embed-color', normaliseColor(color));
 
@@ -618,11 +628,11 @@
 			content.insertBefore(media, footer || null);
 		}
 
-		element.setAttribute('data-dt-ready', '');
+		element.setAttribute(READY, '');
 	}
 
 	function upgradeImage(element) {
-		if (has(element, 'data-dt-ready')) return;
+		if (isReady(element)) return;
 		var url = element.getAttribute('url');
 		if (url && !element.querySelector('img')) {
 			var img = make('img');
@@ -638,11 +648,11 @@
 		}
 		var nested = element.querySelector('img');
 		if (nested && !nested.getAttribute('loading')) nested.loading = 'lazy';
-		element.setAttribute('data-dt-ready', '');
+		element.setAttribute(READY, '');
 	}
 
 	function upgradeMedia(element, tag) {
-		if (has(element, 'data-dt-ready')) return;
+		if (isReady(element)) return;
 		var href = element.getAttribute('href') || element.getAttribute('src');
 		if (href && !element.querySelector(tag)) {
 			var node = make(tag);
@@ -656,11 +666,11 @@
 			}
 			element.appendChild(node);
 		}
-		element.setAttribute('data-dt-ready', '');
+		element.setAttribute(READY, '');
 	}
 
 	function upgradeFile(element) {
-		if (has(element, 'data-dt-ready')) return;
+		if (isReady(element)) return;
 		var href = element.getAttribute('href');
 		if (href && !element.firstChild) {
 			var link = make('a');
@@ -681,15 +691,15 @@
 			link.appendChild(meta);
 			element.appendChild(link);
 		}
-		element.setAttribute('data-dt-ready', '');
+		element.setAttribute(READY, '');
 	}
 
 	function upgradeCode(element) {
-		if (has(element, 'data-dt-ready') || element.querySelector(':scope > .dt-copy')) return;
+		if (isReady(element) || element.querySelector(':scope > .dt-copy')) return;
 		var button = make('button', 'dt-copy', 'Copy');
 		button.type = 'button';
 		element.appendChild(button);
-		element.setAttribute('data-dt-ready', '');
+		element.setAttribute(READY, '');
 	}
 
 	function lazyImages(root) {
@@ -704,7 +714,7 @@
 	function upgrade(root) {
 		if (!root || !root.querySelectorAll) return;
 
-		var messages = root.querySelectorAll(tag('message') + ':not([data-dt-ready])');
+		var messages = root.querySelectorAll(tag('message') + NOT_READY);
 		for (var i = 0; i < messages.length; i++) upgradeMessage(messages[i]);
 
 		var lists = root.querySelectorAll(tag('messages'));
@@ -713,31 +723,31 @@
 			if (grouped.length) applyGrouping(grouped);
 		}
 
-		var replies = root.querySelectorAll(tag('reply') + ':not([data-dt-ready])');
+		var replies = root.querySelectorAll(tag('reply') + NOT_READY);
 		for (var k = 0; k < replies.length; k++) upgradeReply(replies[k]);
 
-		var times = root.querySelectorAll(tag('time') + ':not([data-dt-ready])');
+		var times = root.querySelectorAll(tag('time') + NOT_READY);
 		for (var m = 0; m < times.length; m++) upgradeTime(times[m]);
 
-		var embeds = root.querySelectorAll(tag('embed') + ':not([data-dt-ready])');
+		var embeds = root.querySelectorAll(tag('embed') + NOT_READY);
 		for (var n = 0; n < embeds.length; n++) upgradeEmbed(embeds[n]);
 
-		var files = root.querySelectorAll(tag('file-attachment') + ':not([data-dt-ready])');
+		var files = root.querySelectorAll(tag('file-attachment') + NOT_READY);
 		for (var o = 0; o < files.length; o++) upgradeFile(files[o]);
 
-		var images = root.querySelectorAll(tag('image-attachment') + ':not([data-dt-ready])');
+		var images = root.querySelectorAll(tag('image-attachment') + NOT_READY);
 		for (var p = 0; p < images.length; p++) upgradeImage(images[p]);
 
-		var videos = root.querySelectorAll(tag('video-attachment') + ':not([data-dt-ready])');
+		var videos = root.querySelectorAll(tag('video-attachment') + NOT_READY);
 		for (var q = 0; q < videos.length; q++) upgradeMedia(videos[q], 'video');
 
-		var audios = root.querySelectorAll(tag('audio-attachment') + ':not([data-dt-ready])');
+		var audios = root.querySelectorAll(tag('audio-attachment') + NOT_READY);
 		for (var r = 0; r < audios.length; r++) upgradeMedia(audios[r], 'audio');
 
-		var reactions = root.querySelectorAll(tag('reaction') + ':not([data-dt-ready])');
+		var reactions = root.querySelectorAll(tag('reaction') + NOT_READY);
 		for (var s = 0; s < reactions.length; s++) upgradeReactions(reactions[s]);
 
-		var codes = root.querySelectorAll(tag('pre') + ':not([data-dt-ready])');
+		var codes = root.querySelectorAll(tag('pre') + NOT_READY);
 		for (var t = 0; t < codes.length; t++) upgradeCode(codes[t]);
 
 		upgradeSpoilers(root);
@@ -774,7 +784,7 @@
 		}
 
 		var reaction = target.closest('discord-reaction');
-		if (reaction && reaction.hasAttribute('data-dt-ready')) {
+		if (reaction && isReady(reaction)) {
 			var count = reactionCount(reaction);
 			if (has(reaction, 'reacted')) {
 				reaction.removeAttribute('reacted');
