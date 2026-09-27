@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased
+
+Nothing has been published from this section yet; it accumulates for the next
+release of the renderer.
+
+* **Text inside an embed is parsed again.** A description or a field value is a
+  document, not one line of text: the renderer flattened both, so headings,
+  lists, quotes and fenced blocks inside an embed arrived as bare words — and a
+  fenced block lost its body with its wrapper, because a code block carries its
+  text in `Text` rather than in children. Both now keep their block markup, and
+  a code block in a one-line slot (a reply preview, a system message, a thread
+  preview) keeps its text without the frame.
+* A blank line in front of a heading, list, quote or fenced block no longer adds
+  a stray empty line: the block's own margin is the separation.
+* New example `discord-transcript-go/examples/transcript-embeds.html` (a ticket
+  bot's reply) renders a description with every block-level construct in it, and
+  the browser check asserts the headings, list markers, quote bar and code-block
+  body survive.
+
 ## 1.1.2
 
 Fixes for embeds produced by renderers that use skyra-style markup — a bare
