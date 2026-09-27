@@ -14,6 +14,12 @@ release of the renderer.
   preview) keeps its text without the frame.
 * A blank line in front of a heading, list, quote or fenced block no longer adds
   a stray empty line: the block's own margin is the separation.
+* **`transcript.WithScript()` now takes no arguments and adds the pinned
+  enhancement script**, URL and SRI hash, both read from the generated pins — so
+  a UI release bumps them without touching call sites. Pointing at your own copy
+  moved to `transcript.WithScriptURL(url, integrity)`, and `WithScript()` still
+  composes with `WithCSS` and `WithShortTags` in any order. `WithoutScript()`
+  still opts back out, and the script stays off by default.
 * New example `discord-transcript-go/examples/transcript-embeds.html` (a ticket
   bot's reply) renders a description with every block-level construct in it, and
   the browser check asserts the headings, list markers, quote bar and code-block
