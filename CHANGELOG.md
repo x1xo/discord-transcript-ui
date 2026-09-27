@@ -2,40 +2,8 @@
 
 ## Unreleased
 
-Nothing has been published from this section yet; it accumulates for the next
-release of the renderer.
-
-* **Text inside an embed is parsed again.** A description or a field value is a
-  document, not one line of text: the renderer flattened both, so headings,
-  lists, quotes and fenced blocks inside an embed arrived as bare words — and a
-  fenced block lost its body with its wrapper, because a code block carries its
-  text in `Text` rather than in children. Both now keep their block markup, and
-  a code block in a one-line slot (a reply preview, a system message, a thread
-  preview) keeps its text without the frame.
-* A blank line in front of a heading, list, quote or fenced block no longer adds
-  a stray empty line: the block's own margin is the separation.
-* **`transcript.WithScript()` now takes no arguments and adds the pinned
-  enhancement script**, URL and SRI hash, both read from the generated pins — so
-  a UI release bumps them without touching call sites. Pointing at your own copy
-  moved to `transcript.WithScriptURL(url, integrity)`, and `WithScript()` still
-  composes with `WithCSS` and `WithShortTags` in any order. `WithoutScript()`
-  still opts back out, and the script stays off by default.
-* New example `discord-transcript-go/examples/transcript-embeds.html` (a ticket
-  bot's reply) renders a description with every block-level construct in it, and
-  the browser check asserts the headings, list markers, quote bar and code-block
-  body survive.
-* **Transcripts are about three times smaller.** Two changes, both on by default
-  and neither needing a script or a newer stylesheet: media is right-sized to the
-  size it is drawn at (a `?size=` hint for Discord's fixed-size endpoints, then a
-  stdlib downscale that keeps the original bytes whenever the result would not be
-  smaller), and any inline blob used more than once is stored once in a
-  `<style data-dt-media-pool>` block, with `<span class="dt-media dt-media-1">`
-  references in its place. Both happen in the renderer, so a custom
-  `MediaStore` — and any proxy behind its fetcher — gets them without extra
-  code: the URL it receives already names the size, and what it returns inline
-  is downscaled on the way out. `WithoutMediaPool()` and
-  `WithoutMediaDownscale()` restore the old output, and `docs/SPEC.md` §7a
-  documents the pooled markup for consumers.
+No pending changes to this package. Renderer changes ship in the Go module; see
+`discord-transcript-go/CHANGELOG.md`.
 
 ## 1.1.2
 
